@@ -1,11 +1,59 @@
-# Python artifacts
+# ----------------------------------
+# OS files
+# ----------------------------------
+.DS_Store
+Thumbs.db
+
+# ----------------------------------
+# Python / venvs
+# ----------------------------------
 __pycache__/
 *.py[cod]
-*.sqlite3
-# Conda / venv folders
+*.pyo
+*.pyd
+env/
+venv/
 ttct_env/
-audra_cpu/
-# macOS
-.DS_Store
-# node_modules (if you ever add JS deps)
-node_modules/
+*.egg-info/
+*.egg
+.Python
+
+# ----------------------------------
+# IDE / Editor
+# ----------------------------------
+.vscode/
+.idea/
+*.sublime-project
+*.sublime-workspace
+
+# ----------------------------------
+# FastAPI submissions & user data
+# ----------------------------------
+# (runtime uploads)
+submissions/
+
+# ----------------------------------
+# AuDrA runtime artifacts
+# ----------------------------------
+# user_images_<random> folders
+backend/AuDrA_files/AuDrA/user_images_*/
+# AuDrA auto-outputs
+backend/AuDrA_files/AuDrA/audra_out_*.csv
+
+# ----------------------------------
+# All other generated CSVs / DBs
+# ----------------------------------
+*.csv
+*.db
+*.sqlite
+*.sqlite3
+
+# ----------------------------------
+# Logs
+# ----------------------------------
+*.log
+
+# ----------------------------------
+# Misc
+# ----------------------------------
+*.env
