@@ -6,115 +6,99 @@
   <title>TTCT Figural ＋ Stroop</title>
   <style>
     html,body {
-      margin:0; padding:0;
-      height:100%; width:100%;
+      margin:0;padding:0;
+      height:100%;width:100%;
       font-family:sans-serif;
+      display:flex;flex-direction:column;
       background:#f9f9f9;
-      display:flex; flex-direction:column;
     }
-    /* --- Drawing UI --- */
+
+    /* Drawing header */
     #header {
-      padding:1rem;
+      padding:12px;
       background:#fff;
       box-shadow:0 1px 4px rgba(0,0,0,0.1);
       z-index:2;
     }
-    #header h1 { margin:0 0 .5rem; font-size:1.5rem; }
-    #header p  { margin:0 0 1rem; color:#555; }
+    #header h1 { margin:0 0 8px; font-size:1.5rem; }
+    #header p  { margin:0 0 12px; color:#555; }
+    #header label{ display:block; margin-bottom:8px; }
     #header input {
       width:100%; max-width:240px;
-      padding:.5rem; font-size:1rem;
-    }
-    #canvasContainer {
-      flex:1;
-      display:flex; justify-content:center; align-items:center;
-      padding:.5rem; overflow:auto;
-    }
-    #drawingCanvas {
-      width:90vw; height:60vh;
-      max-width:600px; max-height:800px;
-      border:1px solid #ccc; background:#fff;
-      touch-action:none;
-    }
-    #controls {
-      padding:.5rem;
-      background:#fff;
-      box-shadow:0 -1px 4px rgba(0,0,0,0.1);
-      display:flex; align-items:center; gap:.5rem;
-    }
-    #controls button {
-      flex:1;
-      padding:.6rem; font-size:1rem;
-      border:none; border-radius:4px;
-      background:#28a; color:#fff;
-    }
-    #controls button#clearBtn {
-      background:#aaa;
-    }
-    #status {
-      margin-left:1rem; color:#555; font-size:.9rem;
+      padding:6px 8px; font-size:1rem;
     }
 
-    /* --- Stroop overlays --- */
+    /* Canvas */
+    #canvasContainer {
+      flex:1;
+      display:flex;
+      justify-content:center; align-items:center;
+      padding:8px; overflow:auto;
+    }
+    #drawingCanvas {
+      width:90vw; height:70vh;
+      max-width:600px; max-height:800px;
+      border:1px solid #ccc;
+      touch-action:none;
+      background:#fff;
+    }
+
+    /* Buttons */
+    #controls {
+      padding:8px;
+      background:#fff;
+      box-shadow:0 -1px 4px rgba(0,0,0,0.1);
+      display:flex; align-items:center; gap:8px;
+    }
+    #controls button {
+      padding:8px 12px; font-size:1rem;
+      cursor:pointer; border:none; border-radius:4px;
+    }
+    #status {
+      margin-left:16px; color:#555; font-size:0.9rem;
+    }
+
+    /* Stroop overlays */
     #stroopInstructions,
     #stroopContainer {
       position:fixed;
       top:0; left:0; right:0; bottom:0;
-      background:rgba(0,0,0,0.9);
+      background:rgba(0,0,0,0.85);
       color:#fff;
       display:none;
       flex-direction:column;
       align-items:center;
       justify-content:center;
-      padding:2rem;
+      padding:24px;
       text-align:center;
       z-index:10;
     }
     #stroopInstructions h2 {
-      font-size:2.5rem; margin-bottom:1rem;
+      font-size:2rem; margin-bottom:16px;
     }
     #stroopInstructions p {
-      max-width:80vw; line-height:1.4; margin-bottom:1rem;
-      font-size:1rem;
+      max-width:600px; line-height:1.4; margin-bottom:16px;
     }
     #stroopInstructions button {
-      padding:.8rem 1.2rem;
-      font-size:1rem;
-      background:#28a; border:none; border-radius:4px;
-      color:#fff;
+      padding:8px 12px; font-size:1rem;
+      background:#28a; color:#fff; border:none; border-radius:4px;
+      cursor:pointer;
     }
 
-    #stroopContainer h2 {
-      font-size:2rem; margin-bottom:.5rem;
-    }
-    #stroopStatus {
-      font-size:1rem; margin-bottom:1rem;
-    }
-    #stroopStim {
-      font-size:8vw; /* scales to viewport */
-      min-height:1.2em;
-      margin-bottom:1rem;
-      font-weight:bold;
-    }
+    #stroopContainer h2 { margin-bottom:8px; }
+    #stroopStatus { margin-bottom:16px; font-size:1.1rem; }
+    #stroopStim { font-size:3rem; margin:16px; }
     #stroopButtons {
-      display:flex;
-      flex-wrap:wrap;
-      gap:.5rem;
-      justify-content:center;
-      margin-bottom:1rem;
+      display:flex; gap:12px; flex-wrap:wrap;
+      margin-bottom:16px;
     }
     #stroopButtons button {
-      flex:1 1 40vw; /* two across on mobile */
-      max-width:120px;
-      padding:.8rem;
-      font-size:1rem;
-      border:none;
-      border-radius:4px;
-      color:#fff;
+      min-width:80px; padding:8px;
+      color:#fff; font-weight:bold;
+      border:none; border-radius:4px;
+      cursor:pointer;
     }
-    #stroopFeedback {
-      font-size:1.5rem; height:1.5em;
-    }
+    #stroopFeedback { font-size:1.2rem; }
   </style>
 </head>
 <body>
@@ -123,7 +107,10 @@
   <div id="header">
     <h1>TTCT Figural Registration</h1>
     <p>Finish the incomplete figure however you like. Be creative!</p>
-    <input type="text" id="participantId" placeholder="Your name" />
+    <label>
+      Your Name:<br/>
+      <input type="text" id="participantId" placeholder="Enter your name"/>
+    </label>
   </div>
   <div id="canvasContainer">
     <canvas id="drawingCanvas"></canvas>
@@ -134,10 +121,10 @@
     <span id="status"></span>
   </div>
 
-  <!-- hidden template -->
+  <!-- Hidden template for compositing -->
   <img id="template" src="FigureTemplate.png" style="display:none"/>
 
-  <!-- Stroop instructions -->
+  <!-- Stroop instruction overlay -->
   <div id="stroopInstructions">
     <h2>
       <span style="color:red">S</span>
@@ -145,190 +132,195 @@
       <span style="color:blue">r</span>
       <span style="color:yellow">o</span>
       <span style="color:red">o</span>
-      <span style="color:green">p</span>
+      <span style="color:green">p</span> Task Instructions
     </h2>
+    <hr style="width:80%; border-color:#fff70;"/>
     <p>
-      You will see color names printed in a different ink color.<br/>
-      <strong>Click the button matching the <em>ink color</em>, not the word.</strong>
+      You will see color names (RED, GREEN, BLUE, YELLOW) printed in a different ink color.
+      <strong>Your job is to click the button matching the <em>ink color</em>, not the word.</strong>
     </p>
-    <p style="font-style:italic">
-      e.g. <span style="font-size:2rem;color:red">GREEN</span> → hit <strong>RED</strong>
+    <p style="font-style:italic;">
+      Example: you see 
+      <span style="font-size:2rem;color:red;font-weight:bold;">GREEN</span>,
+      you must click the <strong>RED</strong> button.
     </p>
-    <button id="startStroopBtn">Start Stroop →</button>
+    <button id="startStroopBtn">Continue to Task →</button>
   </div>
 
-  <!-- Stroop trials -->
+  <!-- Stroop trial overlay -->
   <div id="stroopContainer">
     <h2>Color–Word Task</h2>
-    <div id="stroopStatus">Trial 1 / 24</div>
+    <p id="stroopStatus">Trial 1 / 24</p>
     <div id="stroopStim">READY?</div>
     <div id="stroopButtons"></div>
     <div id="stroopFeedback"></div>
   </div>
 
   <script>
-  // — Drawing & upload setup —
-  const UPLOAD_URL = 'https://55bfb3f29de3.ngrok-free.app/upload/';
-  let creativityScore = null;
-  const canvas = document.getElementById('drawingCanvas'),
-        ctx    = canvas.getContext('2d'),
-        tpl    = document.getElementById('template'),
-        status = document.getElementById('status');
+  // — Drawing + upload setup —
+    const UPLOAD_URL = 'https://YOUR-NGROK-DOMAIN.ngrok-free.app/upload/';
+    const canvas   = document.getElementById('drawingCanvas');
+    const ctx      = canvas.getContext('2d');
+    const template = document.getElementById('template');
+    const status   = document.getElementById('status');
 
-  function resizeCanvas(){
-    canvas.width  = canvas.clientWidth;
-    canvas.height = canvas.clientHeight;
-    ctx.drawImage(tpl,0,0,canvas.width,canvas.height);
-    ctx.lineWidth=2; ctx.lineCap='round'; ctx.strokeStyle='black';
-  }
-  window.addEventListener('resize',resizeCanvas);
-  tpl.onload = resizeCanvas;
-  if(tpl.complete) resizeCanvas();
-
-  let drawing=false;
-  canvas.addEventListener('pointerdown',e=>{
-    drawing=true; ctx.beginPath(); ctx.moveTo(e.offsetX,e.offsetY);
-  });
-  canvas.addEventListener('pointermove',e=>{
-    if(!drawing)return;
-    ctx.lineTo(e.offsetX,e.offsetY); ctx.stroke();
-  });
-  ['pointerup','pointerleave'].forEach(evt=>
-    canvas.addEventListener(evt,()=>drawing=false)
-  );
-  document.getElementById('clearBtn').onclick = ()=> {
-    ctx.clearRect(0,0,canvas.width,canvas.height);
-    resizeCanvas();
-    status.textContent='';
-  };
-
-  document.getElementById('submitBtn').onclick = async ()=>{
-    const name = document.getElementById('participantId').value.trim();
-    if(!name){
-      status.textContent='Enter your name.'; return;
+    function resizeCanvas(){
+      canvas.width  = canvas.clientWidth;
+      canvas.height = canvas.clientHeight;
+      ctx.drawImage(template,0,0,canvas.width,canvas.height);
+      ctx.lineWidth   = 2;
+      ctx.lineCap     = 'round';
+      ctx.strokeStyle = 'black';
     }
-    status.textContent='Uploading…';
-    const blob = await new Promise(r=>canvas.toBlob(r,'image/png'));
-    const form = new FormData();
-    form.append('participant_id', name);
-    form.append('file', blob, 'drawing.png');
-    try {
-      const resp = await fetch(UPLOAD_URL, { method:'POST', body:form });
-      const data = await resp.json();
-      if(resp.ok){
-        creativityScore = data.creativity_score;
-        status.textContent = `Creativity: ${creativityScore}`;
-        showInstructions();
-      } else {
-        status.textContent = `Error: ${data.note||resp.status}`;
+    window.addEventListener('resize', resizeCanvas);
+    template.onload = resizeCanvas;
+    if (template.complete) resizeCanvas();
+
+    let drawing = false;
+    canvas.addEventListener('pointerdown', e => {
+      drawing = true;
+      ctx.beginPath();
+      ctx.moveTo(e.offsetX, e.offsetY);
+    });
+    canvas.addEventListener('pointermove', e => {
+      if (!drawing) return;
+      ctx.lineTo(e.offsetX, e.offsetY);
+      ctx.stroke();
+    });
+    ['pointerup','pointerleave'].forEach(evt =>
+      canvas.addEventListener(evt, () => drawing = false)
+    );
+
+    document.getElementById('clearBtn').onclick = () => {
+      ctx.clearRect(0,0,canvas.width,canvas.height);
+      ctx.drawImage(template,0,0,canvas.width,canvas.height);
+      status.textContent = '';
+    };
+
+    document.getElementById('submitBtn').onclick = async () => {
+      const name = document.getElementById('participantId').value.trim();
+      if (!name) {
+        status.textContent = 'Please enter your name.';
+        return;
       }
-    } catch(err){
-      console.error(err);
-      status.textContent='Network error';
+      status.textContent = 'Submitting…';
+
+      const blob = await new Promise(r => canvas.toBlob(r, 'image/png'));
+      const form = new FormData();
+      form.append('participant_id', name);
+      form.append('file', blob, 'drawing.png');
+
+      try {
+        const resp = await fetch(UPLOAD_URL, { method:'POST', body:form });
+        const data = await resp.json();
+        if (resp.ok) {
+          status.textContent = `Score: ${data.creativity_score}`;
+          startStroop();  // launch Stroop on success
+        } else {
+          status.textContent = `Error: ${data.note||resp.status}`;
+        }
+      } catch(err) {
+        console.error(err);
+        status.textContent = 'Network error';
+      }
+    };
+
+
+  // — Stroop task setup (24 trials) —
+    const COLORS = ["red","green","blue","yellow"];
+    const WORDS  = ["RED","GREEN","BLUE","YELLOW"];
+    let trials = [], current = 0, startTime, results = [];
+
+    // build 12 congruent + 12 incongruent
+    (()=>{
+      const cong = [], incong = [];
+      // 3 repeats of each congruent
+      for(let i=0;i<4;i++){
+        for(let r=0;r<3;r++){
+          cong.push({w:WORDS[i], c:COLORS[i]});
+        }
+      }
+      // all 12 incongruent combinations
+      for(let i=0;i<4;i++){
+        for(let j=0;j<4;j++){
+          if(i===j) continue;
+          incong.push({w:WORDS[i], c:COLORS[j]});
+        }
+      }
+      shuffle(cong);
+      shuffle(incong);
+      trials = cong.concat(incong.slice(0,12));
+      shuffle(trials);
+    })();
+
+    const N = trials.length; // should be 24
+
+    function shuffle(arr){
+      for(let i=arr.length-1;i>0;i--){
+        const j = Math.floor(Math.random()*(i+1));
+        [arr[i], arr[j]] = [arr[j], arr[i]];
+      }
     }
-  };
 
-  // — Stroop setup & metrics capture —
-  const COLORS=["red","green","blue","yellow"];
-  const WORDS=["RED","GREEN","BLUE","YELLOW"];
-  const N=24;
-  let trials=[], current=0, startTime, results=[];
 
-  (()=>{
-    const cong=[], incong=[];
-    for(let i=0;i<4;i++){
-      cong.push({w:WORDS[i],c:COLORS[i]});
-      for(let j=0;j<4;j++) if(i!==j)
-        incong.push({w:WORDS[i],c:COLORS[j]});
-    }
-    shuffle(cong); shuffle(incong);
-    trials = cong.slice(0,12).concat(incong.slice(0,12));
-    shuffle(trials);
-  })();
+  // — Stroop DOM refs & flow control —
+    const instrDiv = document.getElementById("stroopInstructions");
+    const startBtn = document.getElementById("startStroopBtn");
+    const trialDiv = document.getElementById("stroopContainer");
+    const stimEl   = document.getElementById("stroopStim");
+    const btnsDiv  = document.getElementById("stroopButtons");
+    const statusEl = document.getElementById("stroopStatus");
+    const feedEl   = document.getElementById("stroopFeedback");
 
-  function shuffle(a){
-    for(let i=a.length-1;i>0;i--){
-      const j=Math.floor(Math.random()*(i+1));
-      [a[i],a[j]]=[a[j],a[i]];
-    }
-  }
-
-  const instrDiv   = document.getElementById("stroopInstructions"),
-        startBtn   = document.getElementById("startStroopBtn"),
-        trialDiv   = document.getElementById("stroopContainer"),
-        stimEl     = document.getElementById("stroopStim"),
-        statusEl   = document.getElementById("stroopStatus"),
-        feedEl     = document.getElementById("stroopFeedback"),
-        btnsDiv    = document.getElementById("stroopButtons");
-
-  // build response buttons
-  COLORS.forEach(col=>{
-    let b = document.createElement("button");
-    b.textContent = col.toUpperCase();
-    b.style.background = col;
-    b.onclick = ()=>recordResponse(col);
-    btnsDiv.appendChild(b);
-  });
-
-  function showInstructions(){
-    instrDiv.style.display="flex";
-  }
-  startBtn.onclick = ()=>{
-    instrDiv.style.display="none";
-    trialDiv.style.display="flex";
-    current=0;
-    results=[];
-    nextTrial();
-  };
-
-  function nextTrial(){
-    if(current>=N) return finishStroop();
-    let t = trials[current];
-    stimEl.textContent = t.w;
-    stimEl.style.color = t.c;
-    statusEl.textContent = `Trial ${current+1} / ${N}`;
-    feedEl.textContent = "";
-    startTime = performance.now();
-  }
-
-  function recordResponse(chosen){
-    let t = trials[current];
-    let rt = Math.round(performance.now()-startTime);
-    results.push({
-      trial: current+1,
-      word: t.w,
-      ink: t.c,
-      chosen,
-      correct: t.c===chosen,
-      rt
+    // create response buttons
+    COLORS.forEach(col=>{
+      const b = document.createElement("button");
+      b.textContent = col.toUpperCase();
+      b.style.background = col;
+      b.onclick = () => recordResponse(col);
+      btnsDiv.appendChild(b);
     });
-    feedEl.textContent = (chosen===t.c) ? "✔️" : "❌";
-    current++;
-    setTimeout(nextTrial,300);
-  }
 
-  function finishStroop(){
-    stimEl.textContent = "Done!";
-    statusEl.textContent = "";
-    feedEl.innerHTML =
-      `<strong>Avg RT:</strong> ${Math.round(results.reduce((s,r)=>s+r.rt,0)/results.length)} ms<br>
-       <strong>Accuracy:</strong> ${Math.round(results.filter(r=>r.correct).length/results.length*100)}%`;
-    // build CSV
-    let pid = document.getElementById('participantId').value.trim();
-    let rows = [["participant_id","creativity","trial","word","ink","chosen","correct","rt"]];
-    results.forEach(r=>{
-      rows.push([pid,creativityScore,r.trial,r.word,r.ink,r.chosen,r.correct,r.rt]);
-    });
-    let csv = rows.map(r=>r.join(",")).join("\n");
-    let blob = new Blob([csv],{type:"text/csv"});
-    let url  = URL.createObjectURL(blob);
-    let dl   = document.createElement("a");
-    dl.href  = url;
-    dl.download = `${pid}_results.csv`;
-    document.body.appendChild(dl);
-    dl.click();
-    document.body.removeChild(dl);
-  }
+    function startStroop(){
+      instrDiv.style.display = "flex";
+    }
+    startBtn.onclick = () => {
+      instrDiv.style.display  = "none";
+      trialDiv.style.display  = "flex";
+      current = 0;
+      results = [];
+      nextTrial();
+    };
+
+    function nextTrial(){
+      if(current >= N) return finishStroop();
+      const t = trials[current];
+      stimEl.textContent = t.w;
+      stimEl.style.color = t.c;
+      statusEl.textContent = `Trial ${current+1} / ${N}`;
+      feedEl.textContent   = "";
+      startTime = performance.now();
+    }
+
+    function recordResponse(chosen){
+      const t = trials[current];
+      const rt = Math.round(performance.now() - startTime);
+      results.push({ ...t, chosen, correct: t.c===chosen, rt });
+      feedEl.textContent = chosen===t.c ? "✔️" : "❌";
+      current++;
+      setTimeout(nextTrial, 300);
+    }
+
+    function finishStroop(){
+      stimEl.textContent = "All done!";
+      statusEl.textContent = "";
+      const avg = Math.round(results.reduce((s,r)=>s+r.rt,0)/results.length);
+      const acc = Math.round(results.filter(r=>r.correct).length/results.length*100);
+      feedEl.innerHTML = `<strong>Avg RT:</strong> ${avg} ms<br>
+                         <strong>Accuracy:</strong> ${acc}%`;
+      console.log("Stroop results:", results);
+      // TODO: POST `results` + creativity_score to backend here
+    }
   </script>
 </body>
 </html>
