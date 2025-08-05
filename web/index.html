@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>TTCT Figural Registration</title>
+  <style>
+    html, body {
+      margin: 0; padding: 0;
+      height: 100%; width: 100%;
+      display: flex; flex-direction: column;
+      font-family: sans-serif;
+      background: #f9f9f9;
+    }
+    /* Header */
+    #header {
+      padding: 12px;
+      background: #fff;
+      box-shadow: 0 1px 4px rgba(0,0,0,0.1);
+      z-index: 2;
+    }
+    #header h1 { margin: 0 0 8px; font-size: 1.5rem; }
+    #header p  { margin: 0 0 12px; font-size: 1rem; color: #555; }
+    #header label { display: block; margin-bottom: 8px; }
+    #header input {
+      width: 100%; max-width: 240px;
+      padding: 6px 8px; font-size: 1rem;
+    }
+    /* Canvas container */
+    #canvasContainer {
+      flex: 1; display: flex;
+      justify-content: center; align-items: center;
+      padding: 8px; overflow: auto;
+    }
+    /* Portrait-scaled canvas */
+    #drawingCanvas {
+      width: 90vw; height: 80vh;
+      max-width: 700px; max-height: 900px;
+      border: 1px solid #ccc; touch-action: none;
+      background: #fff;
+    }
+    /* Controls */
+    #controls {
+      padding: 8px; background: #fff;
+      box-shadow: 0 -1px 4px rgba(0,0,0,0.1);
+      display: flex; align-items: center; gap: 8px;
+    }
+    button {
+      padding: 8px 12px; font-size: 1rem;
+      cursor: pointer;
+    }
+    #status {
+      margin-left: 16px;
+      color: #555; font-size: 0.9rem;
+    }
+  </style>
+</head>
+<body>
+
+  <div id="header">
+    <h1>TTCT Figural Registration</h1>
+    <p>Finish the incomplete figure however you like. Be creative!</p>
+    <label>
+      Your Name:<br/>
+      <input type="text" id="participantId" placeholder="Enter your name" />
+    </label>
+  </div>
+
+  <div id="canvasContainer">
+    <canvas id="drawingCanvas"></canvas>
+  </div>
+
+  <div id="controls">
+    <button id="clearBtn">Clear</button>
+    <button id="submitBtn">Submit</button>
+    <span id="status"></span>
+  </div>
+
+  <!-- hidden template for compositing -->
+  <img id="template" src="FigureTemplate.png" style="display:none" />
+
+  <script>
+    // **Replace** with your own ngrok URL + /upload/
+    const UPLOAD_URL = 'https://13ab7a2a6588.ngrok-free.app/upload/';
+
+    const canvas   = document.getElementById('drawingCanvas');
+    const ctx      = canvas.getContext('2d');
+    const template = document.getElementById('template');
+    const status   = document.getElementById('status');
+
+    function resizeCanvas() {
+      canvas.width  = canvas.clientWidth;
+      canvas.height = canvas.clientHeight;
+      ctx.drawImage(template, 0, 0, canvas.width, canvas.height);
+      ctx.lineWidth   = 2;
+      ctx.lineCap     = 'round';
+      ctx.strokeStyle = 'black';
+    }
+    window.addEventListener('resize', resizeCanvas);
+    template.onload = resizeCanvas;
+    if (template.complete) resizeCanvas();
+
+    let drawing = false;
+    canvas.addEventListener('pointerdown', e => {
+      drawing = true;
+      ctx.beginPath();
+      ctx.moveTo(e.offsetX, e.offsetY);
+    });
+    canvas.addEventListener('pointermove', e => {
+      if (!drawing) return;
+      ctx.lineTo(e.offsetX, e.offsetY);
+      ctx.stroke();
+    });
+    ['pointerup','pointerleave'].forEach(evt =>
+      canvas.addEventListener(evt, () => drawing = false)
+    );
+
+    document.getElementById('clearBtn').onclick = () => {
+      ctx.clearRect(0,0,canvas.width,canvas.height);
+      ctx.drawImage(template,0,0,canvas.width,canvas.height);
+      status.textContent = '';
+    };
+
+    document.getElementById('submitBtn').onclick = async () => {
+      const name = document.getElementById('participantId').value.trim();
+      if (!name) {
+        status.textContent = 'Please enter your name.';
+        return;
+      }
+      status.textContent = 'Submitting…';
+
+      const blob = await new Promise(res => canvas.toBlob(res, 'image/png'));
+      const form = new FormData();
+      form.append('participant_id', name);
+      form.append('file', blob, 'drawing.png');
+
+      try {
+        const resp = await fetch(UPLOAD_URL, {
+          method: 'POST',
+          body: form
+        });
+        const data = await resp.json();
+        if (resp.ok) {
+          status.textContent = `Score: ${data.creativity_score}`;
+        } else {
+          status.textContent = `Error: ${data.note||resp.status}`;
+        }
+      } catch (err) {
+        console.error(err);
+        status.textContent = 'Network error';
+      }
+    };
+  </script>
+
+</body>
+</html>

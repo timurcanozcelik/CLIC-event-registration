@@ -1,0 +1,1 @@
+backend/AuDrA_files/AuDrA/AuDrA_trained.ckpt filter=lfs diff=lfs merge=lfs -text

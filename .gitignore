@@ -1,0 +1,11 @@
+# Python artifacts
+__pycache__/
+*.py[cod]
+*.sqlite3
+# Conda / venv folders
+ttct_env/
+audra_cpu/
+# macOS
+.DS_Store
+# node_modules (if you ever add JS deps)
+node_modules/

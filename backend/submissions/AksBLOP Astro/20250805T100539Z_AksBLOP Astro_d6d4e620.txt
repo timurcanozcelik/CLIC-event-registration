@@ -1,0 +1,6 @@
+participant_id: AksBLOP Astro
+uploaded_at: 20250805T100539Z
+ink_density: 0.0733
+creativity_score: 0.4725
+used_fallback: False
+raw_filename: 20250805T100539Z_AksBLOP Astro_d6d4e620.png

@@ -1,0 +1,6 @@
+participant_id: Amritha
+uploaded_at: 20250805T095807Z
+ink_density: 0.0374
+creativity_score: 0.4891
+used_fallback: False
+raw_filename: 20250805T095807Z_Amritha_4e6162b5.png

@@ -1,0 +1,779 @@
+﻿Drawing,Factor,Exclude,LoginID,Image_Name,Title,Reid Rating,Zack Rating,Kylee Rating,Rishob Rating,Michel Rating,Cade Rating
+1,NA,1,1234@rogertest,w37.s98.u1289q3,Butterflies and flowers,5,4,3,3,4,5
+2,NA,1,1234@rogertest,w37.s98.u1289q4,Old man smiley face,1,1,2,2,1,1
+3,NA,1,1234@rogertest,w37.s98.u1289q13,Airplane,4,3,3,4,3,3
+4,NA,1,1234@rogertest,w37.s98.u1289q15,House,2,2,2,3,2,2
+5,NA,1,1234@rogertest,w37.s98.u1289q17,Christmas tree,2,3,2,3,2,3
+6,NA,1,1234@rogertest,w37.s98.u1289q19,pencil,3,3,3,2,3,2
+7,NA,1,1234@rogertest,w37.s98.u1289q56,Dancing man,4,4,4,5,4,3
+8,NA,1,5945@cncl,w37.s98.u1353q3,Smiley with tongue out,2,2,2,3,2,2
+9,NA,1,5945@cncl,w37.s98.u1353q4,Animated duck,5,4,4,5,4,4
+10,NA,1,5945@cncl,w37.s98.u1353q13,Person at the park doing pull ups,3,4,4,4,3,4
+11,NA,1,5945@cncl,w37.s98.u1353q15,Person reading newspaper,4,3,2,2,4,5
+12,NA,1,5945@cncl,w37.s98.u1353q17,Christmas tree,2,3,2,2,2,2
+13,NA,1,5945@cncl,w37.s98.u1353q19,Teacher in math class teaching about shapes,4,3,3,3,3,5
+14,NA,1,5945@cncl,w37.s98.u1353q56,Person watching tv,2,3,2,3,3,4
+15,NA,1,6678@cncl,w37.s98.u1354q3,Sailboat,3,3,2,4,2,3
+16,NA,1,6678@cncl,w37.s98.u1354q4,Butterflies and flowers,5,4,3,3,4,5
+17,NA,1,6678@cncl,w37.s98.u1354q13,Birds kissing,5,4,3,4,5,5
+18,NA,1,6678@cncl,w37.s98.u1354q15,House,2,2,2,3,2,2
+19,NA,1,6678@cncl,w37.s98.u1354q17,Christmas tree,2,3,2,2,2,2
+20,NA,1,6678@cncl,w37.s98.u1354q19,Pencil,3,3,2,4,3,1
+21,NA,1,6678@cncl,w37.s98.u1354q56,Woman dancing,4,4,3,4,4,3
+22,NA,1,6821@cncl,w37.s98.u1356q3,pouring salt and pepper in a  bowl,4,5,4,5,5,5
+23,NA,1,6821@cncl,w37.s98.u1356q4,reading in hammock by lamp,5,5,5,5,5,5
+24,NA,1,6821@cncl,w37.s98.u1356q13,soccer field,4,3,4,3,3,3
+25,NA,1,6821@cncl,w37.s98.u1356q15,restaurant bowl,2,4,4,2,3,5
+26,NA,1,6821@cncl,w37.s98.u1356q17,prison cafeteria,3,5,5,4,4,5
+27,NA,1,6821@cncl,w37.s98.u1356q19,face,1,3,2,2,1,3
+28,NA,1,6821@cncl,w37.s98.u1356q56,houses,3,3,3,4,2,5
+29,NA,1,9999@CRAM,w37.s98.u1905q3,idk,NA,1,n/a,NA,NA,NA
+30,NA,1,9001@cnl,w37.s98.u1960q3,fish bowl,2,4,1,2,3,2
+31,NA,1,9001@cnl,w37.s98.u1960q4,pumpkin,4,3,3,5,2,3
+32,NA,1,9001@cnl,w37.s98.u1960q13,drink,3,4,2,3,4,2
+33,NA,1,9001@cnl,w37.s98.u1960q15,house,1,2,2,3,1,1
+34,NA,1,9001@cnl,w37.s98.u1960q17,rocket,4,3,2,1,2,1
+35,NA,1,9001@cnl,w37.s98.u1960q19,suit and tie,5,3,1,3,2,2
+36,NA,1,9001@cnl,w37.s98.u1960q56,cow,3,3,4,3,2,2
+37,-0.149,0,300@cram,w37.s98.u1971q3,pumpkin,3,2,3,4,2,1
+38,-0.792,0,300@cram,w37.s98.u1971q4,ice cream cone,2,2,2,2,1,2
+39,-0.584,0,300@cram,w37.s98.u1971q13,evil character,3,2,2,2,1,2
+40,-1.485,0,300@cram,w37.s98.u1971q15,house,1,1,1,2,1,1
+41,-0.028,0,300@cram,w37.s98.u1971q17,man,2,3,2,3,2,3
+42,-0.263,0,300@cram,w37.s98.u1971q19,pencil,2,3,2,2,3,1
+43,-0.131,0,300@cram,w37.s98.u1971q56,classy woman,3,3,2,2,2,2
+44,0.838,0,302@CRAM,w37.s98.u1975q3,baseball field,5,3,3,2,3,3
+45,-0.625,0,302@CRAM,w37.s98.u1975q4,upside down ice-cream,2,2,3,1,1,3
+46,1,0,302@CRAM,w37.s98.u1975q13,building with parking lot,4,3,3,2,3,5
+47,0.293,0,302@CRAM,w37.s98.u1975q15,church,4,3,3,2,1,4
+48,-0.892,0,302@CRAM,w37.s98.u1975q17,Christmas tree,1,2,3,2,1,2
+49,0.207,0,302@CRAM,w37.s98.u1975q19,water bottle upside down,3,3,1,2,3,3
+50,-0.339,0,302@CRAM,w37.s98.u1975q56,house,2,3,2,2,2,2
+51,-0.196,0,303@cram,w37.s98.u1978q3,boat,3,2,1,3,1,4
+52,1.316,0,303@cram,w37.s98.u1978q4,beaker,5,3,4,2,3,5
+53,-1,0,303@cram,w37.s98.u1978q13,persons face,1,2,2,2,1,2
+54,-1.3,0,303@cram,w37.s98.u1978q15,house,1,1,1,2,1,2
+55,-0.239,0,303@cram,w37.s98.u1978q17,Christmas tree,2,2,3,2,2,3
+56,0.057,0,303@cram,w37.s98.u1978q19,ice cream cone,3,3,5,3,1,2
+57,-0.005,0,303@cram,w37.s98.u1978q56,person dancing,3,3,2,3,2,2
+58,-1.418,0,304@cram,w37.s98.u1979q3,smiley face,1,2,1,1,1,1
+59,1.486,0,304@cram,w37.s98.u1979q4,a scale to weigh fruit at a grocery store,4,3,4,5,3,5
+60,0.568,0,304@cram,w37.s98.u1979q13,a telescope looking at a building,5,3,3,4,1,3
+61,1.639,0,304@cram,w37.s98.u1979q15,a sun over a swing set,4,3,3,5,4,5
+62,0.771,0,304@cram,w37.s98.u1979q17,cozy cone motel from the movie cars,5,3,2,5,1,4
+63,-0.566,0,304@cram,w37.s98.u1979q19,an arrow,3,2,1,3,1,2
+64,0.667,0,304@cram,w37.s98.u1979q56,a river,4,3,1,4,3,3
+65,-1.611,0,305@cram,w37.s98.u1982q3,smile face,1,1,1,1,1,1
+66,-0.9,0,305@cram,w37.s98.u1982q4,upside down ice cream cone,2,2,1,2,1,2
+67,-1.277,0,305@cram,w37.s98.u1982q13,two shapes,2,1,1,2,1,1
+68,-0.692,0,305@cram,w37.s98.u1982q15,castle,3,2,1,2,1,2
+69,-0.113,0,305@cram,w37.s98.u1982q17,a girl wearing a dress,3,3,1,3,2,2
+70,-1.485,0,305@cram,w37.s98.u1982q19,a square and a triangle,1,1,1,2,1,1
+71,-0.589,0,305@cram,w37.s98.u1982q56,upside down house,2,2,1,3,1,3
+72,1.467,0,306@CRAM,w37.s98.u1983q3,claw,5,4,3,4,3,4
+73,0.054,0,306@CRAM,w37.s98.u1983q4,person with hat,3,3,2,2,2,3
+74,NA,1,306@CRAM,w37.s98.u1983q13,n/a,NA,2,n/a,1,NA,3
+75,-1,0,306@CRAM,w37.s98.u1983q15,house,1,2,2,2,1,2
+76,-0.639,0,306@CRAM,w37.s98.u1983q17,pencil,2,2,1,2,2,2
+77,0.329,0,306@CRAM,w37.s98.u1983q19,split up arrow,4,3,2,4,2,2
+78,1.067,0,306@CRAM,w37.s98.u1983q56,end of a spear,4,3,3,4,3,4
+79,2.021,0,307@cram,w37.s98.u1984q3,Jellyfish,5,4,4,4,4,5
+80,1.436,0,307@cram,w37.s98.u1984q4,vase with flowers,4,3,4,4,4,4
+81,2.707,0,307@cram,w37.s98.u1984q13,A person boating with another person pretending to be a shark,5,5,5,5,5,5
+82,2.339,0,307@cram,w37.s98.u1984q15,A set of train tracks that lead to a cliff,5,5,4,5,4,5
+83,0.859,0,307@cram,w37.s98.u1984q17,A hut with a fire burning inside,3,3,3,4,3,4
+84,1.52,0,307@cram,w37.s98.u1984q19,A tree house with two trees supporting it and a ladder leading inside,4,4,3,4,4,4
+85,1.678,0,307@cram,w37.s98.u1984q56,An open grave with a body in it,4,4,4,5,3,5
+86,-1.185,0,308@cram,w37.s98.u1985q3,face,1,2,2,2,1,1
+87,0.967,0,308@cram,w37.s98.u1985q4,ramen with chopsticks,3,3,4,4,3,4
+88,-0.046,0,308@cram,w37.s98.u1985q13,house with drive-up,2,3,3,2,2,3
+89,-1.485,0,308@cram,w37.s98.u1985q15,house,1,1,1,2,1,1
+90,-0.7,0,308@cram,w37.s98.u1985q17,person,1,3,3,2,1,2
+91,-0.892,0,308@cram,w37.s98.u1985q19,arrow,2,3,1,2,1,1
+92,-0.144,0,308@cram,w37.s98.u1985q56,pencil,2,2,2,3,3,2
+93,-0.607,0,100@cram,w37.s98.u1987q3,boat,2,2,2,2,1,3
+94,0.315,0,100@cram,w37.s98.u1987q4,vase with flowers,3,3,2,2,3,3
+95,0.665,0,100@cram,w37.s98.u1987q13,boy with hat,3,4,3,3,2,4
+96,0.08,0,100@cram,w37.s98.u1987q15,man wearing a shirt,2,3,3,3,2,3
+97,-0.195,0,100@cram,w37.s98.u1987q17,house with a chimney,1,3,3,1,2,4
+98,-0.684,0,100@cram,w37.s98.u1987q19,arrow pointing down,3,3,1,2,1,1
+99,-0.131,0,100@cram,w37.s98.u1987q56,rocket ship,3,3,2,2,2,2
+100,2.021,0,101@CRAM,w37.s98.u1988q3,two snowboarders on a half pipe,5,4,4,4,4,5
+101,0.68,0,101@CRAM,w37.s98.u1988q4,garden gnome,4,3,3,3,2,4
+102,1.443,0,101@CRAM,w37.s98.u1988q13,guy riding a unicycle,4,4,4,4,4,3
+103,0.992,0,101@CRAM,w37.s98.u1988q15,bird getting food from a birdfeeder,3,4,3,5,3,3
+104,0.441,0,101@CRAM,w37.s98.u1988q17,a mountain climber looking at a mountain,3,3,2,3,3,3
+105,-0.163,0,101@CRAM,w37.s98.u1988q19,floor plans,2,2,3,2,3,2
+106,0.256,0,101@CRAM,w37.s98.u1988q56,super buff dude with an extremely large chest,3,3,2,3,3,2
+107,-1.151,0,102@CRAM,w37.s98.u1989q3,boat,2,1,1,3,1,1
+108,-0.138,0,102@CRAM,w37.s98.u1989q4,light bulb,3,2,2,2,2,3
+109,-0.959,0,102@CRAM,w37.s98.u1989q13,boat,2,2,1,3,1,1
+110,-1.084,0,102@CRAM,w37.s98.u1989q15,house,1,1,3,2,1,2
+111,-1.611,0,102@CRAM,w37.s98.u1989q17,tree,1,1,1,1,1,1
+112,-1.21,0,102@CRAM,w37.s98.u1989q19,arrow,2,2,1,1,1,1
+113,-0.892,0,102@CRAM,w37.s98.u1989q56,house,1,2,3,2,1,2
+114,-0.733,0,103@CRAM,w37.s98.u1992q3,ice cream,2,2,2,1,1,3
+115,0.914,0,103@CRAM,w37.s98.u1992q4,elf,4,3,4,4,2,4
+116,-0.543,0,103@CRAM,w37.s98.u1992q13,boat,3,1,3,3,1,2
+117,-1.192,0,103@CRAM,w37.s98.u1992q15,house,1,1,2,2,1,2
+118,-0.239,0,103@CRAM,w37.s98.u1992q17,Christmas tree,2,2,3,2,2,3
+119,0.441,0,103@CRAM,w37.s98.u1992q19,flower in a pot,3,3,2,3,3,3
+120,-0.346,0,103@CRAM,w37.s98.u1992q56,pencil,2,2,2,2,2,3
+121,NA,1,ID#@CRAM,w37.s98.u1993q3,a boat with a man and two flags,4,4,3,3,3,4
+122,NA,1,ID#@CRAM,w37.s98.u1993q4,"from beauty and the beast. The wine talking ""glasses"" and her kids",5,4,5,NA,4,4
+123,NA,1,ID#@CRAM,w37.s98.u1993q13,a bottle of alcohol and a bowl,4,4,4,3,3,4
+124,NA,1,ID#@CRAM,w37.s98.u1993q15,an envelope,3,3,4,2,2,3
+125,NA,1,ID#@CRAM,w37.s98.u1993q17,a girl in a dress,3,3,4,2,3,2
+126,NA,1,ID#@CRAM,w37.s98.u1993q19,a pencil,2,2,4,2,2,1
+127,NA,1,ID#@CRAM,w37.s98.u1993q56,a house and a chair,3,2,3,3,3,3
+128,0.495,0,105@CRAM,w37.s98.u1994q3,Angel,4,3,3,3,2,3
+129,0.477,0,105@CRAM,w37.s98.u1994q4,bear with party hat,4,3,4,2,2,3
+130,1.71,0,105@CRAM,w37.s98.u1994q13,robot,5,4,4,3,4,4
+131,-1.192,0,105@CRAM,w37.s98.u1994q15,house,1,1,2,2,1,2
+132,2.254,0,105@CRAM,w37.s98.u1994q17,lava lamp,5,4,5,5,4,5
+133,1.705,0,105@CRAM,w37.s98.u1994q19,two snakes,4,4,3,4,4,5
+134,1.067,0,105@CRAM,w37.s98.u1994q56,space ship,4,3,3,4,3,4
+135,0.114,0,106@CRAM,w37.s98.u1995q3,a pumpkin,3,2,2,4,2,3
+136,0.095,0,106@CRAM,w37.s98.u1995q4,lightbulb,3,2,3,3,2,3
+137,-0.474,0,106@CRAM,w37.s98.u1995q13,person,2,3,2,3,1,2
+138,0.21,0,106@CRAM,w37.s98.u1995q15,rocket ship,3,3,4,3,2,2
+139,-0.501,0,106@CRAM,w37.s98.u1995q17,Christmas tree,2,2,4,2,2,1
+140,0.923,0,106@CRAM,w37.s98.u1995q19,airplane,4,3,4,2,3,4
+141,-0.273,0,106@CRAM,w37.s98.u1995q56,a church,3,2,2,3,1,3
+142,1.575,0,107@CRAM,w37.s98.u1999q3,submarine,5,4,4,4,3,4
+143,0.649,0,107@CRAM,w37.s98.u1999q4,pear,4,3,2,3,3,3
+144,1.377,0,107@CRAM,w37.s98.u1999q13,wedding cake,4,3,4,5,4,3
+145,-0.874,0,107@CRAM,w37.s98.u1999q15,house,1,2,2,3,1,2
+146,0.738,0,107@CRAM,w37.s98.u1999q17,mushroom,4,3,4,2,3,3
+147,0.098,0,107@CRAM,w37.s98.u1999q19,carrot,2,3,2,4,2,3
+148,-0.405,0,107@CRAM,w37.s98.u1999q56,castle,2,2,2,3,2,2
+149,-1.011,0,109@CRAM,w37.s98.u2000q3,face,1,3,3,1,1,1
+150,-0.9,0,109@CRAM,w37.s98.u2000q4,ice cream,2,2,1,2,1,2
+151,-0.55,0,109@CRAM,w37.s98.u2000q13,checkerboard,3,3,1,1,2,1
+152,-0.577,0,109@CRAM,w37.s98.u2000q15,face,2,2,4,2,1,2
+153,0.418,0,109@CRAM,w37.s98.u2000q17,fox face,4,3,4,3,2,2
+154,0.5,0,109@CRAM,w37.s98.u2000q19,robot face,5,3,4,2,2,2
+155,-0.892,0,109@CRAM,w37.s98.u2000q56,house,1,2,3,2,1,2
+156,0.656,0,110@CRAM,w37.s98.u2001q3,a lone survivors boat,3,3,4,3,3,3
+157,2.389,0,110@CRAM,w37.s98.u2001q4,two penguins,5,4,5,4,5,5
+158,0.365,0,110@CRAM,w37.s98.u2001q13,a robot,3,3,2,3,2,4
+159,1.628,0,110@CRAM,w37.s98.u2001q15,a parent and their child,4,4,4,4,4,4
+160,1.182,0,110@CRAM,w37.s98.u2001q17,a bug,4,4,4,4,3,3
+161,0.348,0,110@CRAM,w37.s98.u2001q19,kid playing with forms,2,4,3,3,3,2
+162,0.548,0,110@CRAM,w37.s98.u2001q56,someone getting the cake,3,3,3,3,3,3
+163,-1.185,0,111@CRAM,w37.s98.u2003q3,face,1,2,2,2,1,1
+164,-1.026,0,111@CRAM,w37.s98.u2003q4,upside down ice cream cone,2,2,1,1,1,2
+165,-0.415,0,111@CRAM,w37.s98.u2003q13,snowman face,2,3,2,2,1,3
+166,-1.485,0,111@CRAM,w37.s98.u2003q15,house,1,1,1,2,1,1
+167,-0.792,0,111@CRAM,w37.s98.u2003q17,Christmas tree,2,2,2,2,1,2
+168,-0.657,0,111@CRAM,w37.s98.u2003q19,pencil,2,2,2,1,2,2
+169,NA,1,111@CRAM,w37.s98.u2003q56,no idea,NA,1,n/a,NA,NA,1
+170,0.667,0,112@CRAM,w37.s98.u2004q3,bowl with chopsticks,4,3,1,4,3,3
+171,1.202,0,112@CRAM,w37.s98.u2004q4,raindrop,4,3,3,3,4,4
+172,-0.977,0,112@CRAM,w37.s98.u2004q13,smiley face,2,2,2,2,1,1
+173,-1.192,0,112@CRAM,w37.s98.u2004q15,house,1,1,2,2,1,2
+174,-1.085,0,112@CRAM,w37.s98.u2004q17,arrow,2,2,1,2,1,1
+175,0.882,0,112@CRAM,w37.s98.u2004q19,birdhouse,4,3,3,4,3,3
+176,0.867,0,112@CRAM,w37.s98.u2004q56,window with curtains,3,4,3,4,3,3
+177,-0.499,0,113@CRAM,w37.s98.u2006q3,a face,2,2,3,2,1,3
+178,1.282,0,113@CRAM,w37.s98.u2006q4,the sun and a skateboard park,5,4,3,4,3,3
+179,-0.005,0,113@CRAM,w37.s98.u2006q13,I was trying to draw a mushroom,3,3,2,3,2,2
+180,-0.631,0,113@CRAM,w37.s98.u2006q15,a house,1,2,3,2,2,2
+181,-0.659,0,113@CRAM,w37.s98.u2006q17,a girl,2,3,2,3,1,1
+182,-0.824,0,113@CRAM,w37.s98.u2006q19,a pencil,2,2,1,2,2,1
+183,0.022,0,113@CRAM,w37.s98.u2006q56,a container of something over a cup,3,3,1,2,3,2
+184,-0.012,0,112#@CRAM,w37.s98.u2007q3,boat,3,2,2,3,2,3
+185,0.567,0,112#@CRAM,w37.s98.u2007q4,those mix n match toys,3,3,2,4,3,3
+186,1.252,0,112#@CRAM,w37.s98.u2007q13,cars at a house,4,3,3,4,3,5
+187,-1.485,0,112#@CRAM,w37.s98.u2007q15,house,1,1,1,2,1,1
+188,-1.085,0,112#@CRAM,w37.s98.u2007q17,shack,2,2,1,2,1,1
+189,-1.1,0,112#@CRAM,w37.s98.u2007q19,face,1,3,1,2,1,1
+190,-0.113,0,112#@CRAM,w37.s98.u2007q56,robot,3,3,1,3,2,2
+191,1.602,0,111@cram,w37.s98.u2008q3,2 babies,5,4,3,3,4,4
+192,-0.892,0,111@cram,w37.s98.u2008q4,smiley face,1,2,3,2,1,2
+193,0.967,0,111@cram,w37.s98.u2008q13,rubber duck,4,4,2,4,3,3
+194,0.441,0,111@cram,w37.s98.u2008q15,milk carton,3,3,2,3,3,3
+195,-1.21,0,111@cram,w37.s98.u2008q17,Christmas tree,2,2,1,1,1,1
+196,-0.213,0,111@cram,w37.s98.u2008q19,person,2,3,2,3,2,2
+197,0.441,0,111@cram,w37.s98.u2008q56,salt,3,3,2,3,3,3
+198,0.968,0,113@cram,w37.s98.u2009q3,tower,4,3,2,2,4,4
+199,0.733,0,113@cram,w37.s98.u2009q4,beaker,3,3,3,3,3,4
+200,1.913,0,113@cram,w37.s98.u2009q13,"desk, board, chair",5,4,3,4,4,5
+201,-1.485,0,113@cram,w37.s98.u2009q15,house,1,1,1,2,1,1
+202,-0.305,0,113@cram,w37.s98.u2009q17,lamp,3,2,1,3,2,2
+203,0.441,0,113@cram,w37.s98.u2009q19,hydro flask,3,3,2,3,3,3
+204,0.958,0,113@cram,w37.s98.u2009q56,a kitchen utensil that flattens plantains,4,3,3,4,4,2
+205,0.08,0,114@CRAM,w37.s98.u2013q3,face,2,3,3,3,2,3
+206,0.363,0,114@CRAM,w37.s98.u2013q4,melting ice cream,3,3,3,3,3,2
+207,-0.482,0,114@CRAM,w37.s98.u2013q13,sailboat,2,2,3,3,2,1
+208,-1.485,0,114@CRAM,w37.s98.u2013q15,house,1,1,1,2,1,1
+209,-0.639,0,114@CRAM,w37.s98.u2013q17,pine tree,2,2,1,2,2,2
+210,-0.765,0,114@CRAM,w37.s98.u2013q19,pencil,2,2,1,1,2,2
+211,-0.213,0,114@CRAM,w37.s98.u2013q56,house with a walkway,2,3,2,3,2,2
+212,0.964,0,115@CRAM,w37.s98.u2017q3,spinning top,5,3,3,3,3,3
+213,-0.315,0,115@CRAM,w37.s98.u2017q4,Halloween pumpkin,3,3,1,2,1,3
+214,0.415,0,115@CRAM,w37.s98.u2017q13,anchor,4,3,1,2,3,3
+215,-1.377,0,115@CRAM,w37.s98.u2017q15,house,1,1,2,2,1,1
+216,0.274,0,115@CRAM,w37.s98.u2017q17,barn on a farm,3,3,1,4,3,2
+217,-0.95,0,115@CRAM,w37.s98.u2017q19,floor plan,2,2,1,1,2,1
+218,1.193,0,115@CRAM,w37.s98.u2017q56,basketball net,4,3,3,5,3,4
+219,0.941,0,116@CRAM,w37.s98.u2018q3,ghost,4,3,3,3,3,4
+220,0.069,0,116@CRAM,w37.s98.u2018q4,pear,4,2,2,2,2,3
+221,-0.388,0,116@CRAM,w37.s98.u2018q13,tree,2,3,1,1,2,3
+222,-1.485,0,116@CRAM,w37.s98.u2018q15,house,1,1,1,2,1,1
+223,-0.38,0,116@CRAM,w37.s98.u2018q17,tree with bird in it,2,3,1,4,2,1
+224,-0.95,0,116@CRAM,w37.s98.u2018q19,ice cream sundae,2,2,1,1,2,1
+225,-0.682,0,116@CRAM,w37.s98.u2018q56,upside down house,1,3,2,3,1,2
+226,-0.231,0,117#@CRAM,w37.s98.u2019q3,ice cream,2,3,3,2,2,2
+227,-0.104,0,117#@CRAM,w37.s98.u2019q4,raindrop,4,1,1,3,2,3
+228,0.287,0,117#@CRAM,w37.s98.u2019q13,boat,3,3,3,3,2,3
+229,-1.3,0,117#@CRAM,w37.s98.u2019q15,house,1,1,1,2,1,2
+230,-0.977,0,117#@CRAM,w37.s98.u2019q17,Christmas tree,2,2,2,2,1,1
+231,-1.107,0,117#@CRAM,w37.s98.u2019q19,house,1,2,1,2,1,2
+232,-1,0,117#@CRAM,w37.s98.u2019q56,house,1,2,2,2,1,2
+233,0.365,0,118@CRAM,w37.s98.u2020q3,a sailboat with a person,3,3,2,3,2,4
+234,1.36,0,118@CRAM,w37.s98.u2020q4,a pineapple,4,3,4,4,3,5
+235,1.09,0,118@CRAM,w37.s98.u2020q13,a Weeble toy,5,3,3,4,3,3
+236,-0.382,0,118@CRAM,w37.s98.u2020q15,a used #2 pencil,3,2,2,3,2,1
+237,0.479,0,118@CRAM,w37.s98.u2020q17,Slenderman,5,2,2,3,3,2
+238,0.598,0,118@CRAM,w37.s98.u2020q19,a castle with a knight,4,4,1,4,2,3
+239,-1.069,0,118@CRAM,w37.s98.u2020q56,home plate,3,1,1,2,1,1
+240,1.167,0,119#@CRAM,w37.s98.u2022q3,watermelon slices,5,3,2,4,3,4
+241,-0.666,0,119#@CRAM,w37.s98.u2022q4,a face with a tongue out,2,2,2,3,1,2
+242,0.162,0,119#@CRAM,w37.s98.u2022q13,a face with a hat,3,3,3,2,2,3
+243,-1.377,0,119#@CRAM,w37.s98.u2022q15,house,1,1,2,2,1,1
+244,1.52,0,119#@CRAM,w37.s98.u2022q17,two people looking in a fish bowl,4,4,3,4,4,4
+245,0.706,0,119#@CRAM,w37.s98.u2022q19,a muffin in a case at a bakery,4,4,2,4,2,3
+246,-1.292,0,119#@CRAM,w37.s98.u2022q56,upside down house,1,2,1,2,1,1
+247,0.633,0,120@cram,w37.s98.u2023q3,volcano,3,4,2,3,3,3
+248,-0.231,0,120@cram,w37.s98.u2023q4,ice cream cone,2,3,3,2,2,2
+249,0.256,0,120@cram,w37.s98.u2023q13,flask,3,3,2,3,3,2
+250,-1.485,0,120@cram,w37.s98.u2023q15,house,1,1,1,2,1,1
+251,-0.298,0,120@cram,w37.s98.u2023q17,Christmas tree,2,2,3,3,2,2
+252,1.401,0,120@cram,w37.s98.u2023q19,shark,5,3,3,5,3,4
+253,0.699,0,120@cram,w37.s98.u2023q56,airplane,4,3,2,4,2,4
+254,-0.589,0,123@CRAM,w37.s98.u2024q3,sailboat,2,2,1,3,1,3
+255,0.85,0,123@CRAM,w37.s98.u2024q4,person at party,3,4,3,3,2,5
+256,-1.1,0,123@CRAM,w37.s98.u2024q13,smiley face,1,3,1,2,1,1
+257,-1.377,0,123@CRAM,w37.s98.u2024q15,house,1,1,2,2,1,1
+258,-0.465,0,123@CRAM,w37.s98.u2024q17,charismas tree,2,3,2,1,2,2
+259,-0.399,0,123@CRAM,w37.s98.u2024q19,crayon,3,2,2,2,1,3
+260,-0.792,0,123@CRAM,w37.s98.u2024q56,#2 pencil,2,2,2,2,1,2
+261,-0.9,0,122@cram,w37.s98.u2025q3,boat,2,2,1,2,1,2
+262,-0.415,0,122@cram,w37.s98.u2025q4,rain drop,4,1,1,2,2,2
+263,-0.366,0,122@cram,w37.s98.u2025q13,smile face,2,3,3,3,1,2
+264,-1.485,0,122@cram,w37.s98.u2025q15,house,1,1,1,2,1,1
+265,-0.531,0,122@cram,w37.s98.u2025q17,Christmas tree,2,2,2,2,2,2
+266,1.467,0,122@cram,w37.s98.u2025q19,mouse,5,4,3,4,3,4
+267,1.205,0,122@cram,w37.s98.u2025q56,shark,5,4,4,4,3,2
+268,0.88,0,124@CRAM,w37.s98.u2026q3,kid with freckles,3,4,5,3,2,4
+269,-0.513,0,124@CRAM,w37.s98.u2026q4,sail boat,2,2,1,3,2,2
+270,-0.885,0,124@CRAM,w37.s98.u2026q13,happy face,1,3,3,2,1,1
+271,-1.292,0,124@CRAM,w37.s98.u2026q15,house,1,2,1,2,1,1
+272,0.287,0,124@CRAM,w37.s98.u2026q17,person,3,3,3,3,2,3
+273,-0.508,0,124@CRAM,w37.s98.u2026q19,crayon,3,2,2,2,2,1
+274,-0.505,0,124@CRAM,w37.s98.u2026q56,house with driveway,2,3,1,3,2,1
+275,-1.107,0,125@CRAM,w37.s98.u2029q3,a person smiling,1,2,1,2,1,2
+276,-1.292,0,125@CRAM,w37.s98.u2029q4,a smiley face,1,2,1,2,1,1
+277,1.36,0,125@CRAM,w37.s98.u2029q13,an upside down football goalpost with a scoreboard,5,4,2,4,3,4
+278,0.048,0,125@CRAM,w37.s98.u2029q15,a house with a car in the driveway and birds in the sky and the sun,2,3,2,3,3,2
+279,1.595,0,125@CRAM,w37.s98.u2029q17,"two baseball bats, a base, a ball, and a glove",5,3,3,3,4,5
+280,1.143,0,125@CRAM,w37.s98.u2029q19,a person hitting a baseball with a bat over home plate,4,3,3,4,4,3
+281,-0.398,0,125@CRAM,w37.s98.u2029q56,an upside down house and the sun,2,3,2,3,2,1
+282,-0.877,0,126@CRAM,w37.s98.u2030q3,ship,3,2,1,2,1,1
+283,1.226,0,126@CRAM,w37.s98.u2030q4,fish,5,3,2,3,3,5
+284,0.18,0,126@CRAM,w37.s98.u2030q13,man w horns,3,3,2,3,2,3
+285,0.338,0,126@CRAM,w37.s98.u2030q15,bull like thing,4,3,2,2,3,2
+286,-0.524,0,126@CRAM,w37.s98.u2030q17,bird like thing,2,3,2,2,2,1
+287,-0.673,0,126@CRAM,w37.s98.u2030q19,abstractism,3,1,1,1,3,1
+288,-0.541,0,126@CRAM,w37.s98.u2030q56,abstract,4,1,1,1,2,2
+289,1.2,0,127@CRAM,w37.s98.u2045q3,a tired face,4,4,3,5,3,3
+290,1.234,0,127@CRAM,w37.s98.u2045q4,mouse,5,4,2,3,3,4
+291,-0.5,0,127@CRAM,w37.s98.u2045q13,mushroom,3,3,1,2,1,2
+292,2.007,0,127@CRAM,w37.s98.u2045q15,outlet,5,4,2,5,5,4
+293,-0.785,0,127@CRAM,w37.s98.u2045q17,arrow,2,3,2,2,1,1
+294,1.36,0,127@CRAM,w37.s98.u2045q19,drivable drill,5,4,2,4,3,4
+295,0.388,0,127@CRAM,w37.s98.u2045q56,robot,4,3,2,3,2,3
+296,-0.707,0,128@CRAM,w37.s98.u2055q3,face,2,3,1,2,1,2
+297,0.441,0,128@CRAM,w37.s98.u2055q4,salt and bowl,3,3,2,3,3,3
+298,0.541,0,128@CRAM,w37.s98.u2055q13,chalice,4,3,1,3,3,3
+299,1.144,0,128@CRAM,w37.s98.u2055q15,football and field goal,4,3,2,4,3,5
+300,0.422,0,128@CRAM,w37.s98.u2055q17,arms and hands,3,3,3,2,3,3
+301,-0.216,0,128@CRAM,w37.s98.u2055q19,broken glass,4,3,1,2,2,1
+302,-0.766,0,128@CRAM,w37.s98.u2055q56,person,2,3,1,3,1,1
+303,1.92,0,129@CRAM,w37.s98.u2056q3,pendulum,5,5,3,4,4,4
+304,1.026,0,129@CRAM,w37.s98.u2056q4,chemistry flask,4,4,2,3,3,4
+305,0.948,0,129@CRAM,w37.s98.u2056q13,man in armor,4,4,3,3,3,3
+306,1.543,0,129@CRAM,w37.s98.u2056q15,bunny,5,4,3,4,4,3
+307,-0.266,0,129@CRAM,w37.s98.u2056q17,lamp,3,3,2,3,1,2
+308,1.243,0,129@CRAM,w37.s98.u2056q19,toilet,5,3,2,4,4,3
+309,0.415,0,129@CRAM,w37.s98.u2056q56,shield,4,3,1,2,3,3
+310,-0.082,0,130@CRAM,w37.s98.u2057q3,scarecrow,3,3,3,3,2,1
+311,-0.06,0,130@CRAM,w37.s98.u2057q4,Christmas tree w present,2,3,1,3,3,2
+312,1.71,0,130@CRAM,w37.s98.u2057q13,slide into a pool in a chalice,5,4,4,3,4,4
+313,-0.877,0,130@CRAM,w37.s98.u2057q15,wizard house,3,2,1,2,1,1
+314,-0.5,0,130@CRAM,w37.s98.u2057q17,mushroom,3,3,1,2,1,2
+315,0.974,0,130@CRAM,w37.s98.u2057q19,Bart Simpson,3,4,4,4,3,3
+316,1.355,0,130@CRAM,w37.s98.u2057q56,baseball stadium,4,4,1,5,3,5
+317,-0.321,0,121@cram,w37.s98.u2058q3,a boat,2,3,1,3,2,2
+318,-0.892,0,121@cram,w37.s98.u2058q4,face of a person smiling,2,3,1,2,1,1
+319,1.836,0,121@cram,w37.s98.u2058q13,this is a skyline of a city,5,4,4,4,4,4
+320,-0.698,0,121@cram,w37.s98.u2058q15,a house,2,2,1,3,2,1
+321,-0.513,0,121@cram,w37.s98.u2058q17,lamp,2,2,1,3,2,2
+322,1.567,0,121@cram,w37.s98.u2058q19,this is a maze or the sky view of streets,5,3,4,4,3,5
+323,0.571,0,121@cram,w37.s98.u2058q56,cat,4,3,3,3,3,2
+324,-0.577,0,127@cram,w37.s98.u2062q3,a person laughing,3,3,2,2,1,1
+325,0.864,0,127@cram,w37.s98.u2062q4,a vase with two handles,4,3,4,3,3,3
+326,1.351,0,127@cram,w37.s98.u2062q13,eating while watching tv,5,3,3,4,4,3
+327,-0.584,0,127@cram,w37.s98.u2062q15,a church,3,2,2,2,1,2
+328,-0.524,0,127@cram,w37.s98.u2062q17,a Christmas tree,2,3,2,2,2,1
+329,-0.19,0,127@cram,w37.s98.u2062q19,a dancing child,3,3,2,3,2,1
+330,1.335,0,127@cram,w37.s98.u2062q56,a radio is on while a tv is also on,4,4,3,4,4,3
+331,-1.292,0,131@cram,w37.s98.u2063q3,smiley face,1,2,1,2,1,1
+332,-0.223,0,131@cram,w37.s98.u2063q4,pear,4,2,1,2,2,2
+333,-1.166,0,131@cram,w37.s98.u2063q13,smiley face,1,2,1,3,1,1
+334,-1.292,0,131@cram,w37.s98.u2063q15,house,1,2,1,2,1,1
+335,-0.716,0,131@cram,w37.s98.u2063q17,Christmas tree,2,2,2,2,2,1
+336,-1.107,0,131@cram,w37.s98.u2063q19,house,1,2,1,2,1,2
+337,-1.107,0,131@cram,w37.s98.u2063q56,house,1,2,1,2,1,2
+338,-0.275,0,133@CRAM,w37.s98.u2169q3,a creepy smile,3,2,3,3,2,1
+339,0.482,0,133@CRAM,w37.s98.u2169q4,salad being tossed,3,2,3,4,3,3
+340,0.31,0,133@CRAM,w37.s98.u2169q13,person in a dress and pants,4,3,3,3,2,2
+341,-1.485,0,133@CRAM,w37.s98.u2169q15,house,1,1,1,2,1,1
+342,-0.179,0,133@CRAM,w37.s98.u2169q17,lamp turned on,3,2,1,4,2,2
+343,-0.765,0,133@CRAM,w37.s98.u2169q19,very short pencil,2,2,1,1,2,2
+344,0.297,0,133@CRAM,w37.s98.u2169q56,angry body guard,4,3,1,4,3,1
+345,1.049,0,133@cram,w37.s98.u2171q3,ghost,5,4,2,3,3,3
+346,0.967,0,133@cram,w37.s98.u2171q4,scarecrow,4,4,2,4,3,3
+347,0.841,0,133@cram,w37.s98.u2171q13,Frankenstein,4,4,2,3,3,3
+348,-1.292,0,133@cram,w37.s98.u2171q15,house,1,2,1,2,1,1
+349,0.322,0,133@cram,w37.s98.u2171q17,pen,3,4,2,2,3,2
+350,1.017,0,133@cram,w37.s98.u2171q19,Pokémon,4,3,3,3,4,3
+351,0.333,0,133@cram,w37.s98.u2171q56,cat,3,3,1,3,3,3
+352,0.782,0,135@cram,w37.s98.u2172q3,a pirate ship casting their anchor to catch some fish for dinner.,4,4,2,4,3,2
+353,1.164,0,135@cram,w37.s98.u2172q4,an angry fox because someone stole the lower half of his jaw,4,4,5,3,3,3
+354,1.57,0,135@cram,w37.s98.u2172q13,"someone's yard from a bird's eye view with a driveway, trees and a small pond out front",4,4,3,5,3,5
+355,2.261,0,135@cram,w37.s98.u2172q15,"a gentleman with a bowtie who got stuck in an elevator, him inside and his bowtie out",5,5,5,5,4,4
+356,2.136,0,135@cram,w37.s98.u2172q17,a cuckoo clock where the bird came alive and is trying to get out,5,5,5,4,4,4
+357,2.339,0,135@cram,w37.s98.u2172q19,the side view of someone' ice skate on ice,5,5,4,5,4,5
+358,1.651,0,135@cram,w37.s98.u2172q56,the adventures of Mr. Square man and his daughter Ms. Trian girl,5,4,4,4,4,3
+359,-0.234,0,136#@CRAM,w37.s98.u2173q3,Assassins Creed Logo (Video Game),4,3,2,1,2,1
+360,-0.234,0,136#@CRAM,w37.s98.u2173q4,Assassins Creed Logo,4,3,2,1,2,1
+361,-0.442,0,136#@CRAM,w37.s98.u2173q13,Soccer Team Logo,3,3,2,1,2,1
+362,-1.292,0,136#@CRAM,w37.s98.u2173q15,House,1,2,1,2,1,1
+363,-1.085,0,136#@CRAM,w37.s98.u2173q17,Christmas Tree,2,2,1,2,1,1
+364,-1.611,0,136#@CRAM,w37.s98.u2173q19,Geometric Shape,1,1,1,1,1,1
+365,0.13,0,136#@CRAM,w37.s98.u2173q56,An image of someone shooting a basketball,3,3,2,2,3,2
+366,-1.085,0,137@CRAM,w37.s98.u2176q3,mischievous face,2,2,1,2,1,1
+367,-1.085,0,137@CRAM,w37.s98.u2176q4,boat,2,2,1,2,1,1
+368,-1.085,0,137@CRAM,w37.s98.u2176q13,boat,2,2,1,2,1,1
+369,-1.292,0,137@CRAM,w37.s98.u2176q15,house,1,2,1,2,1,1
+370,-1.085,0,137@CRAM,w37.s98.u2176q17,tree,2,2,1,2,1,1
+371,-1.277,0,137@CRAM,w37.s98.u2176q19,downward arrow,2,1,1,2,1,1
+372,-1.003,0,137@CRAM,w37.s98.u2176q56,home base,3,2,1,1,1,1
+373,-1.085,0,138@CRAM,w37.s98.u2177q3,boat,2,2,1,2,1,1
+374,0.848,0,138@CRAM,w37.s98.u2177q4,elf,3,4,4,3,3,3
+375,-1.1,0,138@CRAM,w37.s98.u2177q13,girl,1,3,1,2,1,1
+376,-1.485,0,138@CRAM,w37.s98.u2177q15,house,1,1,1,2,1,1
+377,-0.321,0,138@CRAM,w37.s98.u2177q17,girl,2,3,1,3,2,2
+378,0.061,0,138@CRAM,w37.s98.u2177q19,face gumby,3,4,2,2,2,2
+379,0.541,0,138@CRAM,w37.s98.u2177q56,fish,4,3,1,3,3,3
+380,0.926,0,140#@CRAM,w37.s98.u2179q3,princess,3,4,3,3,3,4
+381,1.234,0,140#@CRAM,w37.s98.u2179q4,devil?,5,4,2,3,3,4
+382,1.561,0,140#@CRAM,w37.s98.u2179q13,rose,4,4,4,2,4,5
+383,-1.292,0,140#@CRAM,w37.s98.u2179q15,house,1,2,1,2,1,1
+384,-0.505,0,140#@CRAM,w37.s98.u2179q17,Christmas tree,2,3,1,3,2,1
+385,-0.005,0,140#@CRAM,w37.s98.u2179q19,block man?,3,3,2,3,2,2
+386,1.049,0,140#@CRAM,w37.s98.u2179q56,SpongeBob,5,4,2,3,3,3
+387,1.435,0,141#@CRAM,w37.s98.u2180q3,amusement park ride,5,4,2,4,4,3
+388,0.768,0,141#@CRAM,w37.s98.u2180q4,vase with flowers,3,4,2,2,4,3
+389,0.71,0,141#@CRAM,w37.s98.u2180q13,lab beaker with chemicals,3,4,1,3,3,4
+390,-0.339,0,141#@CRAM,w37.s98.u2180q15,pencil,2,3,2,2,2,2
+391,-0.824,0,141#@CRAM,w37.s98.u2180q17,Christmas tree,2,2,1,2,2,1
+392,-0.113,0,141#@CRAM,w37.s98.u2180q19,firework rocket,3,3,1,3,2,2
+393,0.895,0,141#@CRAM,w37.s98.u2180q56,baseball game,3,4,1,3,3,5
+394,1.659,0,143@CRAM,w37.s98.u2182q3,a bunny with a bow,5,5,3,4,3,4
+395,0.697,0,143@CRAM,w37.s98.u2182q4,animal nose,4,4,3,1,3,3
+396,1.578,0,143@CRAM,w37.s98.u2182q13,a broken face with  broken hands,4,4,4,3,5,3
+397,1.056,0,143@CRAM,w37.s98.u2182q15,blossom from powderpuff girls,4,4,4,3,3,3
+398,0.283,0,143@CRAM,w37.s98.u2182q17,genitalia,3,3,1,2,4,2
+399,0.917,0,143@CRAM,w37.s98.u2182q19,overflowing toilet,4,4,2,3,4,2
+400,0.882,0,143@CRAM,w37.s98.u2182q56,a monster owl,4,3,3,4,3,3
+401,NA,1,999@CRAM,w37.s98.u2183q3,skateboarder,4,3,2,3,3,3
+402,NA,1,999@CRAM,w37.s98.u2183q4,ice cream,2,3,1,2,1,2
+403,NA,1,999@CRAM,w37.s98.u2183q13,idk,NA,1,n/a,NA,NA,NA
+404,NA,1,999@CRAM,w37.s98.u2183q15,idk again,NA,1,n/a,NA,NA,NA
+405,NA,1,999@CRAM,w37.s98.u2183q17,who knows,NA,1,n/a,NA,NA,NA
+406,NA,1,999@CRAM,w37.s98.u2183q19,hmmmm,NA,1,n/a,NA,NA,NA
+407,NA,1,999@CRAM,w37.s98.u2183q56,house,1,2,1,2,1,2
+408,-1.085,0,144#@CRAM,w37.s98.u2185q3,boat,2,2,1,2,1,1
+409,-0.9,0,144#@CRAM,w37.s98.u2185q4,ice cream,2,2,1,2,1,2
+410,-0.5,0,144#@CRAM,w37.s98.u2185q13,mushroom,3,3,1,2,1,2
+411,1.628,0,144#@CRAM,w37.s98.u2185q15,shark,4,4,4,4,4,4
+412,-1.032,0,144#@CRAM,w37.s98.u2185q17,tree,1,2,1,2,2,1
+413,0.69,0,144#@CRAM,w37.s98.u2185q19,suspenders,5,3,1,4,3,2
+414,-1.3,0,144#@CRAM,w37.s98.u2185q56,house,1,1,1,2,1,2
+415,0.306,0,145#@CRAM,w37.s98.u2186q3,man with sombrero,3,3,2,4,2,3
+416,-1.092,0,145#@CRAM,w37.s98.u2186q4,sailboat,2,1,1,2,1,2
+417,-0.005,0,145#@CRAM,w37.s98.u2186q13,Abe Lincoln,3,3,2,3,2,2
+418,-1.485,0,145#@CRAM,w37.s98.u2186q15,house,1,1,1,2,1,1
+419,-0.774,0,145#@CRAM,w37.s98.u2186q17,lamp,2,2,1,3,1,2
+420,-0.046,0,145#@CRAM,w37.s98.u2186q19,Gatorade bottle,2,3,3,2,2,3
+421,-0.239,0,145#@CRAM,w37.s98.u2186q56,buff man,3,3,1,2,2,2
+422,1.836,0,146@cram,w37.s98.u2187q3,ice skates,5,4,4,4,4,4
+423,2.339,0,146@cram,w37.s98.u2187q4,ornaments on a Christmas tree,5,5,4,5,4,5
+424,-0.339,0,146@cram,w37.s98.u2187q13,a house,2,3,2,2,2,2
+425,1.312,0,146@cram,w37.s98.u2187q15,people at a table with light,3,4,3,4,4,4
+426,-0.774,0,146@cram,w37.s98.u2187q17,lamp,2,2,1,3,1,2
+427,0.774,0,146@cram,w37.s98.u2187q19,a hedge maze,4,3,2,4,3,3
+428,0.13,0,146@cram,w37.s98.u2187q56,a pirate ship,3,3,2,2,3,2
+429,-1.1,0,147#@CRAM,w37.s98.u2188q3,a smiley face,1,3,1,2,1,1
+430,1.033,0,147#@CRAM,w37.s98.u2188q4,its a close up of a rain drop in a storm,3,4,4,3,3,4
+431,1.575,0,147#@CRAM,w37.s98.u2188q13,a bat in a cave,5,4,4,4,3,4
+432,1.04,0,147#@CRAM,w37.s98.u2188q15,a person jumping in a pool,3,5,4,3,3,3
+433,0.354,0,147#@CRAM,w37.s98.u2188q17,a rocket going to the moon,3,4,3,2,2,3
+434,0.764,0,147#@CRAM,w37.s98.u2188q19,its a jack hammer,4,4,3,3,3,2
+435,0.184,0,147#@CRAM,w37.s98.u2188q56,dreidel,4,3,3,2,2,2
+436,1.628,0,148@CRAM,w37.s98.u2189q3,Hanging Plant,4,4,4,4,4,4
+437,1.264,0,148@CRAM,w37.s98.u2189q4,Grenade,5,4,4,3,3,3
+438,-1.292,0,148@CRAM,w37.s98.u2189q13,Smiling Face,1,2,1,2,1,1
+439,0.395,0,148@CRAM,w37.s98.u2189q15,Stack of blocks,3,3,4,3,2,3
+440,-0.631,0,148@CRAM,w37.s98.u2189q17,Christmas Tree,2,3,1,2,2,1
+441,0.372,0,148@CRAM,w37.s98.u2189q19,Robot,3,4,2,3,2,3
+442,0.921,0,148@CRAM,w37.s98.u2189q56,Treehouse,4,4,4,4,2,3
+443,-0.993,0,149@CRAM,w37.s98.u2191q3,face,1,3,2,2,1,1
+444,0.756,0,149@CRAM,w37.s98.u2191q4,candle,4,3,3,3,3,3
+445,-0.659,0,149@CRAM,w37.s98.u2191q13,boat,2,3,2,3,1,1
+446,0.477,0,149@CRAM,w37.s98.u2191q15,candle,4,3,4,2,2,3
+447,-1.166,0,149@CRAM,w37.s98.u2191q17,house,1,2,1,3,1,1
+448,-0.765,0,149@CRAM,w37.s98.u2191q19,pencil,2,2,1,1,2,2
+449,-0.95,0,149@CRAM,w37.s98.u2191q56,pencil,2,2,1,1,2,1
+450,-0.321,0,150@CRAM,w37.s98.u2192q3,sailboat at sea,2,3,1,3,2,2
+451,0.369,0,150@CRAM,w37.s98.u2192q4,an elf like dobby,4,3,3,2,2,3
+452,0.774,0,150@CRAM,w37.s98.u2192q13,a toilet,4,3,2,4,3,3
+453,-1.292,0,150@CRAM,w37.s98.u2192q15,house,1,2,1,2,1,1
+454,-0.082,0,150@CRAM,w37.s98.u2192q17,dancer,3,3,3,3,2,1
+455,1.074,0,150@CRAM,w37.s98.u2192q19,dog,4,4,3,4,3,3
+456,0.072,0,150@CRAM,w37.s98.u2192q56,salt shaker,3,3,1,3,2,3
+457,-0.684,0,151@CRAM,w37.s98.u2193q3,jack o lantern,3,3,1,2,1,1
+458,-0.974,0,151@CRAM,w37.s98.u2193q4,face,1,3,1,3,1,1
+459,-0.892,0,151@CRAM,w37.s98.u2193q13,angry face,2,3,1,2,1,1
+460,-1.292,0,151@CRAM,w37.s98.u2193q15,house,1,2,1,2,1,1
+461,-0.581,0,151@CRAM,w37.s98.u2193q17,lamp,2,3,1,3,1,2
+462,0.649,0,151@CRAM,w37.s98.u2193q19,plane top down,4,3,2,3,3,3
+463,-1.003,0,151@CRAM,w37.s98.u2193q56,home plate,3,2,1,1,1,1
+464,-1.485,0,152@CRAM,w37.s98.u2194q3,smiley face,1,1,1,2,1,1
+465,-0.431,0,152@CRAM,w37.s98.u2194q4,pear,3,2,1,2,2,2
+466,-0.321,0,152@CRAM,w37.s98.u2194q13,person,2,3,1,3,2,2
+467,-1.107,0,152@CRAM,w37.s98.u2194q15,house,1,2,1,2,1,2
+468,-0.631,0,152@CRAM,w37.s98.u2194q17,Christmas tree,2,3,1,2,2,1
+469,-0.95,0,152@CRAM,w37.s98.u2194q19,pencil,2,2,1,1,2,1
+470,0.315,0,152@CRAM,w37.s98.u2194q56,vase with flowers,3,3,2,2,3,3
+471,-0.407,0,153@CRAM,w37.s98.u2195q3,a face of a person,2,4,2,2,1,2
+472,-0.081,0,153@CRAM,w37.s98.u2195q4,a whole human body,3,3,2,3,1,3
+473,0.239,0,153@CRAM,w37.s98.u2195q13,a pirate ship,3,3,2,2,2,4
+474,0.257,0,153@CRAM,w37.s98.u2195q15,a space rocket,3,3,1,3,2,4
+475,-0.374,0,153@CRAM,w37.s98.u2195q17,a mushroom,3,3,1,3,1,2
+476,0.756,0,153@CRAM,w37.s98.u2195q19,two people going to hug,4,3,3,3,3,3
+477,0.856,0,153@CRAM,w37.s98.u2195q56,a power drill,5,3,2,3,3,3
+478,-0.707,0,154@cram,w37.s98.u2196q3,smiling person,2,3,1,2,1,2
+479,0.207,0,154@cram,w37.s98.u2196q4,case with flowers,3,3,1,2,3,3
+480,0.818,0,154@cram,w37.s98.u2196q13,skate park,3,4,2,3,3,4
+481,1.133,0,154@cram,w37.s98.u2196q15,sad boy on box,4,4,3,3,3,4
+482,-0.107,0,154@cram,w37.s98.u2196q17,elevator key,4,3,1,2,1,3
+483,0.28,0,154@cram,w37.s98.u2196q19,bird,4,3,1,3,2,3
+484,0.521,0,154@cram,w37.s98.u2196q56,dancing man!,4,4,2,4,2,2
+485,0.316,0,155@cram,w37.s98.u2197q3,the cat from Alice in wonderland,5,3,3,2,1,3
+486,-0.5,0,155@cram,w37.s98.u2197q4,ice cream cone dropped on the floor,3,3,1,2,1,2
+487,0.733,0,155@cram,w37.s98.u2197q13,free throw setup in basketball,4,4,1,3,3,3
+488,-1.107,0,155@cram,w37.s98.u2197q15,basic house,1,2,1,2,1,2
+489,-0.399,0,155@cram,w37.s98.u2197q17,upvote arrow from reddit,3,2,2,2,1,3
+490,1.467,0,155@cram,w37.s98.u2197q19,dude walking with his hands in his pockets,5,4,3,4,3,4
+491,-0.633,0,155@cram,w37.s98.u2197q56,home plate,3,2,1,1,1,3
+492,-1.085,0,156@CRAM,w37.s98.u2198q3,boat,2,2,1,2,1,1
+493,0.256,0,156@CRAM,w37.s98.u2198q4,clover,3,3,2,3,3,2
+494,1.337,0,156@CRAM,w37.s98.u2198q13,TV lounge,4,4,2,4,3,5
+495,-0.481,0,156@CRAM,w37.s98.u2198q15,house,2,2,2,3,1,3
+496,0.203,0,156@CRAM,w37.s98.u2198q17,dress,4,3,2,3,2,2
+497,0.203,0,156@CRAM,w37.s98.u2198q19,bullet,4,3,2,3,2,2
+498,-0.524,0,156@CRAM,w37.s98.u2198q56,puzzle,2,3,2,2,2,1
+499,0.638,0,157@CRAM,w37.s98.u2200q3,chandelier,4,4,3,2,3,2
+500,-0.808,0,157@CRAM,w37.s98.u2200q4,raindrop,3,1,1,2,2,1
+501,0.422,0,157@CRAM,w37.s98.u2200q13,lightbulb,3,3,3,2,3,3
+502,-0.941,0,157@CRAM,w37.s98.u2200q15,a house,1,2,2,1,1,3
+503,-0.639,0,157@CRAM,w37.s98.u2200q17,Christmas tree,2,2,1,2,2,2
+504,-0.95,0,157@CRAM,w37.s98.u2200q19,pencil,2,2,1,1,2,1
+505,0.045,0,157@CRAM,w37.s98.u2200q56,cheese blocks,4,3,1,2,3,1
+506,-0.959,0,158@CRAM,w37.s98.u2201q3,boat,2,2,1,3,1,1
+507,0.841,0,158@CRAM,w37.s98.u2201q4,gnome,4,4,2,3,3,3
+508,-0.5,0,158@CRAM,w37.s98.u2201q13,mushroom,3,3,1,2,1,2
+509,-1.485,0,158@CRAM,w37.s98.u2201q15,house,1,1,1,2,1,1
+510,-0.424,0,158@CRAM,w37.s98.u2201q17,arrow,3,3,1,2,2,1
+511,-0.95,0,158@CRAM,w37.s98.u2201q19,pencil,2,2,1,1,2,1
+512,1.149,0,158@CRAM,w37.s98.u2201q56,wrestler,5,3,3,3,3,4
+513,0.507,0,159@CRAM,w37.s98.u2202q3,phone,3,4,2,2,3,3
+514,-0.766,0,159@CRAM,w37.s98.u2202q4,ice-cream cone,2,3,1,3,1,1
+515,-1.292,0,159@CRAM,w37.s98.u2202q13,smiley face,1,2,1,2,1,1
+516,-1.292,0,159@CRAM,w37.s98.u2202q15,house,1,2,1,2,1,1
+517,-0.321,0,159@CRAM,w37.s98.u2202q17,woman,2,3,1,3,2,2
+518,NA,1,159@CRAM,w37.s98.u2202q19,nothing,NA,1,1,NA,NA,NA
+519,-0.113,0,159@CRAM,w37.s98.u2202q56,man,3,3,1,3,2,2
+520,1.39,0,160@cram,w37.s98.u2203q3,person running,5,4,4,4,3,3
+521,-0.054,0,160@cram,w37.s98.u2203q4,garden gnome,3,3,1,2,2,3
+522,0.454,0,160@cram,w37.s98.u2203q13,Casper the ghost,4,4,2,2,2,3
+523,-1.107,0,160@cram,w37.s98.u2203q15,stereotypical house,1,2,1,2,1,2
+524,-0.216,0,160@cram,w37.s98.u2203q17,female bathroom symbol,4,3,1,2,2,1
+525,0.649,0,160@cram,w37.s98.u2203q19,porcupine,4,3,2,3,3,3
+526,-0.113,0,160@cram,w37.s98.u2203q56,man in suit,3,3,1,3,2,2
+527,-0.447,0,161@CRAM,w37.s98.u2204q3,face,2,3,1,2,2,2
+528,-0.447,0,161@CRAM,w37.s98.u2204q4,face,2,3,1,2,2,2
+529,-0.616,0,161@CRAM,w37.s98.u2204q13,cake,3,2,1,2,2,1
+530,-0.374,0,161@CRAM,w37.s98.u2204q15,scale,3,3,1,3,1,2
+531,-1.292,0,161@CRAM,w37.s98.u2204q17,house,1,2,1,2,1,1
+532,-0.015,0,161@CRAM,w37.s98.u2204q19,airplane/sea monster,5,2,1,2,2,2
+533,-0.95,0,161@CRAM,w37.s98.u2204q56,pencil,2,2,1,1,2,1
+534,1.602,0,162@CRAM,w37.s98.u2205q3,swinging balls game,5,4,3,3,4,4
+535,1.007,0,162@CRAM,w37.s98.u2205q4,volcano,4,4,3,2,3,4
+536,0.633,0,162@CRAM,w37.s98.u2205q13,flower pot,3,4,2,3,3,3
+537,0.388,0,162@CRAM,w37.s98.u2205q15,tv guy from basketball games,4,3,2,3,2,3
+538,-0.131,0,162@CRAM,w37.s98.u2205q17,mushrooms growing,3,3,2,2,2,2
+539,1.102,0,162@CRAM,w37.s98.u2205q19,gumball machine,4,4,2,3,4,3
+540,0.18,0,162@CRAM,w37.s98.u2205q56,player up to bat on the pitching mound,3,3,2,3,2,3
+541,-1.292,0,163@cram,w37.s98.u2206q3,Face,1,2,1,2,1,1
+542,-0.415,0,163@cram,w37.s98.u2206q4,Princess,2,3,2,2,1,3
+543,-0.892,0,163@cram,w37.s98.u2206q13,Man,2,3,1,2,1,1
+544,-1.292,0,163@cram,w37.s98.u2206q15,House,1,2,1,2,1,1
+545,-0.959,0,163@cram,w37.s98.u2206q17,Tree,2,2,1,3,1,1
+546,-0.431,0,163@cram,w37.s98.u2206q19,Road,3,2,1,2,2,2
+547,-1.292,0,163@cram,w37.s98.u2206q56,Upside down house,1,2,1,2,1,1
+548,-0.892,0,164@CRAM,w37.s98.u2207q3,face,2,3,1,2,1,1
+549,NA,1,164@CRAM,w37.s98.u2207q4,no idea,NA,2,n/a,NA,NA,NA
+550,0.941,0,164@CRAM,w37.s98.u2207q13,a bowl of Cheerios,4,3,3,3,3,4
+551,1.394,0,164@CRAM,w37.s98.u2207q15,a lamp with books and two bookends,4,4,3,3,4,4
+552,0.072,0,164@CRAM,w37.s98.u2207q17,lamp on a table,3,3,1,3,2,3
+553,0.415,0,164@CRAM,w37.s98.u2207q19,beaker pouring water into a funnel,4,3,1,2,3,3
+554,1.435,0,164@CRAM,w37.s98.u2207q56,butterfly flying into a window,5,4,2,4,4,3
+555,-0.005,0,165@CRAM,w37.s98.u2208q3,sailboat,3,3,2,3,2,2
+556,-0.684,0,165@CRAM,w37.s98.u2208q4,Hungry person,3,3,1,2,1,1
+557,0.706,0,165@CRAM,w37.s98.u2208q13,parent and baby,4,4,2,4,2,3
+558,0.8,0,165@CRAM,w37.s98.u2208q15,sim house,3,4,3,2,3,4
+559,-0.447,0,165@CRAM,w37.s98.u2208q17,lady all dressed up,2,3,1,2,2,2
+560,0.68,0,165@CRAM,w37.s98.u2208q19,man in traditional clothing sitting down,5,4,1,3,2,3
+561,0.596,0,165@CRAM,w37.s98.u2208q56,body builder flexing,5,3,2,3,2,3
+562,-1.1,0,166@cram,w37.s98.u2209q3,smiley face,1,3,1,2,1,1
+563,1.36,0,166@cram,w37.s98.u2209q4,elephant,5,4,2,4,3,4
+564,1.368,0,166@cram,w37.s98.u2209q13,sea lion,5,4,2,2,4,4
+565,-1.292,0,166@cram,w37.s98.u2209q15,house,1,2,1,2,1,1
+566,-0.892,0,166@cram,w37.s98.u2209q17,lady,2,3,1,2,1,1
+567,0.464,0,166@cram,w37.s98.u2209q19,sunrise,4,3,2,3,3,2
+568,-0.239,0,166@cram,w37.s98.u2209q56,robot,3,3,1,2,2,2
+569,1.952,0,167@cram,w37.s98.u2210q3,dead mill bug,5,5,4,4,3,5
+570,0.795,0,167@cram,w37.s98.u2210q4,birthday boy,4,4,4,3,2,3
+571,-1.1,0,167@cram,w37.s98.u2210q13,smile,1,3,1,2,1,1
+572,0.514,0,167@cram,w37.s98.u2210q15,gift,4,3,2,4,2,3
+573,-0.305,0,167@cram,w37.s98.u2210q17,lamp,3,2,1,3,2,2
+574,0.649,0,167@cram,w37.s98.u2210q19,mouse,4,3,2,3,3,3
+575,1.234,0,167@cram,w37.s98.u2210q56,shark,5,4,2,3,3,4
+576,1.517,0,168@CRAM,w37.s98.u2211q3,a large sunflower with two caterpillars,5,3,4,3,4,4
+577,0.333,0,168@CRAM,w37.s98.u2211q4,a woman smiling,3,3,1,3,3,3
+578,0.072,0,168@CRAM,w37.s98.u2211q13,a smiling man in a hat,3,3,1,3,2,3
+579,0.774,0,168@CRAM,w37.s98.u2211q15,two people sitting down and high fiving,4,3,2,4,3,3
+580,-0.447,0,168@CRAM,w37.s98.u2211q17,a Christmas tree,2,3,1,2,2,2
+581,-1.485,0,168@CRAM,w37.s98.u2211q19,a down arrow,1,1,1,2,1,1
+582,1.526,0,168@CRAM,w37.s98.u2211q56,two butterflies flying towards a gate that is guarding a garden with two  trees and two bushes,5,4,3,3,3,5
+583,1.202,0,169@CRAM,w37.s98.u2212q3,swim suit top,4,3,3,3,4,4
+584,0.841,0,169@CRAM,w37.s98.u2212q4,flower vase with a fish,4,4,2,3,3,3
+585,0.968,0,169@CRAM,w37.s98.u2212q13,a upside-down observatory,4,3,2,2,4,4
+586,0.405,0,169@CRAM,w37.s98.u2212q15,a gazebo with hanging chairs,4,3,2,4,3,1
+587,-0.046,0,169@CRAM,w37.s98.u2212q17,a lady in a dress,3,4,1,2,2,2
+588,1.575,0,169@CRAM,w37.s98.u2212q19,a spider,5,4,4,4,3,4
+589,-1.292,0,169@CRAM,w37.s98.u2212q56,an upside-down house,1,2,1,2,1,1
+590,-0.774,0,170@CRAM,w37.s98.u2213q3,sailboat,2,2,1,3,1,2
+591,1.813,0,170@CRAM,w37.s98.u2213q4,plate of fruit,4,4,4,4,4,5
+592,0.422,0,170@CRAM,w37.s98.u2213q13,flower vase,3,3,3,2,3,3
+593,0.18,0,170@CRAM,w37.s98.u2213q15,hot chocolate,3,3,2,3,2,3
+594,-0.892,0,170@CRAM,w37.s98.u2213q17,a person,2,3,1,2,1,1
+595,-0.054,0,170@CRAM,w37.s98.u2213q19,sunflower,3,3,1,2,2,3
+596,1.341,0,170@CRAM,w37.s98.u2213q56,Santa,5,4,3,3,3,4
+597,-0.892,0,172@CRAM,w37.s98.u2214q3,a girl,2,3,1,2,1,1
+598,-0.023,0,172@CRAM,w37.s98.u2214q4,a wizard,3,3,3,2,2,2
+599,-0.447,0,172@CRAM,w37.s98.u2214q13,a jack o lantern,2,3,1,2,2,2
+600,0.022,0,172@CRAM,w37.s98.u2214q15,a vase of flowers,3,3,1,2,3,2
+601,-1.085,0,172@CRAM,w37.s98.u2214q17,a lamp,2,2,1,2,1,1
+602,1.517,0,172@CRAM,w37.s98.u2214q19,a super s,5,3,4,3,4,4
+603,1.328,0,172@CRAM,w37.s98.u2214q56,an anchor,4,3,3,4,4,4
+604,-0.392,0,171@CRAM,w37.s98.u2215q3,dead face,3,3,2,2,1,2
+605,-0.481,0,171@CRAM,w37.s98.u2215q4,abstract art,3,2,1,1,3,1
+606,-0.915,0,171@CRAM,w37.s98.u2215q13,smiley face,1,3,1,2,1,2
+607,-0.254,0,171@CRAM,w37.s98.u2215q15,tree,2,4,1,2,2,2
+608,-0.639,0,171@CRAM,w37.s98.u2215q17,mass tree,2,2,1,2,2,2
+609,-0.915,0,171@CRAM,w37.s98.u2215q19,smiley face,1,3,1,2,1,2
+610,-1.142,0,171@CRAM,w37.s98.u2215q56,abstract,2,1,1,1,2,1
+611,0.262,0,172@cram,w37.s98.u2216q3,creepy kind of bear,4,3,2,2,2,3
+612,-0.038,0,172@cram,w37.s98.u2216q4,upside down person,2,4,2,2,1,4
+613,-0.037,0,172@cram,w37.s98.u2216q13,stadium,3,3,1,3,3,1
+614,1.02,0,172@cram,w37.s98.u2216q15,people eating at restaurant,3,4,2,4,4,3
+615,NA,1,172@cram,w37.s98.u2216q17,no idea,NA,3,n/a,NA,NA,NA
+616,1.067,0,172@cram,w37.s98.u2216q19,perfume bottle,4,3,3,4,3,4
+617,0.874,0,172@cram,w37.s98.u2216q56,football player,5,4,1,1,3,4
+618,-0.584,0,174@CRAM,w37.s98.u2217q3,clown face,3,2,2,2,1,2
+619,-0.766,0,174@CRAM,w37.s98.u2217q4,woman,2,3,1,3,1,1
+620,1.049,0,174@CRAM,w37.s98.u2217q13,SpongeBob,5,4,2,3,3,3
+621,0.948,0,174@CRAM,w37.s98.u2217q15,person grabbing fish,4,4,3,3,3,3
+622,-0.707,0,174@CRAM,w37.s98.u2217q17,lamp,2,3,1,2,1,2
+623,-0.054,0,174@CRAM,w37.s98.u2217q19,mouse,3,3,1,2,2,3
+624,-0.5,0,174@CRAM,w37.s98.u2217q56,robot,3,3,1,2,1,2
+625,-0.81,0,175#@CRAM,w37.s98.u2218q3,dress,3,3,1,1,1,1
+626,-1.026,0,175#@CRAM,w37.s98.u2218q4,ice cream cone,2,2,1,1,1,2
+627,-1.21,0,175#@CRAM,w37.s98.u2218q13,circle square,2,2,1,1,1,1
+628,-1.611,0,175#@CRAM,w37.s98.u2218q15,house,1,1,1,1,1,1
+629,-1.218,0,175#@CRAM,w37.s98.u2218q17,light bulb,2,1,1,1,1,2
+630,-1.403,0,175#@CRAM,w37.s98.u2218q19,pencil point,2,1,1,1,1,1
+631,-1.195,0,175#@CRAM,w37.s98.u2218q56,nail,3,1,1,1,1,1
+632,-1.292,0,155a@cram,w37.s98.u2219q3,smiley face,1,2,1,2,1,1
+633,0.054,0,155a@cram,w37.s98.u2219q4,fish bowl,3,3,2,2,2,3
+634,-0.054,0,155a@cram,w37.s98.u2219q13,man in top hat,3,3,1,2,2,3
+635,-1.107,0,155a@cram,w37.s98.u2219q15,house,1,2,1,2,1,2
+636,-0.099,0,155a@cram,w37.s98.u2219q17,Minecraft peasant,3,3,3,2,1,3
+637,0.154,0,155a@cram,w37.s98.u2219q19,rocket ship,4,3,1,2,2,3
+638,1.728,0,155a@cram,w37.s98.u2219q56,water from a water dispenser on a fridge going into a cup,5,4,3,4,4,4
+639,0.967,0,176@CRAM,w37.s98.u2220q3,two people skiing,4,4,2,4,3,3
+640,0.833,0,176@CRAM,w37.s98.u2220q4,A chemistry experiment,4,3,2,3,3,4
+641,0.372,0,176@CRAM,w37.s98.u2220q13,a person skiing lol,3,4,2,3,2,3
+642,-1.107,0,176@CRAM,w37.s98.u2220q15,a home,1,2,1,2,1,2
+643,0.154,0,176@CRAM,w37.s98.u2220q17,Patrick from SpongeBob,4,3,1,2,2,3
+644,1.579,0,176@CRAM,w37.s98.u2220q19,a bedroom,4,4,3,3,4,5
+645,-0.447,0,176@CRAM,w37.s98.u2220q56,a pencil,2,3,1,2,2,2
+646,-0.934,0,178@CRAM,w37.s98.u2222q3,weight,3,1,1,1,2,1
+647,-1.403,0,178@CRAM,w37.s98.u2222q4,rain drop,2,1,1,1,1,1
+648,-1.403,0,178@CRAM,w37.s98.u2222q13,down-arrow,2,1,1,1,1,1
+649,-1.292,0,178@CRAM,w37.s98.u2222q15,house,1,2,1,2,1,1
+650,-1.403,0,178@CRAM,w37.s98.u2222q17,up arrow,2,1,1,1,1,1
+651,-1.611,0,178@CRAM,w37.s98.u2222q19,downwards figure,1,1,1,1,1,1
+652,-1.107,0,178@CRAM,w37.s98.u2222q56,upside down house,1,2,1,2,1,2
+653,-0.522,0,177@cram,w37.s98.u2223q3,face,2,3,1,2,1,3
+654,-0.381,0,177@cram,w37.s98.u2223q4,light bulb,3,2,1,3,1,3
+655,-0.9,0,177@cram,w37.s98.u2223q13,boat,2,2,1,2,1,2
+656,-1.359,0,177@cram,w37.s98.u2223q15,house,1,1,1,3,1,1
+657,-0.9,0,177@cram,w37.s98.u2223q17,girl,2,2,1,2,1,2
+658,-0.113,0,177@cram,w37.s98.u2223q19,man dancing,3,3,1,3,2,2
+659,0.333,0,177@cram,w37.s98.u2223q56,water bottle upside down,3,3,1,3,3,3
+660,1.536,0,179@cram,w37.s98.u2224q3,runway walk for models or stage for performer,5,3,3,4,4,4
+661,0.78,0,179@cram,w37.s98.u2224q4,big bird,5,3,2,3,2,4
+662,2.366,0,179@cram,w37.s98.u2224q13,someone driving with their phone in hand,5,5,3,4,5,5
+663,-1.107,0,179@cram,w37.s98.u2224q15,house,1,2,1,2,1,2
+664,0.495,0,179@cram,w37.s98.u2224q17,pig,4,3,3,3,2,3
+665,-0.639,0,179@cram,w37.s98.u2224q19,pencil,2,2,1,2,2,2
+666,1.367,0,179@cram,w37.s98.u2224q56,man delivering pizza,4,4,4,4,3,4
+667,0.674,0,180@CRAM,w37.s98.u2225q3,bowl of rice with chopsticks,3,3,3,4,3,3
+668,-0.707,0,180@CRAM,w37.s98.u2225q4,upside down ice cream cone,2,3,1,2,1,2
+669,0.018,0,180@CRAM,w37.s98.u2225q13,shovel in the dirt,4,3,2,3,2,1
+670,-0.707,0,180@CRAM,w37.s98.u2225q15,person in hat,2,3,1,2,1,2
+671,-0.6,0,180@CRAM,w37.s98.u2225q17,Christmas tree,2,3,2,2,1,2
+672,0.154,0,180@CRAM,w37.s98.u2225q19,space shuttle,4,3,1,2,2,3
+673,0.154,0,180@CRAM,w37.s98.u2225q56,plane,4,3,1,2,2,3
+674,-1.292,0,181@CRAM,w37.s98.u2226q3,a face,1,2,1,2,1,1
+675,-0.639,0,181@CRAM,w37.s98.u2226q4,a vase,2,2,1,2,2,2
+676,-0.037,0,181@CRAM,w37.s98.u2226q13,outlet,3,3,1,3,3,1
+677,-0.458,0,181@CRAM,w37.s98.u2226q15,house with smoke,3,2,2,3,1,2
+678,0.013,0,181@CRAM,w37.s98.u2226q17,lamp with a bulb,3,3,1,4,2,2
+679,0.459,0,181@CRAM,w37.s98.u2226q19,double outlet,3,3,1,4,3,3
+680,-0.06,0,181@CRAM,w37.s98.u2226q56,shirt and pants on a block person?,2,3,1,3,3,2
+681,-1.292,0,182@cram,w37.s98.u2228q3,a face,1,2,1,2,1,1
+682,-1.195,0,182@cram,w37.s98.u2228q4,raindrop,3,1,1,1,1,1
+683,-1.292,0,182@cram,w37.s98.u2228q13,smiley face,1,2,1,2,1,1
+684,-0.431,0,182@cram,w37.s98.u2228q15,church,3,2,1,2,2,2
+685,-0.707,0,182@cram,w37.s98.u2228q17,person,2,3,1,2,1,2
+686,-1.085,0,182@cram,w37.s98.u2228q19,pencil,2,2,1,2,1,1
+687,-0.818,0,182@cram,w37.s98.u2228q56,pen,3,2,1,1,1,2
+688,0.838,0,183@CRAM,w37.s98.u2229q3,eyes and eye brows,5,3,3,2,3,3
+689,-0.507,0,183@CRAM,w37.s98.u2229q4,pear,3,2,1,2,1,3
+690,0.726,0,183@CRAM,w37.s98.u2229q13,basketball court line,4,3,1,3,3,4
+691,-1.485,0,183@CRAM,w37.s98.u2229q15,house,1,1,1,2,1,1
+692,1.595,0,183@CRAM,w37.s98.u2229q17,pac-man,5,3,3,3,4,5
+693,1.328,0,183@CRAM,w37.s98.u2229q19,flower pot spilling,4,3,3,4,4,4
+694,-1.107,0,183@CRAM,w37.s98.u2229q56,upside down house,1,2,1,2,1,2
+695,1.36,0,184@CRAM,w37.s98.u2230q3,phone and a banana,5,3,3,2,5,3
+696,-0.707,0,184@CRAM,w37.s98.u2230q4,person,2,3,1,2,1,2
+697,0.072,0,184@CRAM,w37.s98.u2230q13,jack o lantern,3,3,1,3,2,3
+698,-1.107,0,184@CRAM,w37.s98.u2230q15,house,1,2,1,2,1,2
+699,-0.081,0,184@CRAM,w37.s98.u2230q17,princess,3,3,2,3,1,3
+700,-0.5,0,184@CRAM,w37.s98.u2230q19,person,3,3,1,2,1,2
+701,-0.5,0,184@CRAM,w37.s98.u2230q56,ice cream,3,3,1,2,1,2
+702,-0.774,0,185@CRAM,w37.s98.u2231q3,sailboat,2,2,1,3,1,2
+703,-0.054,0,185@CRAM,w37.s98.u2231q4,science experiment,3,3,1,2,2,3
+704,0.833,0,185@CRAM,w37.s98.u2231q13,popcorn and a movie,4,3,2,3,3,4
+705,-1.107,0,185@CRAM,w37.s98.u2231q15,house,1,2,1,2,1,2
+706,-0.9,0,185@CRAM,w37.s98.u2231q17,tree,2,2,1,2,1,2
+707,-1.403,0,185@CRAM,w37.s98.u2231q19,arrow,2,1,1,1,1,1
+708,0.523,0,185@CRAM,w37.s98.u2231q56,tv on a stand,4,3,2,2,3,3
+709,-1.418,0,186@CRAM,w37.s98.u2232q3,face,1,2,1,1,1,1
+710,0.879,0,186@CRAM,w37.s98.u2232q4,fan,5,2,4,3,3,3
+711,-0.818,0,186@CRAM,w37.s98.u2232q13,face,3,2,1,1,1,2
+712,-0.692,0,186@CRAM,w37.s98.u2232q15,building,3,2,1,2,1,2
+713,-1.085,0,186@CRAM,w37.s98.u2232q17,stick figure,2,2,1,2,1,1
+714,-0.892,0,186@CRAM,w37.s98.u2232q19,stick figure,2,3,1,2,1,1
+715,NA,1,186@CRAM,w37.s98.u2232q56,I have no idea,NA,2,n/a,NA,NA,NA
+716,-0.774,0,187@CRAM,w37.s98.u2233q3,sailboat,2,2,1,3,1,2
+717,1.067,0,187@CRAM,w37.s98.u2233q4,a chute pouring cereal into a bowl,4,3,3,4,3,4
+718,-0.474,0,187@CRAM,w37.s98.u2233q13,a smiley face with buck teeth,2,3,2,3,1,2
+719,1.728,0,187@CRAM,w37.s98.u2233q15,two people with horns sitting across from each other,5,4,3,4,4,4
+720,-0.707,0,187@CRAM,w37.s98.u2233q17,a woman in a dress,2,3,1,2,1,2
+721,1.728,0,187@CRAM,w37.s98.u2233q19,a birds eye view of a boat in a river with a person inside,5,4,3,4,4,4
+722,0.514,0,187@CRAM,w37.s98.u2233q56,a monkeys face,4,3,2,4,2,3
+723,0.406,0,188@CRAM,w37.s98.u2234q3,a snowman,4,3,1,4,2,3
+724,0.941,0,188@CRAM,w37.s98.u2234q4,sideways bird,4,3,3,3,3,4
+725,-0.5,0,188@CRAM,w37.s98.u2234q13,robot face,3,3,1,2,1,2
+726,0.741,0,188@CRAM,w37.s98.u2234q15,bottom half of a person,3,4,3,3,3,3
+727,-0.707,0,188@CRAM,w37.s98.u2234q17,a man,2,3,1,2,1,2
+728,0.154,0,188@CRAM,w37.s98.u2234q19,rocket blasting upside down,4,3,1,2,2,3
+729,1.234,0,188@CRAM,w37.s98.u2234q56,thon symbol,5,4,2,3,3,4
+730,0.18,0,189@cram,w37.s98.u2238q3,Happiest man in the world,3,3,2,3,2,3
+731,0.306,0,189@cram,w37.s98.u2238q4,Shiny pear,3,3,2,4,2,3
+732,0.967,0,189@cram,w37.s98.u2238q13,candle burning,4,4,2,4,3,3
+733,1.754,0,189@cram,w37.s98.u2238q15,shopper sprinting from Target,4,4,4,5,4,4
+734,-0.424,0,189@cram,w37.s98.u2238q17,sharp arrow,3,3,1,2,2,1
+735,-0.447,0,189@cram,w37.s98.u2238q19,BIG Pencil,2,3,1,2,2,2
+736,0.397,0,189@cram,w37.s98.u2238q56,red cross shield,4,3,2,1,3,3
+737,-0.447,0,190@cram,w37.s98.u2239q3,Jacko lantern,2,3,1,2,2,2
+738,0.541,0,190@cram,w37.s98.u2239q4,anchor,4,3,1,3,3,3
+739,1.705,0,190@cram,w37.s98.u2239q13,watermelon and knives to cut it,4,4,3,4,4,5
+740,-1.3,0,190@cram,w37.s98.u2239q15,house,1,1,1,2,1,2
+741,-0.707,0,190@cram,w37.s98.u2239q17,man,2,3,1,2,1,2
+742,-0.95,0,190@cram,w37.s98.u2239q19,pencil,2,2,1,1,2,1
+743,-0.143,0,190@cram,w37.s98.u2239q56,robot,5,3,1,3,1,1
+744,0.833,0,191@CRAM,w37.s98.u2240q3,watermelon,4,3,2,3,3,4
+745,-0.566,0,191@CRAM,w37.s98.u2240q4,a sailboat,3,2,1,3,1,2
+746,-0.9,0,191@CRAM,w37.s98.u2240q13,face,2,2,1,2,1,2
+747,1.476,0,191@CRAM,w37.s98.u2240q15,pac-man,5,4,3,2,4,4
+748,-0.581,0,191@CRAM,w37.s98.u2240q17,girl,2,3,1,3,1,2
+749,0.692,0,191@CRAM,w37.s98.u2240q19,a table in front of a window,3,4,2,2,3,4
+750,0.833,0,191@CRAM,w37.s98.u2240q56,basketball hoop,4,3,2,3,3,4
+751,-1.107,0,192@CRAM,w37.s98.u2241q3,smiley face,1,2,1,2,1,2
+752,-0.189,0,192@CRAM,w37.s98.u2241q4,pear,3,3,1,3,1,3
+753,0.392,0,192@CRAM,w37.s98.u2241q13,bathroom window and sink,3,3,1,2,3,4
+754,-0.9,0,192@CRAM,w37.s98.u2241q15,dollhouse,2,2,1,2,1,2
+755,-1.403,0,192@CRAM,w37.s98.u2241q17,evergreen tree,2,1,1,1,1,1
+756,0.054,0,192@CRAM,w37.s98.u2241q19,flower box outside of window,3,3,2,2,2,3
+757,0.948,0,192@CRAM,w37.s98.u2241q56,submarine,4,4,3,3,3,3
+758,0.054,0,193@CRAM,w37.s98.u2243q3,a cute animal that looks like it should be on a kids tv show,3,3,2,2,2,3
+759,0.207,0,193@CRAM,w37.s98.u2243q4,an ice cream cone in front of the hot sun,3,3,1,2,3,3
+760,1.728,0,193@CRAM,w37.s98.u2243q13,fish swimming in their fish tank,5,4,3,4,4,4
+761,0.395,0,193@CRAM,w37.s98.u2243q15,a house on fire,3,3,4,3,2,3
+762,1.22,0,193@CRAM,w37.s98.u2243q17,an elephant,4,3,2,4,4,4
+763,2.007,0,193@CRAM,w37.s98.u2243q19,a mouse about to enter a maze,5,4,2,5,5,4
+764,0.958,0,193@CRAM,w37.s98.u2243q56,2 people being forced to hold hands,4,3,3,4,4,2
+765,-0.631,0,195@CRAM,w37.s98.u2246q3,pumpkin,2,3,1,2,2,1
+766,-0.239,0,195@CRAM,w37.s98.u2246q4,party hat,3,3,1,2,2,2
+767,1.198,0,195@CRAM,w37.s98.u2246q13,fortune cookie,5,3,4,4,3,3
+768,-1.157,0,195@CRAM,w37.s98.u2246q15,shape,1,2,1,1,2,1
+769,-0.707,0,195@CRAM,w37.s98.u2246q17,woman,2,3,1,2,1,2
+770,0.559,0,195@CRAM,w37.s98.u2246q19,medal,3,3,2,1,3,5
+771,0.491,0,195@CRAM,w37.s98.u2246q56,ketchup,3,3,2,4,2,4
+772,2.039,0,196@CRAM,w37.s98.u2249q3,skier going off a jump,5,4,3,5,4,5
+773,1.602,0,196@CRAM,w37.s98.u2249q4,sea lion,5,4,3,3,4,4
+774,-0.707,0,196@CRAM,w37.s98.u2249q13,emoji,2,3,1,2,1,2
+775,-0.915,0,196@CRAM,w37.s98.u2249q15,a face,1,3,1,2,1,2
+776,0.806,0,196@CRAM,w37.s98.u2249q17,woman walking away in a gown,4,3,3,4,2,4
+777,-0.572,0,196@CRAM,w37.s98.u2249q19,pencil,2,3,1,1,2,2
+778,0.795,0,196@CRAM,w37.s98.u2249q56,Dracula,4,4,4,3,2,3
