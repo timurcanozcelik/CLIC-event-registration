@@ -9,3 +9,4 @@ audra_cpu/
 .DS_Store
 # node_modules (if you ever add JS deps)
 node_modules/
+backend/AuDrA_files/AuDrA/AuDrA_trained.ckpt
