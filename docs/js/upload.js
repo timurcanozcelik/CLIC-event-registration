@@ -31,7 +31,7 @@ document.addEventListener("DOMContentLoaded", () => {
         fd.append("file", blob, "drawing.png");
   
         try {
-          const res = await fetch("https://4221420e4a6b.ngrok-free.app/upload/", {
+          const res = await fetch("https://55bfb3f29de3.ngrok-free.app/upload/", {
             method: "POST",
             body: fd
           });
