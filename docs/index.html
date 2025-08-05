@@ -1,0 +1,240 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+  <title>TTCT Figural ＋ Stroop</title>
+  <style>
+    html,body { margin:0;padding:0;height:100%;width:100%;font-family:sans-serif;
+      display:flex;flex-direction:column;background:#f9f9f9;}
+    /* Header */
+    #header { padding:12px;background:#fff;box-shadow:0 1px 4px rgba(0,0,0,0.1);z-index:2;}
+    #header h1 { margin:0 0 8px;font-size:1.5rem;}
+    #header p  { margin:0 0 12px;color:#555;}
+    #header label{display:block;margin-bottom:8px;}
+    #header input { width:100%;max-width:240px;padding:6px 8px;font-size:1rem;}
+
+    /* Canvas */
+    #canvasContainer { flex:1;display:flex;justify-content:center;align-items:center;padding:8px;overflow:auto; }
+    #drawingCanvas { width:90vw;height:70vh;max-width:600px;max-height:800px;
+      border:1px solid #ccc;touch-action:none;background:#fff; }
+
+    /* Controls */
+    #controls { padding:8px;background:#fff;box-shadow:0 -1px 4px rgba(0,0,0,0.1);
+      display:flex;align-items:center;gap:8px;}
+    button { padding:8px 12px;font-size:1rem;cursor:pointer;border:none;border-radius:4px;}
+    #status { margin-left:16px;color:#555;font-size:0.9rem; }
+
+    /* Stroop overlays */
+    #stroopInstructions, #stroopContainer {
+      position:fixed; top:0;left:0;right:0;bottom:0;
+      background:rgba(0,0,0,0.85); color:#fff;
+      display:none; flex-direction:column; align-items:center;
+      justify-content:center; padding:24px; text-align:center; z-index:10;
+    }
+    #stroopInstructions h2 { font-size:2rem; margin-bottom:16px;}
+    #stroopInstructions p { max-width:600px; line-height:1.4; margin-bottom:16px;}
+    #stroopInstructions button { background:#28a; color:#fff; }
+
+    #stroopContainer h2 { margin-bottom:8px; }
+    #stroopStatus { margin-bottom:16px; }
+    #stroopStim { font-size:3rem; margin:16px; }
+    #stroopButtons { display:flex; gap:12px; flex-wrap:wrap; margin-bottom:16px; }
+    #stroopButtons button { min-width:80px; color:#fff; font-weight:bold; }
+    #stroopFeedback { font-size:1.2rem; }
+  </style>
+</head>
+<body>
+
+  <!-- Drawing UI -->
+  <div id="header">
+    <h1>TTCT Figural Registration</h1>
+    <p>Finish the incomplete figure however you like. Be creative!</p>
+    <label>
+      Your Name:<br/>
+      <input type="text" id="participantId" placeholder="Enter your name"/>
+    </label>
+  </div>
+  <div id="canvasContainer">
+    <canvas id="drawingCanvas"></canvas>
+  </div>
+  <div id="controls">
+    <button id="clearBtn">Clear</button>
+    <button id="submitBtn">Submit</button>
+    <span id="status"></span>
+  </div>
+
+  <!-- hidden template -->
+  <img id="template" src="FigureTemplate.png" style="display:none"/>
+
+  <!-- Stroop instruction slide -->
+  <div id="stroopInstructions">
+    <h2>
+      <span style="color:red">S</span>
+      <span style="color:green">t</span>
+      <span style="color:blue">r</span>
+      <span style="color:yellow">o</span>
+      <span style="color:red">o</span>
+      <span style="color:green">p</span> task instructions
+    </h2>
+    <hr style="width:80%;border-color:#fff70;"/>
+    <p>
+      You will see color names (RED, GREEN, BLUE, YELLOW) printed in a different ink color.
+      <strong>Your job is to click the button matching the <em>ink color</em>, not the word.</strong>
+    </p>
+    <p style="font-style:italic;">
+      Example: you see 
+      <span style="font-size:2rem;color:red;font-weight:bold;">GREEN</span>,
+      you must click the <strong>RED</strong> button.
+    </p>
+    <button id="startStroopBtn">Continue to Task →</button>
+  </div>
+
+  <!-- Stroop trial container -->
+  <div id="stroopContainer">
+    <h2>Color–Word Task</h2>
+    <p id="stroopStatus">Trial 1 / 24</p>
+    <div id="stroopStim">READY?</div>
+    <div id="stroopButtons"></div>
+    <div id="stroopFeedback"></div>
+  </div>
+
+  <script>
+  // — Drawing + upload setup —
+    const UPLOAD_URL = 'https://827224a51b6e.ngrok-free.app';
+    const canvas   = document.getElementById('drawingCanvas');
+    const ctx      = canvas.getContext('2d');
+    const template = document.getElementById('template');
+    const status   = document.getElementById('status');
+
+    function resizeCanvas(){
+      canvas.width = canvas.clientWidth;
+      canvas.height= canvas.clientHeight;
+      ctx.drawImage(template,0,0,canvas.width,canvas.height);
+      ctx.lineWidth=2; ctx.lineCap='round'; ctx.strokeStyle='black';
+    }
+    window.addEventListener('resize',resizeCanvas);
+    template.onload = resizeCanvas;
+    if(template.complete) resizeCanvas();
+
+    let drawing=false;
+    canvas.addEventListener('pointerdown',e=>{
+      drawing=true; ctx.beginPath(); ctx.moveTo(e.offsetX,e.offsetY);
+    });
+    canvas.addEventListener('pointermove',e=>{
+      if(!drawing)return; ctx.lineTo(e.offsetX,e.offsetY); ctx.stroke();
+    });
+    ['pointerup','pointerleave'].forEach(evt=>
+      canvas.addEventListener(evt,()=>drawing=false)
+    );
+    document.getElementById('clearBtn').onclick = ()=>{
+      ctx.clearRect(0,0,canvas.width,canvas.height);
+      ctx.drawImage(template,0,0,canvas.width,canvas.height);
+      status.textContent='';
+    };
+
+    document.getElementById('submitBtn').onclick = async ()=>{
+      const name = document.getElementById('participantId').value.trim();
+      if(!name){ status.textContent='Please enter your name.'; return; }
+      status.textContent='Submitting…';
+      const blob = await new Promise(r=>canvas.toBlob(r,'image/png'));
+      const form = new FormData();
+      form.append('participant_id',name);
+      form.append('file',blob,'drawing.png');
+      try {
+        const resp = await fetch(UPLOAD_URL,{method:'POST',body:form});
+        const data = await resp.json();
+        if(resp.ok){
+          status.textContent=`Score: ${data.creativity_score}`;
+          startStroop();            // ← launch Stroop after success
+        } else {
+          status.textContent=`Error: ${data.note||resp.status}`;
+        }
+      } catch(err){
+        console.error(err);
+        status.textContent='Network error';
+      }
+    };
+
+  // — Stroop task setup —
+    const COLORS=["red","green","blue","yellow"];
+    const WORDS =["RED","GREEN","BLUE","YELLOW"];
+    const N=24; let trials=[],current=0,startTime,results=[];
+
+    (()=>{
+      const cong=[],incong=[];
+      for(let i=0;i<4;i++){
+        cong.push({w:WORDS[i],c:COLORS[i]});
+        for(let j=0;j<4;j++) if(i!==j)
+          incong.push({w:WORDS[i],c:COLORS[j]});
+      }
+      shuffle(cong); shuffle(incong);
+      trials = cong.slice(0,12).concat(incong.slice(0,12));
+      shuffle(trials);
+    })();
+    function shuffle(a){
+      for(let i=a.length-1;i>0;i--){
+        const j=Math.floor(Math.random()*(i+1));
+        [a[i],a[j]]=[a[j],a[i]];
+      }
+    }
+
+    // DOM refs
+    const instrDiv = document.getElementById("stroopInstructions");
+    const startBtn = document.getElementById("startStroopBtn");
+    const trialDiv = document.getElementById("stroopContainer");
+    const stimEl   = document.getElementById("stroopStim");
+    const btnsDiv  = document.getElementById("stroopButtons");
+    const statusEl = document.getElementById("stroopStatus");
+    const feedEl   = document.getElementById("stroopFeedback");
+
+    // build response buttons
+    COLORS.forEach(col=>{
+      const b=document.createElement("button");
+      b.textContent=col.toUpperCase();
+      b.style.background=col;
+      b.onclick=()=>recordResponse(col);
+      btnsDiv.appendChild(b);
+    });
+
+    // show instruction overlay
+    function startStroop(){
+      instrDiv.style.display="flex";
+    }
+    // after Continue
+    startBtn.onclick = ()=>{
+      instrDiv.style.display="none";
+      trialDiv.style.display="flex";
+      current=0; results=[];
+      nextTrial();
+    };
+
+    function nextTrial(){
+      if(current>=N) return finishStroop();
+      const t=trials[current];
+      stimEl.textContent=t.w;
+      stimEl.style.color=t.c;
+      statusEl.textContent=`Trial ${current+1} / ${N}`;
+      feedEl.textContent="";
+      startTime=performance.now();
+    }
+    function recordResponse(chosen){
+      const t=trials[current];
+      const rt=Math.round(performance.now()-startTime);
+      results.push({...t,chosen,correct:t.c===chosen,rt});
+      feedEl.textContent=(chosen===t.c)?"✔️":"❌";
+      current++;
+      setTimeout(nextTrial,300);
+    }
+    function finishStroop(){
+      stimEl.textContent="All done!";
+      statusEl.textContent="";
+      feedEl.innerHTML=
+        `<strong>Avg RT:</strong> ${Math.round(results.reduce((s,r)=>s+r.rt,0)/results.length)} ms<br>
+         <strong>Accuracy:</strong> ${Math.round(results.filter(r=>r.correct).length/results.length*100)}%`;
+      console.log("Stroop results:",results);
+      // TODO: POST `results` back via fetch() if desired
+    }
+  </script>
+</body>
+</html>
