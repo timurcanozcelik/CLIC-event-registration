@@ -1,5 +1,5 @@
 // Configuration
-const BACKEND_URL = "https://your-backend.example.com/upload/"; // ← update this
+const BACKEND_URL = "https://827224a51b6e.ngrok-free.app"; // ← update this
 
 // Setup canvas
 const canvas = document.getElementById("drawingCanvas");
