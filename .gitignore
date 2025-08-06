@@ -39,6 +39,8 @@ submissions/
 backend/AuDrA_files/AuDrA/user_images_*/
 # AuDrA auto-outputs
 backend/AuDrA_files/AuDrA/audra_out_*.csv
+# ignore all uploaded drawings & metadata
+backend/submissions/
 
 # ----------------------------------
 # All other generated CSVs / DBs
