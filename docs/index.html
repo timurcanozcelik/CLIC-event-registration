@@ -26,7 +26,7 @@
       padding:8px 10px; font-size:1rem;
     }
 
-    /* Canvas */
+    /* Visible canvas */
     #canvasContainer {
       flex:1;
       display:flex; justify-content:center; align-items:center;
@@ -36,36 +36,29 @@
       width:90vw; height:70vh;
       max-width:600px; max-height:800px;
       border:2px solid #ccc;
-      touch-action:none;
       background:#fff;
+      touch-action:none;
     }
 
-    /* Stacked controls */
+    /* Controls */
     #controls {
       padding:12px;
       background:#fff;
       box-shadow:0 -1px 4px rgba(0,0,0,0.1);
-      display:flex;
-      flex-direction:column;
-      align-items:center;
-      gap:12px;
+      display:flex; flex-direction:column; align-items:center; gap:12px;
     }
     #controls button {
       width:90%; max-width:300px;
       padding:14px 0; font-size:1.2rem;
-      cursor:pointer; border:none; border-radius:6px;
-      background:#007aff; color:#fff;
+      border:none; border-radius:6px;
+      cursor:pointer;
     }
-    #controls button#clearBtn {
-      background:#f0f0f0; color:#333;
-    }
-    #status {
-      margin-top:4px; color:#555; font-size:1rem;
-    }
+    #clearBtn { background:#f0f0f0; color:#333; }
+    #submitBtn{ background:#007aff; color:#fff; }
+    #status   { margin-top:4px; color:#555; font-size:1rem; }
 
     /* Stroop overlays */
-    #stroopInstructions,
-    #stroopContainer {
+    #stroopInstructions, #stroopContainer {
       position:fixed;
       top:0; left:0; right:0; bottom:0;
       background:rgba(0,0,0,0.85);
@@ -131,8 +124,9 @@
     <div id="status"></div>
   </div>
 
-  <!-- Hidden template -->
+  <!-- Hidden template & offscreen upload canvas -->
   <img id="template" src="FigureTemplate.png" style="display:none"/>
+  <canvas id="uploadCanvas" width="224" height="224" style="display:none"></canvas>
 
   <!-- Stroop instructions -->
   <div id="stroopInstructions">
@@ -146,13 +140,13 @@
     </h2>
     <hr style="width:80%;border-color:#fff70"/>
     <p>
-      You will see colour names (RED, GREEN, BLUE, YELLOW) printed in a different ink colour.
-      <strong>Your job is to click the button matching the <em>ink colour</em>, not the word.</strong>
+      You will see colour names printed in a different ink colour.
+      <strong>Click the button matching the <em>ink colour</em>, not the word.</strong>
     </p>
     <p style="font-style:italic;">
-      Example: you see 
+      Example: see 
       <span style="font-size:2rem;color:red;font-weight:bold;">GREEN</span>,
-      you must click the <strong>RED</strong> button.
+      click <strong>RED</strong>.
     </p>
     <button id="startStroopBtn">Continue to Task →</button>
   </div>
@@ -168,11 +162,13 @@
 
   <script>
   // — Drawing + upload setup —
-    const UPLOAD_URL = 'https://55bfb3f29de3.ngrok-free.app/upload/';
-    const canvas   = document.getElementById('drawingCanvas');
-    const ctx      = canvas.getContext('2d');
-    const template = document.getElementById('template');
-    const status   = document.getElementById('status');
+    const UPLOAD_URL  = 'https://55bfb3f29de3.ngrok-free.app/upload/';
+    const canvas      = document.getElementById('drawingCanvas');
+    const ctx         = canvas.getContext('2d');
+    const template    = document.getElementById('template');
+    const status      = document.getElementById('status');
+    const uploadCan   = document.getElementById('uploadCanvas');
+    const uploadCtx   = uploadCan.getContext('2d');
 
     function resizeCanvas(){
       canvas.width  = canvas.clientWidth;
@@ -184,78 +180,85 @@
     }
     window.addEventListener('resize', resizeCanvas);
     template.onload = resizeCanvas;
-    if (template.complete) resizeCanvas();
+    if(template.complete) resizeCanvas();
 
-    let drawing = false;
-    canvas.addEventListener('pointerdown', e=>{
-      drawing=true;
-      ctx.beginPath();
-      ctx.moveTo(e.offsetX,e.offsetY);
+    let drawing=false;
+    canvas.addEventListener('pointerdown',e=>{
+      drawing=true; ctx.beginPath(); ctx.moveTo(e.offsetX,e.offsetY);
     });
-    canvas.addEventListener('pointermove', e=>{
+    canvas.addEventListener('pointermove',e=>{
       if(!drawing) return;
-      ctx.lineTo(e.offsetX,e.offsetY);
-      ctx.stroke();
+      ctx.lineTo(e.offsetX,e.offsetY); ctx.stroke();
     });
     ['pointerup','pointerleave'].forEach(evt=>
       canvas.addEventListener(evt,()=>drawing=false)
     );
-
     document.getElementById('clearBtn').onclick = ()=>{
       ctx.clearRect(0,0,canvas.width,canvas.height);
       ctx.drawImage(template,0,0,canvas.width,canvas.height);
-      status.textContent = '';
+      status.textContent='';
     };
 
     document.getElementById('submitBtn').onclick = async ()=>{
       const name = document.getElementById('participantId').value.trim();
       if(!name){
-        status.textContent = 'Please enter your name.';
-        return;
+        status.textContent='Please enter your name.'; return;
       }
-      status.textContent = 'Submitting…';
+      status.textContent='Processing…';
 
-      const blob = await new Promise(r=>canvas.toBlob(r,'image/png'));
-      const form = new FormData();
-      form.append('participant_id', name);
-      form.append('file', blob, 'drawing.png');
+      // 1) Draw & invert onto hidden 224×224
+      uploadCtx.clearRect(0,0,224,224);
+      uploadCtx.drawImage(template,       0,0,224,224);
+      uploadCtx.drawImage(canvas,         0,0,224,224);
+      const imgData = uploadCtx.getImageData(0,0,224,224);
+      const d = imgData.data;
+      for(let i=0;i<d.length;i+=4){
+        // invert RGB
+        d[i]   = 255 - d[i];
+        d[i+1] = 255 - d[i+1];
+        d[i+2] = 255 - d[i+2];
+      }
+      uploadCtx.putImageData(imgData,0,0);
 
-      try{
-        const resp = await fetch(UPLOAD_URL, {method:'POST', body:form});
-        const data = await resp.json();
-        if(resp.ok){
-          status.textContent = `Score: ${data.creativity_score}`;
-          startStroop();
-        } else {
-          status.textContent = `Error: ${data.note||resp.status}`;
+      // 2) Blob & send
+      uploadCan.toBlob(async blob=>{
+        if(!blob){ status.textContent='Capture failed'; return; }
+        const form = new FormData();
+        form.append('participant_id',name);
+        form.append('file', blob, 'drawing.png');
+        status.textContent='Uploading…';
+        try{
+          const resp = await fetch(UPLOAD_URL, {method:'POST', body:form});
+          const data = await resp.json();
+          if(resp.ok){
+            status.textContent = `Score: ${data.creativity_score}`;
+            startStroop();
+          } else {
+            status.textContent = `Error: ${data.note||resp.status}`;
+          }
+        }catch(err){
+          console.error(err);
+          status.textContent='Network error';
         }
-      }catch(err){
-        console.error(err);
-        status.textContent = 'Network error';
-      }
+      }, 'image/png');
     };
 
-  // — Stroop task setup —
-    const COLORS = ["red","green","blue","yellow"];
-    const WORDS  = ["RED","GREEN","BLUE","YELLOW"];
+  // — Stroop setup —
+    const COLORS=["red","green","blue","yellow"];
+    const WORDS =["RED","GREEN","BLUE","YELLOW"];
     let trials=[], current=0, startTime, results=[];
 
     (()=>{
       const cong=[], incong=[];
       // 12 congruent, 12 incongruent
       for(let i=0;i<4;i++){
-        for(let r=0;r<3;r++){
-          cong.push({w:WORDS[i],c:COLORS[i]});
-        }
-        for(let j=0;j<4;j++){
-          if(i!==j) incong.push({w:WORDS[i],c:COLORS[j]});
-        }
+        for(let r=0;r<3;r++) cong.push({w:WORDS[i],c:COLORS[i]});
+        for(let j=0;j<4;j++) if(i!==j) incong.push({w:WORDS[i],c:COLORS[j]});
       }
       shuffle(cong); shuffle(incong);
       trials = cong.concat(incong.slice(0,12));
       shuffle(trials);
     })();
-
     function shuffle(a){
       for(let i=a.length-1;i>0;i--){
         const j=Math.floor(Math.random()*(i+1));
@@ -271,54 +274,54 @@
     const statusEl = document.getElementById("stroopStatus");
     const feedEl   = document.getElementById("stroopFeedback");
 
-    // build 4 buttons in a 2x2 grid
     COLORS.forEach(col=>{
-      const b = document.createElement("button");
-      b.textContent = col.toUpperCase();
-      b.style.background = col;
-      b.style.color = (col==='yellow'? '#333':'#fff');
-      b.onclick = ()=> recordResponse(col);
+      const b=document.createElement("button");
+      b.textContent=col.toUpperCase();
+      b.style.background=col;
+      b.style.color=(col==='yellow'?'#333':'#fff');
+      b.onclick=()=>recordResponse(col);
       btnsDiv.appendChild(b);
     });
 
     function startStroop(){
-      instrDiv.style.display = 'flex';
+      instrDiv.style.display='flex';
     }
     startBtn.onclick = ()=>{
-      instrDiv.style.display = 'none';
-      trialDiv.style.display = 'flex';
-      current = 0; results = [];
+      instrDiv.style.display='none';
+      trialDiv.style.display='flex';
+      current=0; results=[];
       nextTrial();
     };
 
     function nextTrial(){
-      if(current >= trials.length) return finishStroop();
-      const t = trials[current];
-      stimEl.textContent = t.w;
-      stimEl.style.color = t.c;
-      statusEl.textContent = `Trial ${current+1} / ${trials.length}`;
-      feedEl.textContent = '';
-      startTime = performance.now();
+      if(current>=trials.length) return finishStroop();
+      const t=trials[current];
+      stimEl.textContent=t.w;
+      stimEl.style.color=t.c;
+      statusEl.textContent=`Trial ${current+1} / ${trials.length}`;
+      feedEl.textContent='';
+      startTime=performance.now();
     }
 
     function recordResponse(chosen){
-      const t = trials[current];
-      const rt = Math.round(performance.now() - startTime);
-      results.push({...t, chosen, correct: t.c===chosen, rt});
-      feedEl.textContent = t.c===chosen? '✔️':'❌';
+      const t=trials[current];
+      const rt=Math.round(performance.now()-startTime);
+      results.push({...t,chosen,correct:t.c===chosen,rt});
+      feedEl.textContent=(t.c===chosen?'✔️':'❌');
       current++;
-      setTimeout(nextTrial, 300);
+      setTimeout(nextTrial,300);
     }
 
     function finishStroop(){
-      stimEl.textContent = 'All done!';
-      statusEl.textContent = '';
+      stimEl.textContent='All done!';
+      statusEl.textContent='';
       const avg = Math.round(results.reduce((s,r)=>s+r.rt,0)/results.length);
       const acc = Math.round(results.filter(r=>r.correct).length/results.length*100);
-      feedEl.innerHTML = `<strong>Avg RT:</strong> ${avg} ms<br>
-                          <strong>Accuracy:</strong> ${acc}%`;
-      console.log('Stroop results:', results);
-      // TODO: POST combined drawing + stroop data to backend
+      feedEl.innerHTML=`
+        <strong>Avg RT:</strong> ${avg} ms<br>
+        <strong>Accuracy:</strong> ${acc}%`;
+      console.log('Stroop results:',results);
+      // later: POST `results` + creativity_score to backend for CSV
     }
   </script>
 </body>
