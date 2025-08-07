@@ -1,6 +1,0 @@
-participant_id: BLOP Astro
-uploaded_at: 20250805T100447Z
-ink_density: 0.0171
-creativity_score: 0.3772
-used_fallback: False
-raw_filename: 20250805T100447Z_BLOP Astro_d05310ee.png

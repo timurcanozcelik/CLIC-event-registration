@@ -1,6 +1,0 @@
-participant_id: Tim
-uploaded_at: 20250805T095526Z
-ink_density: 0.2357
-creativity_score: 0.4501
-used_fallback: False
-raw_filename: 20250805T095526Z_Tim_e6125bc1.png

@@ -1,6 +1,0 @@
-participant_id: AksBLOP A
-uploaded_at: 20250805T100612Z
-ink_density: 0.1448
-creativity_score: 0.4977
-used_fallback: False
-raw_filename: 20250805T100612Z_AksBLOP A_23acc4bb.png

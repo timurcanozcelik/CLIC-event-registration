@@ -2,160 +2,154 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+  <!-- lock zoom/scroll -->
+  <meta name="viewport" content="width=device-width,initial-scale=1.0,maximum-scale=1.0,user-scalable=no"/>
   <title>TTCT Figural ＋ Stroop</title>
   <style>
     html, body {
-      margin: 0;
-      padding: 0;
-      height: 100%;
-      width: 100%;
-      display: flex;
-      flex-direction: column;
-      font-family: sans-serif;
-      background: #f9f9f9;
-      /* prevent any scrolling */
-      overflow: hidden;
-      overscroll-behavior: none;
+      margin:0; padding:0;
+      height:100%; width:100%;
+      overflow:hidden;            /* no scrolling */
+      font-family:sans-serif;
+      background:#f9f9f9;
+      display:flex; flex-direction:column;
+    }
+    /* welcome screen */
+    #welcome {
+      position:fixed; top:0; left:0; right:0; bottom:0;
+      background:#fff;
+      display:flex; flex-direction:column;
+      align-items:center; justify-content:center;
+      padding:24px; text-align:center;
+    }
+    #welcome h1 { font-size:2rem; margin-bottom:16px; }
+    #welcome p  { font-size:1.1rem; margin-bottom:16px; color:#555; }
+    #welcome input {
+      font-size:1rem; padding:8px; width:80%; max-width:300px;
+      margin-bottom:16px; border:1px solid #ccc; border-radius:4px;
+    }
+    #welcome button {
+      font-size:1.1rem; padding:12px 24px;
+      background:#007aff; color:#fff; border:none; border-radius:6px;
+      cursor:pointer;
+    }
+
+    /* hide the rest until welcome is done */
+    #header, #canvasContainer, #controls,
+    #stroopInstructions, #stroopContainer,
+    #summary {
+      display:none;
     }
 
     /* Drawing header */
     #header {
-      padding: 16px;
-      background: #fff;
-      box-shadow: 0 1px 4px rgba(0,0,0,0.1);
+      padding:16px; background:#fff;
+      box-shadow:0 1px 4px rgba(0,0,0,0.1);
     }
-    #header h1 { margin: 0 0 8px; font-size: 1.75rem; }
-    #header p  { margin: 0 0 12px; color: #555; font-size: 1.1rem; }
-    #header label { display: block; margin-bottom: 8px; font-size: 1rem; }
-    #header input {
-      width: 100%; max-width: 280px;
-      padding: 8px 10px; font-size: 1rem;
-    }
+    #header h1 { margin:0 0 8px; font-size:1.75rem; }
+    #header p  { margin:0 0 12px; color:#555; font-size:1.1rem; }
 
-    /* Visible canvas */
+    /* Canvas */
     #canvasContainer {
-      flex: 1;
-      display: flex; justify-content: center; align-items: center;
-      padding: 8px;
-      /* lock in place */
-      overflow: hidden;
+      flex:1; display:flex; justify-content:center; align-items:center;
+      padding:8px; overflow:hidden;
     }
     #drawingCanvas {
-      width: 90vw; height: 70vh;
-      max-width: 600px; max-height: 800px;
-      border: 2px solid #ccc;
-      background: #fff;
-      touch-action: none;
+      width:90vw; height:70vh;
+      max-width:600px; max-height:800px;
+      border:2px solid #ccc; background:#fff;
+      touch-action:none;
     }
 
     /* Controls */
     #controls {
-      padding: 12px;
-      background: #fff;
-      box-shadow: 0 -1px 4px rgba(0,0,0,0.1);
-      display: flex; flex-direction: column; align-items: center; gap: 12px;
+      padding:12px; background:#fff;
+      box-shadow:0 -1px 4px rgba(0,0,0,0.1);
+      display:flex; flex-direction:column; align-items:center; gap:12px;
     }
     #controls button {
-      width: 90%; max-width: 300px;
-      padding: 14px 0; font-size: 1.2rem;
-      border: none; border-radius: 6px;
-      cursor: pointer;
+      width:90%; max-width:300px;
+      padding:14px 0; font-size:1.2rem;
+      border:none; border-radius:6px; cursor:pointer;
     }
-    #clearBtn { background: #f0f0f0; color: #333; }
-    #submitBtn{ background: #007aff; color: #fff; }
-    #status   { margin-top: 4px; color: #555; font-size: 1rem; }
+    #clearBtn { background:#f0f0f0; color:#333; }
+    #submitBtn{ background:#007aff; color:#fff; }
+    #status   { color:#555; font-size:1rem; }
 
     /* Stroop overlays */
     #stroopInstructions, #stroopContainer {
-      position: fixed;
-      top: 0; left: 0; right: 0; bottom: 0;
-      background: rgba(0,0,0,0.85);
-      color: #fff;
-      display: none;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      padding: 24px;
-      text-align: center;
-      z-index: 10;
+      position:fixed; top:0; left:0; right:0; bottom:0;
+      background:rgba(0,0,0,0.85); color:#fff;
+      flex-direction:column; align-items:center; justify-content:center;
+      padding:24px; text-align:center; z-index:10;
     }
-    #stroopInstructions h2 {
-      font-size: 2.25rem; margin-bottom: 16px;
-    }
-    #stroopInstructions p {
-      max-width: 600px; line-height: 1.5; margin-bottom: 16px;
-      font-size: 1.1rem;
-    }
+    #stroopInstructions h2 { font-size:2.25rem; margin-bottom:16px; }
+    #stroopInstructions p  { font-size:1.1rem; margin-bottom:16px; line-height:1.5; max-width:600px; }
     #stroopInstructions button {
-      padding: 12px 20px; font-size: 1.1rem;
-      background: #007aff; color: #fff;
-      border: none; border-radius: 6px; cursor: pointer;
+      padding:12px 20px; font-size:1.1rem;
+      background:#007aff; border:none; border-radius:6px; cursor:pointer;
     }
-
-    #stroopContainer h2 { font-size: 2rem; margin-bottom: 8px; }
-    #stroopStatus { margin-bottom: 16px; font-size: 1.1rem; }
-    #stroopStim { font-size: 3rem; margin: 16px; }
-
-    /* 2×2 grid for Stroop buttons */
+    #stroopContainer h2 { font-size:2rem; margin-bottom:8px; }
+    #stroopStatus       { font-size:1.1rem; margin-bottom:16px; }
+    #stroopStim         { font-size:3rem; margin:16px; }
     #stroopButtons {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 12px;
-      width: 90%; max-width: 400px;
-      margin-bottom: 16px;
+      display:grid;
+      grid-template-columns:1fr 1fr;
+      gap:12px;
+      width:90%; max-width:400px; margin-bottom:16px;
     }
     #stroopButtons button {
-      padding: 14px 0; font-size: 1.2rem;
-      border: none; border-radius: 6px; cursor: pointer;
-      color: #fff;
+      padding:14px 0; font-size:1.2rem;
+      border:none; border-radius:6px; cursor:pointer;
+      color:#fff;
     }
-    #stroopFeedback { font-size: 1.3rem; margin-top: 8px; }
+    #stroopFeedback { font-size:1.3rem; margin-top:8px; }
 
     /* Final summary */
     #summary {
-      position: fixed;
-      top: 0; left: 0; right: 0; bottom: 0;
-      background: #f9f9f9;
-      display: none;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      text-align: center;
-      padding: 24px;
+      position:fixed; top:0; left:0; right:0; bottom:0;
+      background:#f9f9f9;
+      flex-direction:column; align-items:center; justify-content:center;
+      text-align:center; padding:24px;
     }
-    #summary h2 { font-size: 2.25rem; margin-bottom: 16px; }
-    #summary p  { font-size: 1.1rem; margin: 8px 0; }
-    #summary a  { color: #007aff; text-decoration: none; font-weight: bold; }
+    #summary h2 { font-size:2.25rem; margin-bottom:16px; }
+    #summary p  { font-size:1.1rem; margin:8px 0; }
+    #summary a  { color:#007aff; text-decoration:none; font-weight:bold; }
   </style>
 </head>
 <body>
 
-  <!-- Drawing UI -->
+  <!-- 1) Welcome screen -->
+  <div id="welcome">
+    <h1>Welcome to the event</h1>
+    <p>
+      "Enhancing cognitive flexibility: <br/>
+      CLIC(k)ing into lifelong learning"
+    </p>
+    <p>Write your name and press Start Registration to begin:</p>
+    <input id="welcomeName" type="text" placeholder="Your name here"/>
+    <button id="welcomeBtn">Start Registration</button>
+  </div>
+
+  <!-- 2) Drawing UI -->
   <div id="header">
     <h1>CLIC Event Registration</h1>
     <p>Finish the incomplete figure however you like. Be creative!</p>
-    <label>
-      Your Name:<br/>
-      <input type="text" id="participantId" placeholder="Enter your name"/>
-    </label>
   </div>
-
   <div id="canvasContainer">
     <canvas id="drawingCanvas"></canvas>
   </div>
-
   <div id="controls">
     <button id="clearBtn">Clear</button>
     <button id="submitBtn">Submit</button>
     <div id="status"></div>
   </div>
 
-  <!-- Hidden template & offscreen upload canvas -->
+  <!-- hidden template & offscreen -->
   <img id="template" src="FigureTemplate.png" style="display:none"/>
   <canvas id="uploadCanvas" width="224" height="224" style="display:none"></canvas>
 
-  <!-- Stroop instructions -->
+  <!-- 3) Stroop instructions -->
   <div id="stroopInstructions">
     <h2>
       <span style="color:red">S</span>
@@ -178,7 +172,7 @@
     <button id="startStroopBtn">Continue to Task →</button>
   </div>
 
-  <!-- Stroop trials -->
+  <!-- 4) Stroop trials -->
   <div id="stroopContainer">
     <h2>Colour–Word Task</h2>
     <div id="stroopStatus">Trial 1 / 24</div>
@@ -187,21 +181,35 @@
     <div id="stroopFeedback"></div>
   </div>
 
-  <!-- Final summary page -->
+  <!-- 5) Final summary -->
   <div id="summary">
     <h2>All Done!</h2>
     <p>Creativity Score: <span id="finalCreativity"></span></p>
     <p>Stroop Avg RT: <span id="finalRT"></span> ms</p>
     <p>Stroop Accuracy: <span id="finalAcc"></span>%</p>
     <p>
-      <a href="https://www.cares.cam.ac.uk/events-single/?postid=5614&event-single"
-         target="_blank">
+      <a href="https://www.cares.cam.ac.uk/events-single/?postid=5614&event-single" target="_blank">
         Back to event page
       </a>
     </p>
   </div>
 
   <script>
+  // pointerId guard (only first touch draws)
+    let activePointer = null;
+
+  // — Welcome flow —
+    let participantName = '';
+    document.getElementById('welcomeBtn').onclick = () => {
+      const nm = document.getElementById('welcomeName').value.trim();
+      if (!nm) return alert('Please enter your name.');
+      participantName = nm;
+      document.getElementById('welcome').style.display = 'none';
+      document.getElementById('header').style.display = 'block';
+      document.getElementById('canvasContainer').style.display = 'flex';
+      document.getElementById('controls').style.display = 'flex';
+    };
+
   // — Drawing + upload setup —
     const UPLOAD_URL  = 'https://55bfb3f29de3.ngrok-free.app/upload/';
     const canvas      = document.getElementById('drawingCanvas');
@@ -210,6 +218,7 @@
     const status      = document.getElementById('status');
     const uploadCan   = document.getElementById('uploadCanvas');
     const uploadCtx   = uploadCan.getContext('2d');
+    let creativityScore = 0;
 
     function resizeCanvas(){
       canvas.width  = canvas.clientWidth;
@@ -221,38 +230,44 @@
     }
     window.addEventListener('resize', resizeCanvas);
     template.onload = resizeCanvas;
-    if(template.complete) resizeCanvas();
+    if (template.complete) resizeCanvas();
 
-    let drawing=false;
     canvas.addEventListener('pointerdown', e => {
-      drawing=true; ctx.beginPath(); ctx.moveTo(e.offsetX,e.offsetY);
+      // only first pointer
+      if (activePointer!==null) return;
+      activePointer = e.pointerId;
+      drawing = true;
+      ctx.beginPath();
+      ctx.moveTo(e.offsetX,e.offsetY);
     });
     canvas.addEventListener('pointermove', e => {
-      if(!drawing) return;
-      ctx.lineTo(e.offsetX,e.offsetY); ctx.stroke();
+      if (e.pointerId!==activePointer) return;
+      ctx.lineTo(e.offsetX,e.offsetY);
+      ctx.stroke();
     });
-    ['pointerup','pointerleave'].forEach(evt=>
-      canvas.addEventListener(evt, ()=>drawing=false)
+    ['pointerup','pointerleave','pointercancel'].forEach(evt =>
+      canvas.addEventListener(evt, e => {
+        if (e.pointerId===activePointer) activePointer = null;
+      })
     );
+
     document.getElementById('clearBtn').onclick = () => {
       ctx.clearRect(0,0,canvas.width,canvas.height);
       ctx.drawImage(template,0,0,canvas.width,canvas.height);
       status.textContent='';
     };
 
-    let creativityScore = 0;
     document.getElementById('submitBtn').onclick = async () => {
-      const name = document.getElementById('participantId').value.trim();
-      if(!name){
-        status.textContent='Please enter your name.'; return;
+      if (!participantName) {
+        return alert('Name missing—please restart.');
       }
       status.textContent='Processing…';
 
-      // render + invert to 224×224 offscreen
+      // render & invert onto 224×224
       uploadCtx.clearRect(0,0,224,224);
       uploadCtx.drawImage(template,0,0,224,224);
       uploadCtx.drawImage(canvas,  0,0,224,224);
-      let img = uploadCtx.getImageData(0,0,224,224);
+      const img = uploadCtx.getImageData(0,0,224,224);
       for(let i=0;i<img.data.length;i+=4){
         img.data[i]   = 255 - img.data[i];
         img.data[i+1] = 255 - img.data[i+1];
@@ -263,11 +278,11 @@
       uploadCan.toBlob(async blob => {
         if(!blob){ status.textContent='Capture failed'; return; }
         const form = new FormData();
-        form.append('participant_id', name);
+        form.append('participant_id', participantName);
         form.append('file', blob, 'drawing.png');
         status.textContent='Uploading…';
         try {
-          const resp = await fetch(UPLOAD_URL, { method:'POST', body:form });
+          const resp = await fetch(UPLOAD_URL,{method:'POST', body:form});
           const data = await resp.json();
           if(resp.ok){
             creativityScore = data.creativity_score;
@@ -317,20 +332,19 @@
     const finalRT  = document.getElementById("finalRT");
     const finalAcc = document.getElementById("finalAcc");
 
-    // build Stroop buttons
     COLORS.forEach(col => {
       const b = document.createElement("button");
-      b.textContent = col.charAt(0).toUpperCase() + col.slice(1);
+      b.textContent = col.charAt(0).toUpperCase()+col.slice(1);
       b.style.background = col;
-      b.style.color = (col==='yellow' ? '#333' : '#fff');
-      b.onclick = () => recordResponse(col);
+      b.style.color = col==='yellow'?'#333':'#fff';
+      b.onclick = ()=>recordResponse(col);
       btnsDiv.appendChild(b);
     });
 
     function startStroop(){
       instrDiv.style.display = 'flex';
     }
-    startBtn.onclick = () => {
+    startBtn.onclick = ()=>{
       instrDiv.style.display = 'none';
       trialDiv.style.display = 'flex';
       current = 0; results = [];
@@ -338,7 +352,7 @@
     };
 
     function nextTrial(){
-      if(current >= trials.length) return finishStroop();
+      if(current>=trials.length) return finishStroop();
       const t = trials[current];
       stimEl.textContent = t.w;
       stimEl.style.color = t.c;
@@ -351,13 +365,13 @@
       const t = trials[current];
       const rt = Math.round(performance.now() - startTime);
       results.push({ ...t, chosen, correct: t.c===chosen, rt });
-      feedEl.textContent = (t.c===chosen ? '✔️' : '❌');
+      feedEl.textContent = t.c===chosen ? '✔️' : '❌';
       current++;
-      setTimeout(nextTrial, 300);
+      setTimeout(nextTrial,300);
     }
 
     function finishStroop(){
-      // hide everything
+      // tear down all
       document.getElementById('header').style.display = 'none';
       document.getElementById('canvasContainer').style.display = 'none';
       document.getElementById('controls').style.display = 'none';
@@ -370,7 +384,7 @@
       finalC.textContent  = creativityScore;
       finalRT.textContent = avg;
       finalAcc.textContent= acc;
-      console.log('Stroop results:', results);
+      console.log('Stroop results:',results);
     }
   </script>
 </body>
