@@ -5,8 +5,9 @@
   <meta name="viewport" content="width=device-width,initial-scale=1" />
   <title>CLIC Submissions – Slideshow</title>
   <style>
-    :root { --bg:#0b0b0e; --fg:#f5f7fa; --muted:#aab4c6; --panel:#111622; --btn:#1d2332; --btn2:#222a3d; --border:#2a3245; --accent:#4ea1ff; }
-    html,body{margin:0;height:100%;background:var(--bg);color:var(--fg);font:14px/1.45 system-ui,-apple-system,"Segoe UI",Roboto,Helvetica,Arial,sans-serif}
+    :root { --bg:#0b0b0e; --fg:#f5f7fa; --muted:#aab4c6; --panel:#111622; --btn:#1d2332; --btn2:#222a3d; --border:#2a3245; --accent:#4ea1ff; --err:#ff7d7d; }
+    html,body{margin:0;height:100%;background:var(--bg);color:var(--fg);
+      font:14px/1.45 system-ui,-apple-system,"Segoe UI",Roboto,Helvetica,Arial,sans-serif}
     .bar{position:fixed;inset:0 0 auto 0;display:flex;gap:12px;align-items:center;padding:10px 14px;background:var(--panel);box-shadow:0 2px 8px rgba(0,0,0,.35);z-index:10}
     .bar h1{margin:0;font-size:16px;font-weight:600;opacity:.95}
     .spacer{flex:1}
@@ -21,7 +22,8 @@
     .controls{position:fixed;inset:auto 0 12px 0;display:flex;justify-content:center;gap:10px}
     .controls button{background:var(--btn);color:var(--fg);border:1px solid var(--border);padding:10px 14px;border-radius:10px;font-size:15px;cursor:pointer}
     .controls button:hover{background:var(--btn2)}
-    .error{color:#ff8080}
+    .error{color:var(--err)}
+    .debug{position:fixed;left:12px;bottom:12px;color:#9aa3b7;font-size:12px;opacity:.8}
   </style>
 </head>
 <body>
@@ -45,11 +47,14 @@
     <button id="nextBtn">Next ▶︎</button>
   </div>
 
+  <div id="debug" class="debug"></div>
+
   <script>
     // ---------- CONFIG ----------
     const BACKEND = "https://55bfb3f29de3.ngrok-free.app"; // your ngrok base
-    const FEED    = BACKEND.replace(/\/$/,'') + "/api/submissions";
-    const STEP_MS = 5000;
+    const FEED_JSON = BACKEND.replace(/\/$/,'') + "/api/submissions";
+    const FEED_CSV  = BACKEND.replace(/\/$/,'') + "/api/submissions.csv";
+    const STEP_MS   = 5000;
 
     // ---------- STATE ----------
     let items = [];
@@ -59,92 +64,154 @@
 
     const imgEl = document.getElementById("slide");
     const capEl = document.getElementById("caption");
+    const dbgEl = document.getElementById("debug");
 
-    // if a ?t= cache-busted URL fails, retry the plain one once
+    function dbg(msg){
+      console.log("[gallery]", msg);
+      dbgEl.textContent = String(msg);
+    }
+
+    // cache-buster failover
     imgEl.addEventListener("error", () => {
-      const current = items[idx];
-      if (!current) return;
-      const plain = current.abs_url_plain;
+      const it = items[idx];
+      if (!it) return;
       if (imgEl.dataset.triedPlain === "1") {
         capEl.innerHTML += ` <span class="error">(image not found)</span>`;
         return;
       }
       imgEl.dataset.triedPlain = "1";
-      imgEl.src = plain;
+      imgEl.src = it.abs_plain;
     });
 
     async function load() {
       stop();
       capEl.textContent = "Loading…";
+      dbg("Fetching JSON…");
       try {
-        const r = await fetch(FEED + "?t=" + Date.now(), { cache:"no-store", mode:"cors" });
-        if (!r.ok) throw new Error(`HTTP ${r.status}`);
+        // 1) Try JSON API
+        const r = await fetch(FEED_JSON + "?t=" + Date.now(), { cache:"no-store", mode:"cors" });
+        if (!r.ok) throw new Error("HTTP " + r.status);
         const data = await r.json();
         const list = Array.isArray(data) ? data : (data.items || []);
-
-        // Normalise & build absolute URLs without URL()
-        items = list.map(row => {
-          const rel = String(row.image_url || "");
-          const absPlain = BACKEND.replace(/\/$/,'') + (rel.startsWith("/") ? rel : "/" + rel);
-          const absBusted = absPlain + (absPlain.includes("?") ? "&" : "?") + "t=" + Date.now();
-          const scoreNum = Number.parseFloat(row.creativity_score);
-          return {
-            participant_id: row.participant_id ?? null,
-            uploaded_at: row.uploaded_at ?? "",
-            used_fallback: !!row.used_fallback,
-            creativity_score: Number.isFinite(scoreNum) ? scoreNum : null,
-            abs_url: absBusted,
-            abs_url_plain: absPlain,
-            filename: row.filename || ""
-          };
-        });
-
-        if (!items.length) {
+        if (!list.length) {
           capEl.textContent = "No submissions yet.";
           imgEl.removeAttribute("src");
           return;
         }
+        items = normalize(list);
+        finalize();
+        return;
+      } catch (e) {
+        dbg("JSON failed: " + e.message + " — trying CSV…");
+      }
 
-        // Show newest first based on timestamp text
-        items.sort((a,b) => (b.uploaded_at||"").localeCompare(a.uploaded_at||""));
-
-        idx = 0;
-        show(idx);
-        if (playing) start();
-      } catch (err) {
-        console.error("Failed to load:", err);
+      // 2) Fallback: CSV
+      try {
+        const r2 = await fetch(FEED_CSV + "?t=" + Date.now(), { cache:"no-store", mode:"cors" });
+        if (!r2.ok) throw new Error("HTTP " + r2.status);
+        const csv = await r2.text();
+        const list = parseCSV(csv);
+        if (!list.length) throw new Error("CSV empty");
+        items = normalize(list);
+        finalize();
+      } catch (e2) {
+        console.error("Failed to load:", e2);
         capEl.innerHTML = `<span class="error">Failed to load submissions.</span>`;
         imgEl.removeAttribute("src");
+        dbg("Load error: " + e2.message);
       }
     }
 
-    function show(i) {
+    function normalize(rawList){
+      return rawList.map(row => {
+        const imageRel = String(row.image_url || "");
+        const absPlain = BACKEND.replace(/\/$/,'') + (imageRel.startsWith("/") ? imageRel : "/" + imageRel);
+        const absBust  = absPlain + (absPlain.includes("?") ? "&" : "?") + "t=" + Date.now();
+        const scoreNum = Number.parseFloat(row.creativity_score);
+        return {
+          participant_id: row.participant_id ?? (row["participant_id"] ?? ""),
+          uploaded_at: row.uploaded_at ?? (row["uploaded_at"] ?? ""),
+          used_fallback: (row.used_fallback === true || row.used_fallback === "true"),
+          creativity_score: Number.isFinite(scoreNum) ? scoreNum : null,
+          filename: row.filename || row["filename"] || "",
+          abs_plain: absPlain,
+          abs_bust: absBust
+        };
+      }).sort((a,b)=> (b.uploaded_at||"").localeCompare(a.uploaded_at||""));
+    }
+
+    // Minimal CSV parser for our simple sheet
+    function parseCSV(text){
+      const lines = text.trim().split(/\r?\n/);
+      if (lines.length < 2) return [];
+      const header = splitCSVLine(lines[0]);
+      const out = [];
+      for (let i=1;i<lines.length;i++){
+        const row = splitCSVLine(lines[i]);
+        if (!row.length) continue;
+        const obj = {};
+        header.forEach((h,ix) => obj[h] = row[ix]);
+        out.push(obj);
+      }
+      return out;
+    }
+    function splitCSVLine(line){
+      const out = [];
+      let cur = "", inQ = false;
+      for (let i=0;i<line.length;i++){
+        const ch = line[i];
+        if (ch === '"'){
+          if (inQ && line[i+1] === '"'){ cur += '"'; i++; }
+          else inQ = !inQ;
+        } else if (ch === ',' && !inQ){
+          out.push(cur); cur = "";
+        } else {
+          cur += ch;
+        }
+      }
+      out.push(cur);
+      return out;
+    }
+
+    function finalize(){
+      if (!items.length){
+        capEl.textContent = "No submissions yet.";
+        imgEl.removeAttribute("src");
+        return;
+      }
+      idx = 0;
+      show(idx);
+      playing ? start() : stop();
+      dbg(`Loaded ${items.length} submissions.`);
+    }
+
+    function show(i){
       if (!items.length) return;
       idx = (i + items.length) % items.length;
       const it = items[idx];
 
       imgEl.dataset.triedPlain = "0";
-      imgEl.src = it.abs_url;  // will fallback to plain if error
+      imgEl.src = it.abs_bust;
 
-      const id   = it.participant_id ?? "–";
+      const id   = it.participant_id || "–";
       const when = it.uploaded_at ? ` • ${it.uploaded_at}` : "";
       const fb   = it.used_fallback ? " (fallback)" : "";
       const score = (it.creativity_score == null) ? "–" : it.creativity_score.toFixed(4);
 
       capEl.innerHTML = `
         <strong>${id}</strong> — score: <strong>${score}</strong>${fb}${when}
-        <a href="${it.abs_url_plain}" target="_blank" rel="noopener">open image</a>
+        <a href="${it.abs_plain}" target="_blank" rel="noopener">open image</a>
       `;
 
-      // Prefetch next image (plain URL)
+      // Prefetch next
       const pre = new Image();
-      pre.src = items[(idx+1)%items.length].abs_url_plain;
+      pre.src = items[(idx+1)%items.length].abs_plain;
     }
 
     function next(){ show(idx+1); }
     function prev(){ show(idx-1); }
     function start(){ stop(); playing = true; document.getElementById("playBtn").textContent = "⏸ Pause"; timer = setInterval(next, STEP_MS); }
-    function stop(){ playing = false; document.getElementById("playBtn").textContent = "▶︎ Play"; clearInterval(timer); timer = null; }
+    function stop(){ playing = false; document.getElementById("playBtn").textContent = "▶︎ Play"; clearInterval(timer); timer=null; }
     function toggle(){ playing ? stop() : start(); }
 
     // Controls
