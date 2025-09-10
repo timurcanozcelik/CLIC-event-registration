@@ -15,8 +15,9 @@
     .wrap{position:fixed;inset:56px 0 64px 0;display:flex;align-items:center;justify-content:center}
     .stage{text-align:center;max-width:92vw;max-height:100%;display:flex;flex-direction:column;align-items:center;justify-content:center}
     .stage img{max-width:92vw;max-height:72vh;object-fit:contain;background:#fff;border-radius:10px;box-shadow:0 10px 30px rgba(0,0,0,.45)}
-    .caption{margin-top:12px;font-size:16px;color:var(--muted)}
+    .caption{margin-top:10px;font-size:16px;color:var(--muted)}
     .caption strong{color:#fff}
+    .caption a{color:var(--accent);text-decoration:none;margin-left:8px;font-size:13px}
     .controls{position:fixed;inset:auto 0 12px 0;display:flex;justify-content:center;gap:10px}
     .controls button{background:var(--btn);color:var(--fg);border:1px solid var(--border);padding:10px 14px;border-radius:10px;font-size:15px;cursor:pointer}
     .controls button:hover{background:var(--btn2)}
@@ -45,37 +46,57 @@
   </div>
 
   <script>
-    // ----- CONFIG -----
-    const BACKEND = "https://55bfb3f29de3.ngrok-free.app";
-    const FEED    = BACKEND + "/api/submissions";
-    const INTERVAL_MS = 5000;
+    // ---------- CONFIG ----------
+    const BACKEND = "https://55bfb3f29de3.ngrok-free.app"; // your ngrok base
+    const FEED    = BACKEND.replace(/\/$/,'') + "/api/submissions";
+    const STEP_MS = 5000;
 
-    // ----- STATE -----
+    // ---------- STATE ----------
     let items = [];
-    let idx = 0, timer = null, playing = true;
+    let idx = 0;
+    let playing = true;
+    let timer = null;
 
     const imgEl = document.getElementById("slide");
     const capEl = document.getElementById("caption");
 
-    // Helpful visibility when an image fails to load
+    // if a ?t= cache-busted URL fails, retry the plain one once
     imgEl.addEventListener("error", () => {
-      capEl.innerHTML += ` <span class="error">(image not found)</span>`;
+      const current = items[idx];
+      if (!current) return;
+      const plain = current.abs_url_plain;
+      if (imgEl.dataset.triedPlain === "1") {
+        capEl.innerHTML += ` <span class="error">(image not found)</span>`;
+        return;
+      }
+      imgEl.dataset.triedPlain = "1";
+      imgEl.src = plain;
     });
 
     async function load() {
       stop();
       capEl.textContent = "Loading…";
       try {
-        const r = await fetch(FEED, { mode:"cors", cache:"no-store" });
+        const r = await fetch(FEED + "?t=" + Date.now(), { cache:"no-store", mode:"cors" });
         if (!r.ok) throw new Error(`HTTP ${r.status}`);
         const data = await r.json();
-
         const list = Array.isArray(data) ? data : (data.items || []);
-        // Build absolute URLs & normalise score types
+
+        // Normalise & build absolute URLs without URL()
         items = list.map(row => {
-          const abs = new URL(row.image_url, BACKEND).href;
+          const rel = String(row.image_url || "");
+          const absPlain = BACKEND.replace(/\/$/,'') + (rel.startsWith("/") ? rel : "/" + rel);
+          const absBusted = absPlain + (absPlain.includes("?") ? "&" : "?") + "t=" + Date.now();
           const scoreNum = Number.parseFloat(row.creativity_score);
-          return { ...row, abs_url: abs, creativity_score: Number.isFinite(scoreNum) ? scoreNum : null };
+          return {
+            participant_id: row.participant_id ?? null,
+            uploaded_at: row.uploaded_at ?? "",
+            used_fallback: !!row.used_fallback,
+            creativity_score: Number.isFinite(scoreNum) ? scoreNum : null,
+            abs_url: absBusted,
+            abs_url_plain: absPlain,
+            filename: row.filename || ""
+          };
         });
 
         if (!items.length) {
@@ -84,45 +105,49 @@
           return;
         }
 
-        // newest first
+        // Show newest first based on timestamp text
         items.sort((a,b) => (b.uploaded_at||"").localeCompare(a.uploaded_at||""));
 
         idx = 0;
         show(idx);
         if (playing) start();
-      } catch (e) {
-        console.error("Load failed:", e);
+      } catch (err) {
+        console.error("Failed to load:", err);
         capEl.innerHTML = `<span class="error">Failed to load submissions.</span>`;
         imgEl.removeAttribute("src");
       }
     }
 
     function show(i) {
+      if (!items.length) return;
       idx = (i + items.length) % items.length;
       const it = items[idx];
 
-      // bust cache in case ngrok/proxy caches aggressively
-      const src = it.abs_url + (it.abs_url.includes("?") ? "&" : "?") + "t=" + Date.now();
-      imgEl.src = src;
+      imgEl.dataset.triedPlain = "0";
+      imgEl.src = it.abs_url;  // will fallback to plain if error
 
       const id   = it.participant_id ?? "–";
       const when = it.uploaded_at ? ` • ${it.uploaded_at}` : "";
       const fb   = it.used_fallback ? " (fallback)" : "";
       const score = (it.creativity_score == null) ? "–" : it.creativity_score.toFixed(4);
 
-      capEl.innerHTML = `<strong>${id}</strong> — score: <strong>${score}</strong>${fb}${when}`;
+      capEl.innerHTML = `
+        <strong>${id}</strong> — score: <strong>${score}</strong>${fb}${when}
+        <a href="${it.abs_url_plain}" target="_blank" rel="noopener">open image</a>
+      `;
 
-      // prefetch next
+      // Prefetch next image (plain URL)
       const pre = new Image();
-      pre.src = items[(idx+1)%items.length].abs_url;
+      pre.src = items[(idx+1)%items.length].abs_url_plain;
     }
 
     function next(){ show(idx+1); }
     function prev(){ show(idx-1); }
-    function start(){ stop(); playing = true; document.getElementById("playBtn").textContent = "⏸ Pause"; timer = setInterval(next, INTERVAL_MS); }
-    function stop(){ playing = false; document.getElementById("playBtn").textContent = "▶︎ Play"; if (timer) clearInterval(timer); timer = null; }
+    function start(){ stop(); playing = true; document.getElementById("playBtn").textContent = "⏸ Pause"; timer = setInterval(next, STEP_MS); }
+    function stop(){ playing = false; document.getElementById("playBtn").textContent = "▶︎ Play"; clearInterval(timer); timer = null; }
     function toggle(){ playing ? stop() : start(); }
 
+    // Controls
     document.getElementById("refreshBtn").addEventListener("click", load);
     document.getElementById("nextBtn").addEventListener("click", () => { stop(); next(); });
     document.getElementById("prevBtn").addEventListener("click", () => { stop(); prev(); });
