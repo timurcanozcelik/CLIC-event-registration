@@ -1,43 +1,26 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width,initial-scale=1" />
   <title>CLIC Submissions – Slideshow</title>
   <style>
-    :root { --bg:#0b0b0e; --fg:#f5f7fa; --accent:#4ea1ff; }
-    html,body { margin:0; height:100%; background:var(--bg); color:var(--fg); font-family:system-ui,-apple-system,Segoe UI,Roboto,Helvetica,Arial,sans-serif; }
-    .bar {
-      position:fixed; top:0; left:0; right:0;
-      display:flex; align-items:center; gap:12px;
-      padding:10px 14px; background:#111622; box-shadow:0 2px 8px rgba(0,0,0,.35);
-      z-index:10;
-    }
-    .bar h1 { font-size:16px; margin:0; font-weight:600; opacity:.9; }
-    .bar .spacer { flex:1; }
-    .bar a, .bar button {
-      color:var(--fg); background:#1d2332; border:1px solid #2a3245;
-      padding:8px 12px; border-radius:8px; cursor:pointer; text-decoration:none; font-size:14px;
-    }
-    .bar button:hover, .bar a:hover { background:#222a3d; }
-    .wrap { position:fixed; inset:56px 0 0 0; display:flex; align-items:center; justify-content:center; }
-    .stage { text-align:center; max-width:92vw; max-height:86vh; }
-    .stage img {
-      max-width:92vw; max-height:72vh; width:auto; height:auto;
-      object-fit:contain; background:#fff; border-radius:10px;
-      box-shadow:0 10px 30px rgba(0,0,0,.45);
-    }
-    .caption { margin-top:12px; font-size:16px; opacity:.95; }
-    .caption strong { color:#fff; }
-    .controls {
-      position:fixed; bottom:18px; left:0; right:0; display:flex; justify-content:center; gap:10px;
-    }
-    .controls button {
-      background:#1d2332; color:var(--fg); border:1px solid #2a3245;
-      padding:10px 14px; border-radius:10px; font-size:15px; cursor:pointer;
-    }
-    .controls button:hover { background:#222a3d; }
-    .muted { opacity:.65; }
+    :root { --bg:#0b0b0e; --fg:#f5f7fa; --muted:#aab4c6; --panel:#111622; --btn:#1d2332; --btn2:#222a3d; --border:#2a3245; --accent:#4ea1ff; }
+    html,body{margin:0;height:100%;background:var(--bg);color:var(--fg);font:14px/1.45 system-ui,-apple-system,"Segoe UI",Roboto,Helvetica,Arial,sans-serif}
+    .bar{position:fixed;inset:0 0 auto 0;display:flex;gap:12px;align-items:center;padding:10px 14px;background:var(--panel);box-shadow:0 2px 8px rgba(0,0,0,.35);z-index:10}
+    .bar h1{margin:0;font-size:16px;font-weight:600;opacity:.95}
+    .spacer{flex:1}
+    .bar a,.bar button{color:var(--fg);background:var(--btn);border:1px solid var(--border);padding:8px 12px;border-radius:8px;cursor:pointer;text-decoration:none}
+    .bar a:hover,.bar button:hover{background:var(--btn2)}
+    .wrap{position:fixed;inset:56px 0 64px 0;display:flex;align-items:center;justify-content:center}
+    .stage{text-align:center;max-width:92vw;max-height:100%;display:flex;flex-direction:column;align-items:center;justify-content:center}
+    .stage img{max-width:92vw;max-height:72vh;object-fit:contain;background:#fff;border-radius:10px;box-shadow:0 10px 30px rgba(0,0,0,.45)}
+    .caption{margin-top:12px;font-size:16px;color:var(--muted)}
+    .caption strong{color:#fff}
+    .controls{position:fixed;inset:auto 0 12px 0;display:flex;justify-content:center;gap:10px}
+    .controls button{background:var(--btn);color:var(--fg);border:1px solid var(--border);padding:10px 14px;border-radius:10px;font-size:15px;cursor:pointer}
+    .controls button:hover{background:var(--btn2)}
+    .error{color:#ff8080}
   </style>
 </head>
 <body>
@@ -45,13 +28,13 @@
     <h1>CLIC Submissions – Slideshow</h1>
     <div class="spacer"></div>
     <button id="refreshBtn">Refresh</button>
-    <a id="csvLink" href="#" target="_blank" rel="noopener">Download CSV</a>
+    <a id="csvLink" href="https://55bfb3f29de3.ngrok-free.app/api/submissions.csv" target="_blank" rel="noopener">Download CSV</a>
   </div>
 
   <div class="wrap">
     <div class="stage">
       <img id="slide" alt="submission" />
-      <div id="caption" class="caption muted">Loading…</div>
+      <div id="caption" class="caption">Loading…</div>
     </div>
   </div>
 
@@ -62,126 +45,88 @@
   </div>
 
   <script>
-    // ---- CONFIG ----
-    const BACKEND_BASE = "https://55bfb3f29de3.ngrok-free.app";
-    const FEED_JSON    = BACKEND_BASE + "/api/submissions";
-    const FEED_CSV     = BACKEND_BASE + "/api/submissions.csv";
-    document.getElementById("csvLink").href = FEED_CSV;
-
-    // ---- STATE ----
-    let items = []; // normalized: { participant_id, creativity_score, uploaded_at, used_fallback, abs_url }
-    let idx = 0, playing = true, timer = null;
+    // ---------- CONFIG ----------
+    const BACKEND = "https://55bfb3f29de3.ngrok-free.app";
+    const FEED    = BACKEND + "/api/submissions";
     const INTERVAL_MS = 5000;
+
+    // ---------- STATE ----------
+    let items = []; // {participant_id, filename, image_url, creativity_score, uploaded_at, used_fallback, abs_url}
+    let idx = 0, timer = null, playing = true;
 
     const imgEl = document.getElementById("slide");
     const capEl = document.getElementById("caption");
 
-    // ---- LOADERS ----
-    async function loadFeed() {
+    // ---------- LOAD ----------
+    async function load() {
+      stop();
       capEl.textContent = "Loading…";
-      items = [];
       try {
-        // try JSON first
-        const r = await fetch(FEED_JSON, { cache: "no-store" });
-        if (r.ok) {
-          const data = await r.json();
-          const list = Array.isArray(data) ? data : (data.items || []);
-          items = list.map(row => ({
-            participant_id: row.participant_id ?? "—",
-            creativity_score: Number(row.creativity_score ?? NaN),
-            uploaded_at: row.uploaded_at ?? "",
-            used_fallback: !!row.used_fallback,
-            abs_url: BACKEND_BASE + row.image_url
-          }));
-        } else {
-          // fall back to CSV
-          await loadFromCSV();
-        }
-      } catch (e) {
-        // if JSON parsing/network failed, try CSV as well
-        await loadFromCSV();
-      }
+        const r = await fetch(FEED, { mode: "cors", cache: "no-store" });
+        if (!r.ok) throw new Error(`HTTP ${r.status}`);
+        const data = await r.json();
 
-      if (!items.length) {
-        capEl.textContent = "No submissions yet.";
-        imgEl.removeAttribute("src");
-        stop();
-        return;
-      }
-
-      idx = 0;
-      show(idx);
-      if (playing) start();
-    }
-
-    async function loadFromCSV() {
-      try {
-        const rcsv = await fetch(FEED_CSV, { cache: "no-store" });
-        if (!rcsv.ok) throw new Error(rcsv.statusText);
-        const text = await rcsv.text();
-        items = parseCSV(text).map(row => {
-          // Expect either image_url, or (participant_id + filename)
-          const image_url = row.image_url ||
-                            `/submission/${row.participant_id}/${row.filename}`;
-          return {
-            participant_id: row.participant_id || "—",
-            creativity_score: Number(row.creativity_score ?? row.score ?? NaN),
-            uploaded_at: row.uploaded_at || row.time || "",
-            used_fallback: (row.used_fallback === "True" || row.used_fallback === "true"),
-            abs_url: BACKEND_BASE + image_url
-          };
+        const list = Array.isArray(data) ? data : (data.items || []);
+        // Build absolute image URLs robustly
+        items = list.map(row => {
+          const abs = new URL(row.image_url, BACKEND).href; // handles leading slash
+          return { ...row, abs_url: abs };
         });
-      } catch (e) {
-        console.error("CSV load failed:", e);
-        capEl.textContent = "Failed to load submissions.";
-        stop();
+
+        if (!items.length) {
+          capEl.textContent = "No submissions yet.";
+          imgEl.removeAttribute("src");
+          return;
+        }
+
+        // newest first (optional)
+        items.sort((a,b) => (b.uploaded_at||"").localeCompare(a.uploaded_at||""));
+
+        idx = 0;
+        show(idx);
+        if (playing) start();
+      } catch (err) {
+        console.error("Load failed:", err);
+        capEl.innerHTML = `<span class="error">Failed to load submissions.</span>`;
+        imgEl.removeAttribute("src");
       }
     }
 
-    // minimal CSV parser (handles simple, non-quoted CSV)
-    function parseCSV(text) {
-      const lines = text.trim().split(/\r?\n/);
-      if (!lines.length) return [];
-      const headers = lines[0].split(",").map(h => h.trim());
-      return lines.slice(1).map(line => {
-        const cols = line.split(",").map(c => c.trim());
-        const obj = {};
-        headers.forEach((h,i) => obj[h] = cols[i]);
-        return obj;
-      });
-    }
-
-    // ---- SLIDESHOW ----
+    // ---------- VIEW ----------
     function show(i) {
       idx = (i + items.length) % items.length;
       const it = items[idx];
       imgEl.src = it.abs_url;
-      const s = Number.isFinite(it.creativity_score) ? it.creativity_score.toFixed(4) : "—";
-      const when = it.uploaded_at ? ` • ${it.uploaded_at}` : "";
-      const fb = it.used_fallback ? " (fallback)" : "";
-      capEl.innerHTML = `<strong>${it.participant_id}</strong> — score: <strong>${s}</strong>${fb}${when}`;
-      capEl.classList.remove("muted");
+
+      const score = (typeof it.creativity_score === "number" && isFinite(it.creativity_score))
+        ? it.creativity_score.toFixed(4) : "–";
+      const when  = it.uploaded_at ? ` • ${it.uploaded_at}` : "";
+      const fb    = it.used_fallback ? " (fallback)" : "";
+      capEl.innerHTML = `<strong>${it.participant_id}</strong> — score: <strong>${score}</strong>${fb}${when}`;
+
+      // prefetch next
       const pre = new Image();
-      pre.src = items[(idx+1)%items.length].abs_url;
+      pre.src = items[(idx+1) % items.length].abs_url;
     }
+
     function next(){ show(idx+1); }
     function prev(){ show(idx-1); }
-    function start(){ stop(); playing=true; document.getElementById("playBtn").textContent="⏸ Pause"; timer=setInterval(next,INTERVAL_MS); }
-    function stop(){ playing=false; document.getElementById("playBtn").textContent="▶︎ Play"; if(timer) clearInterval(timer); timer=null; }
-    function togglePlay(){ playing?stop():start(); }
+    function start(){ stop(); playing = true; document.getElementById("playBtn").textContent = "⏸ Pause"; timer = setInterval(next, INTERVAL_MS); }
+    function stop(){ playing = false; document.getElementById("playBtn").textContent = "▶︎ Play"; if (timer) clearInterval(timer); timer = null; }
+    function toggle(){ playing ? stop() : start(); }
 
-    // ---- UI ----
-    document.getElementById("refreshBtn").addEventListener("click", loadFeed);
+    // ---------- UI ----------
+    document.getElementById("refreshBtn").addEventListener("click", load);
     document.getElementById("nextBtn").addEventListener("click", () => { stop(); next(); });
     document.getElementById("prevBtn").addEventListener("click", () => { stop(); prev(); });
-    document.getElementById("playBtn").addEventListener("click", togglePlay);
+    document.getElementById("playBtn").addEventListener("click", toggle);
     window.addEventListener("keydown", e => {
-      if (e.code==="ArrowRight"){ stop(); next(); }
-      else if (e.code==="ArrowLeft"){ stop(); prev(); }
-      else if (e.code==="Space"){ e.preventDefault(); togglePlay(); }
+      if (e.code === "ArrowRight") { stop(); next(); }
+      else if (e.code === "ArrowLeft") { stop(); prev(); }
+      else if (e.code === "Space") { e.preventDefault(); toggle(); }
     });
 
-    loadFeed();
+    load();
   </script>
 </body>
 </html>
