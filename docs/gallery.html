@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>CLIC Submissions – Slideshow</title>
+  <style>
+    :root { --bg:#0b0b0e; --fg:#f5f7fa; --accent:#4ea1ff; }
+    html,body { margin:0; height:100%; background:var(--bg); color:var(--fg); font-family:system-ui,-apple-system,Segoe UI,Roboto,Helvetica,Arial,sans-serif; }
+    .bar {
+      position:fixed; top:0; left:0; right:0;
+      display:flex; align-items:center; gap:12px;
+      padding:10px 14px; background:#111622; box-shadow:0 2px 8px rgba(0,0,0,.35);
+      z-index:10;
+    }
+    .bar h1 { font-size:16px; margin:0; font-weight:600; opacity:.9; }
+    .bar .spacer { flex:1; }
+    .bar a, .bar button {
+      color:var(--fg); background:#1d2332; border:1px solid #2a3245;
+      padding:8px 12px; border-radius:8px; cursor:pointer; text-decoration:none; font-size:14px;
+    }
+    .bar button:hover, .bar a:hover { background:#222a3d; }
+    .wrap {
+      position:fixed; inset:56px 0 0 0; /* leave space for bar */
+      display:flex; align-items:center; justify-content:center;
+    }
+    .stage { text-align:center; max-width:92vw; max-height:86vh; }
+    .stage img {
+      max-width:92vw; max-height:72vh; width:auto; height:auto;
+      object-fit:contain; background:#fff; border-radius:10px;
+      box-shadow:0 10px 30px rgba(0,0,0,.45);
+    }
+    .caption {
+      margin-top:12px; font-size:16px; opacity:.95;
+    }
+    .caption strong { color:#fff; }
+    .controls {
+      position:fixed; bottom:18px; left:0; right:0; display:flex; justify-content:center; gap:10px;
+    }
+    .controls button {
+      background:#1d2332; color:var(--fg); border:1px solid #2a3245;
+      padding:10px 14px; border-radius:10px; font-size:15px; cursor:pointer;
+    }
+    .controls button:hover { background:#222a3d; }
+    .muted { opacity:.65; }
+  </style>
+</head>
+<body>
+  <div class="bar">
+    <h1>CLIC Submissions – Slideshow</h1>
+    <div class="spacer"></div>
+    <button id="refreshBtn">Refresh</button>
+    <a id="csvLink" href="#" target="_blank" rel="noopener">Download CSV</a>
+  </div>
+
+  <div class="wrap">
+    <div class="stage">
+      <img id="slide" alt="submission" />
+      <div id="caption" class="caption muted">Loading…</div>
+    </div>
+  </div>
+
+  <div class="controls">
+    <button id="prevBtn">◀︎ Previous</button>
+    <button id="playBtn">⏸ Pause</button>
+    <button id="nextBtn">Next ▶︎</button>
+  </div>
+
+  <script>
+    // --------- CONFIG: set your backend base once ----------
+    const BACKEND_BASE = "https://55bfb3f29de3.ngrok-free.app";
+    const FEED_URL     = BACKEND_BASE + "/api/submissions";
+    const CSV_URL      = BACKEND_BASE + "/api/submissions.csv";
+
+    document.getElementById("csvLink").href = CSV_URL;
+
+    // --------- State ----------
+    let items = [];         // { participant_id, image_url (relative), creativity_score, uploaded_at, used_fallback }
+    let idx = 0;
+    let playing = true;
+    let timer = null;
+    const INTERVAL_MS = 5000; // auto-advance every 5s
+
+    const imgEl = document.getElementById("slide");
+    const capEl = document.getElementById("caption");
+
+    // --------- Fetch feed ----------
+    async function loadFeed() {
+      capEl.textContent = "Loading…";
+      try {
+        const res = await fetch(FEED_URL, { cache: "no-store" });
+        if (!res.ok) throw new Error(res.statusText);
+        const data = await res.json();
+        items = (data.items || []).map(it => ({
+          ...it,
+          // make absolute URL for the image
+          abs_url: BACKEND_BASE + it.image_url
+        }));
+        if (items.length === 0) {
+          capEl.textContent = "No submissions yet.";
+          imgEl.removeAttribute("src");
+          stop();
+          return;
+        }
+        // newest first is fine, or shuffle if you prefer:
+        // items.sort(() => Math.random() - 0.5);
+        idx = 0;
+        show(idx);
+        if (playing) start();
+      } catch (e) {
+        console.error(e);
+        capEl.textContent = "Failed to load submissions.";
+        stop();
+      }
+    }
+
+    // --------- Slideshow helpers ----------
+    function show(i) {
+      if (!items.length) return;
+      idx = (i + items.length) % items.length;
+      const it = items[idx];
+      imgEl.src = it.abs_url;
+      const score = (it.creativity_score ?? "").toString();
+      const niceScore = score ? Number(it.creativity_score).toFixed(4) : "—";
+      const when = it.uploaded_at ? ` • ${it.uploaded_at}` : "";
+      const fb = it.used_fallback ? " (fallback)" : "";
+      capEl.innerHTML =
+        `<strong>${it.participant_id}</strong> — score: <strong>${niceScore}</strong>${fb}${when}`;
+      capEl.classList.remove("muted");
+      // Preload next for smoothness
+      const next = new Image();
+      next.src = items[(idx + 1) % items.length].abs_url;
+    }
+
+    function next() { show(idx + 1); }
+    function prev() { show(idx - 1); }
+
+    function start() {
+      stop();
+      playing = true;
+      document.getElementById("playBtn").textContent = "⏸ Pause";
+      timer = setInterval(next, INTERVAL_MS);
+    }
+    function stop() {
+      playing = false;
+      document.getElementById("playBtn").textContent = "▶︎ Play";
+      if (timer) clearInterval(timer);
+      timer = null;
+    }
+    function togglePlay() { playing ? stop() : start(); }
+
+    // --------- Wire up controls ----------
+    document.getElementById("refreshBtn").addEventListener("click", loadFeed);
+    document.getElementById("nextBtn").addEventListener("click", () => { stop(); next(); });
+    document.getElementById("prevBtn").addEventListener("click", () => { stop(); prev(); });
+    document.getElementById("playBtn").addEventListener("click", togglePlay);
+
+    // keyboard arrows + space
+    window.addEventListener("keydown", (e) => {
+      if (e.code === "ArrowRight") { stop(); next(); }
+      else if (e.code === "ArrowLeft") { stop(); prev(); }
+      else if (e.code === "Space") { e.preventDefault(); togglePlay(); }
+    });
+
+    // first load
+    loadFeed();
+  </script>
+</body>
+</html>
