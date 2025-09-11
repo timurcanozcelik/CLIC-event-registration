@@ -1,3 +1,4 @@
+# backend/main.py
 import os
 import uuid
 import sys
@@ -7,22 +8,25 @@ import logging
 import subprocess
 import json
 from datetime import datetime
+from typing import List, Dict, Any, Optional
+
 from fastapi import FastAPI, File, UploadFile, Form
-from fastapi.responses import HTMLResponse, FileResponse
+from fastapi.responses import HTMLResponse, FileResponse, StreamingResponse, PlainTextResponse, JSONResponse
 from fastapi.middleware.cors import CORSMiddleware
 from PIL import Image
 import numpy as np
 
-# Setup logging
+# ---------------- Logging ----------------
 logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger("ttct_backend")
 
-SAVE_ROOT = "submissions"
+# ---------------- Paths / config ----------------
+HERE = os.path.dirname(os.path.abspath(__file__))
+SAVE_ROOT = os.path.join(HERE, "submissions")
 os.makedirs(SAVE_ROOT, exist_ok=True)
 
-# Path to the AuDrA directory (adjust if moved)
-AUDRA_BASE_DIR = os.path.join("AuDrA_files", "AuDrA")  # relative to this script
-# Name of the AuDrA conda environment
+# AuDrA (unchanged)
+AUDRA_BASE_DIR = os.path.join(HERE, "AuDrA_files", "AuDrA")
 AUDRA_ENV = "audra_cpu"
 
 app = FastAPI(title="TTCT Figural Registration Backend")
@@ -33,7 +37,7 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
-
+# ---------------- Helpers ----------------
 def compute_ink_density(pil_img: Image.Image) -> float:
     arr = np.array(pil_img.convert("RGB"))
     white_mask = (arr > 250).all(axis=2)
@@ -41,11 +45,7 @@ def compute_ink_density(pil_img: Image.Image) -> float:
     total = arr.shape[0] * arr.shape[1]
     return float(ink_pixels) / float(total)
 
-
-def find_conda_env_python(env_name: str) -> str | None:
-    """
-    Try to locate the python binary inside a conda environment by name using `conda env list --json`.
-    """
+def find_conda_env_python(env_name: str) -> Optional[str]:
     try:
         proc = subprocess.run(
             ["conda", "env", "list", "--json"],
@@ -64,11 +64,9 @@ def find_conda_env_python(env_name: str) -> str | None:
         logger.warning("Could not introspect conda environments: %s", e)
         return None
 
-
-def run_audra_on_file(src_path: str, audra_base_dir: str, env_name: str | None = None) -> float:
+def run_audra_on_file(src_path: str, audra_base_dir: str, env_name: Optional[str] = None) -> float:
     filename = os.path.basename(src_path)
 
-    # Prepare a unique user_images input folder and copy the drawing there
     user_images = os.path.join(audra_base_dir, f"user_images_{uuid.uuid4().hex[:8]}")
     os.makedirs(user_images, exist_ok=True)
     dest_path = os.path.join(user_images, filename)
@@ -81,74 +79,41 @@ def run_audra_on_file(src_path: str, audra_base_dir: str, env_name: str | None =
     tried_commands = []
     result = None
 
-    # Primary attempt: conda run if env_name provided
     if env_name:
-        cmd = [
-            "conda",
-            "run",
-            "-n",
-            env_name,
-            "python",
-            "AuDrA_run.py",
-            "--input-dir",
-            abs_user_images,
-            "--output-filename",
-            abs_output,
-        ]
+        cmd = ["conda", "run", "-n", env_name, "python", "AuDrA_run.py",
+               "--input-dir", abs_user_images, "--output-filename", abs_output]
         tried_commands.append(("conda_run", cmd))
         result = subprocess.run(cmd, cwd=audra_base_dir, capture_output=True, text=True)
         if result.returncode != 0:
             logger.warning("`conda run` failed for env '%s': %s", env_name, result.stderr.strip())
-
-            # Try directly invoking the python inside that env if we can discover it
             env_python = find_conda_env_python(env_name)
             if env_python:
-                cmd2 = [
-                    env_python,
-                    "AuDrA_run.py",
-                    "--input-dir",
-                    abs_user_images,
-                    "--output-filename",
-                    abs_output,
-                ]
+                cmd2 = [env_python, "AuDrA_run.py",
+                        "--input-dir", abs_user_images, "--output-filename", abs_output]
                 tried_commands.append(("env_python_direct", cmd2))
                 result = subprocess.run(cmd2, cwd=audra_base_dir, capture_output=True, text=True)
                 if result.returncode != 0:
-                    logger.warning("Direct env python invocation also failed: %s", result.stderr.strip())
+                    logger.warning("Direct env python invocation failed: %s", result.stderr.strip())
             else:
-                logger.warning("Could not locate python in conda env '%s'; falling back to current interpreter.", env_name)
-                cmd3 = [
-                    sys.executable,
-                    "AuDrA_run.py",
-                    "--input-dir",
-                    abs_user_images,
-                    "--output-filename",
-                    abs_output,
-                ]
+                logger.warning("Could not locate python in env '%s'; falling back to current interpreter.", env_name)
+                cmd3 = [sys.executable, "AuDrA_run.py",
+                        "--input-dir", abs_user_images, "--output-filename", abs_output]
                 tried_commands.append(("current_python_fallback", cmd3))
                 result = subprocess.run(cmd3, cwd=audra_base_dir, capture_output=True, text=True)
     else:
-        # No env specified: just use current interpreter
-        cmd = [
-            sys.executable,
-            "AuDrA_run.py",
-            "--input-dir",
-            abs_user_images,
-            "--output-filename",
-            abs_output,
-        ]
+        cmd = [sys.executable, "AuDrA_run.py",
+               "--input-dir", abs_user_images, "--output-filename", abs_output]
         tried_commands.append(("current_python", cmd))
         result = subprocess.run(cmd, cwd=audra_base_dir, capture_output=True, text=True)
 
     if result is None:
-        raise RuntimeError("No command was executed for AuDrA invocation.")
+        raise RuntimeError("No command executed for AuDrA invocation.")
 
     if result.returncode != 0:
         logger.error(
-            "AuDrA subprocess failed. Tried commands: %s\nLast stdout:\n%s\nLast stderr:\n%s",
+            "AuDrA subprocess failed. Tried: %s\nstdout:\n%s\nstderr:\n%s",
             [(name, " ".join(cmd)) for name, cmd in tried_commands],
-            result.stdout,
-            result.stderr,
+            result.stdout, result.stderr,
         )
         raise RuntimeError(f"AuDrA execution failed: {result.stderr.strip()}")
 
@@ -162,13 +127,52 @@ def run_audra_on_file(src_path: str, audra_base_dir: str, env_name: str | None =
             if row.get("filenames") == filename:
                 creativity_score = float(row.get("predictions", 0.0))
                 break
-
     if creativity_score is None:
         raise RuntimeError(f"AuDrA did not return a score for {filename}")
-
     return creativity_score
 
+def read_meta_file(path: str) -> Dict[str, Any]:
+    out: Dict[str, Any] = {}
+    if not os.path.exists(path):
+        return out
+    with open(path, "r") as f:
+        for line in f:
+            if ":" not in line:
+                continue
+            k, v = line.split(":", 1)
+            out[k.strip()] = v.strip()
+    return out
 
+def list_submissions() -> List[Dict[str, Any]]:
+    """Scan SAVE_ROOT and return a list of dicts describing each PNG + meta."""
+    items: List[Dict[str, Any]] = []
+    for participant in os.listdir(SAVE_ROOT):
+        part_dir = os.path.join(SAVE_ROOT, participant)
+        if not os.path.isdir(part_dir):
+            continue
+        for fname in os.listdir(part_dir):
+            if not fname.lower().endswith(".png"):
+                continue
+            meta = read_meta_file(os.path.join(part_dir, fname.replace(".png", ".txt")))
+            uploaded_at = meta.get("uploaded_at") or ""
+            try:
+                score = float(meta.get("creativity_score", "nan"))
+            except Exception:
+                score = None
+            used_fallback = (meta.get("used_fallback", "").lower() == "true")
+            items.append({
+                "participant_id": participant,
+                "filename": fname,
+                "uploaded_at": uploaded_at,
+                "creativity_score": score,
+                "used_fallback": used_fallback,
+                "image_url": f"/submission/{participant}/{fname}",
+            })
+    # newest first by uploaded_at, fallback to filename
+    items.sort(key=lambda x: (x.get("uploaded_at") or x["filename"]), reverse=True)
+    return items
+
+# ---------------- API ----------------
 @app.post("/upload/")
 async def upload(participant_id: str = Form(...), file: UploadFile = File(...)):
     timestamp = datetime.utcnow().strftime("%Y%m%dT%H%M%SZ")
@@ -195,7 +199,7 @@ async def upload(participant_id: str = Form(...), file: UploadFile = File(...)):
         creativity_score = ink_ratio  # fallback
         used_fallback = True
 
-    creativity_score_rounded = round(creativity_score, 4)
+    creativity_score_rounded = round(float(creativity_score), 4)
 
     meta_path = os.path.join(participant_dir, f"{base_name}.txt")
     with open(meta_path, "w") as f:
@@ -213,9 +217,192 @@ async def upload(participant_id: str = Form(...), file: UploadFile = File(...)):
         "drawing_file": filename,
         "used_fallback": used_fallback,
         "note": "AuDrA score" if not used_fallback else "Fallback to ink density",
+        "image_url": f"/submission/{participant_id}/{filename}",
+        "uploaded_at": timestamp,
     }
 
+@app.get("/submission/{participant_id}/{filename}")
+def serve_submission(participant_id: str, filename: str):
+    path = os.path.join(SAVE_ROOT, participant_id, filename)
+    if os.path.exists(path):
+        return FileResponse(path)
+    return JSONResponse({"error": "Not found"}, status_code=404)
 
+@app.get("/api/submissions")
+def api_submissions():
+    items = list_submissions()
+    return {"items": items, "count": len(items)}
+
+@app.get("/api/submissions.csv", response_class=PlainTextResponse)
+def api_submissions_csv():
+    items = list_submissions()
+    import io
+    buf = io.StringIO()
+    w = csv.writer(buf)
+    w.writerow(["participant_id", "filename", "uploaded_at", "creativity_score", "used_fallback", "image_url"])
+    for it in items:
+        w.writerow([
+            it["participant_id"], it["filename"], it["uploaded_at"],
+            "" if it["creativity_score"] is None else it["creativity_score"],
+            it["used_fallback"], it["image_url"]
+        ])
+    return buf.getvalue()
+
+# ---------------- Slideshow page (self-contained) ----------------
+@app.get("/slideshow", response_class=HTMLResponse)
+def slideshow():
+    # Uses same-origin /api/submissions, so images load without CORS issues.
+    html = f"""<!doctype html>
+<html lang="en"><head>
+<meta charset="utf-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1"/>
+<title>CLIC Submissions – Slideshow</title>
+<style>
+  :root {{ --bg:#0b0b0e; --fg:#f5f7fa; --muted:#aab4c6; --panel:#111622; --btn:#1d2332; --btn2:#222a3d; --border:#2a3245; --accent:#4ea1ff; --err:#ff7d7d; }}
+  html,body{{margin:0;height:100%;background:var(--bg);color:var(--fg);font:14px/1.45 system-ui,-apple-system,"Segoe UI",Roboto,Helvetica,Arial,sans-serif}}
+  .bar{{position:fixed;inset:0 0 auto 0;display:flex;gap:12px;align-items:center;padding:10px 14px;background:var(--panel);box-shadow:0 2px 8px rgba(0,0,0,.35);z-index:10}}
+  .bar h1{{margin:0;font-size:16px;font-weight:600;opacity:.95}}
+  .spacer{{flex:1}}
+  .bar a,.bar button{{color:var(--fg);background:var(--btn);border:1px solid var(--border);padding:8px 12px;border-radius:8px;cursor:pointer;text-decoration:none}}
+  .bar a:hover,.bar button:hover{{background:var(--btn2)}}
+  .wrap{{position:fixed;inset:56px 0 64px 0;display:flex;align-items:center;justify-content:center}}
+  .stage{{text-align:center;max-width:92vw;max-height:100%;display:flex;flex-direction:column;align-items:center;justify-content:center}}
+  .stage img{{max-width:92vw;max-height:72vh;object-fit:contain;background:#fff;border-radius:10px;box-shadow:0 10px 30px rgba(0,0,0,.45)}}
+  .caption{{margin-top:10px;font-size:16px;color:var(--muted)}}
+  .caption strong{{color:#fff}}
+  .caption a{{color:var(--accent);text-decoration:none;margin-left:8px;font-size:13px}}
+  .controls{{position:fixed;inset:auto 0 12px 0;display:flex;justify-content:center;gap:10px}}
+  .controls button{{background:var(--btn);color:var(--fg);border:1px solid var(--border);padding:10px 14px;border-radius:10px;font-size:15px;cursor:pointer}}
+  .controls button:hover{{background:var(--btn2)}}
+  .error{{color:var(--err)}}
+  .debug{{position:fixed;left:12px;bottom:12px;color:#9aa3b7;font-size:12px;opacity:.8}}
+</style>
+</head>
+<body>
+  <div class="bar">
+    <h1>CLIC Submissions – Slideshow</h1>
+    <div class="spacer"></div>
+    <button id="refreshBtn">Refresh</button>
+    <a href="/api/submissions.csv" target="_blank" rel="noopener">Download CSV</a>
+  </div>
+
+  <div class="wrap">
+    <div class="stage">
+      <img id="slide" alt="submission">
+      <div id="caption" class="caption">Loading…</div>
+    </div>
+  </div>
+
+  <div class="controls">
+    <button id="prevBtn">◀︎ Previous</button>
+    <button id="playBtn">⏸ Pause</button>
+    <button id="nextBtn">Next ▶︎</button>
+  </div>
+
+  <div id="debug" class="debug"></div>
+
+<script>
+  const FEED = "/api/submissions";
+  const STEP_MS = 5000;
+
+  let items = [];
+  let idx = 0;
+  let playing = true;
+  let timer = null;
+
+  const imgEl = document.getElementById("slide");
+  const capEl = document.getElementById("caption");
+  const dbgEl = document.getElementById("debug");
+
+  function dbg(m){{ console.log("[slideshow]", m); dbgEl.textContent = String(m); }}
+
+  imgEl.addEventListener("error", () => {{
+    const it = items[idx];
+    if (!it) return;
+    if (imgEl.dataset.tried === "1") {{
+      capEl.innerHTML += ' <span class="error">(image not found)</span>';
+      return;
+    }}
+    imgEl.dataset.tried = "1";
+    // try again with cache-buster
+    imgEl.src = it.image_url + (it.image_url.includes('?') ? '&' : '?') + 't=' + Date.now();
+  }});
+
+  async function load() {{
+    stop();
+    capEl.textContent = "Loading…";
+    try {{
+      const r = await fetch(FEED + "?t=" + Date.now(), {{ cache: "no-store" }});
+      if (!r.ok) throw new Error("HTTP " + r.status);
+      const data = await r.json();
+      const list = Array.isArray(data) ? data : (data.items || []);
+      if (!list.length) {{
+        capEl.textContent = "No submissions yet.";
+        imgEl.removeAttribute("src");
+        return;
+      }}
+      // normalize + newest first
+      items = list.slice().sort((a,b)=> String(b.uploaded_at||b.filename).localeCompare(String(a.uploaded_at||a.filename)));
+      idx = 0;
+      show(idx);
+      playing ? start() : stop();
+      dbg("Loaded " + items.length + " submissions.");
+    }} catch (e) {{
+      console.error(e);
+      capEl.innerHTML = '<span class="error">Failed to load submissions.</span>';
+      dbg(e.message);
+    }}
+  }}
+
+  function show(i) {{
+    if (!items.length) return;
+    idx = (i + items.length) % items.length;
+    const it = items[idx];
+    imgEl.dataset.tried = "0";
+    imgEl.src = it.image_url + (it.image_url.includes('?') ? '&' : '?') + 't=' + Date.now();
+
+    const score = (it.creativity_score == null || isNaN(it.creativity_score)) ? "–" : Number(it.creativity_score).toFixed(4);
+    const fb = it.used_fallback ? " (fallback)" : "";
+    const when = it.uploaded_at ? " • " + it.uploaded_at : "";
+    capEl.innerHTML = '<strong>'+ (it.participant_id||"–") +'</strong> — score: <strong>'+ score +'</strong>'+ fb + when +
+                      ' <a href="'+ it.image_url +'" target="_blank" rel="noopener">open image</a>';
+    // prefetch next
+    const pre = new Image();
+    pre.src = items[(idx+1)%items.length].image_url;
+  }}
+
+  function next() {{ show(idx+1); }}
+  function prev() {{ show(idx-1); }}
+  function start() {{ stop(); playing = true; document.getElementById("playBtn").textContent = "⏸ Pause"; timer = setInterval(next, STEP_MS); }}
+  function stop() {{ playing = false; document.getElementById("playBtn").textContent = "▶︎ Play"; clearInterval(timer); timer = null; }}
+  function toggle() {{ playing ? stop() : start(); }}
+
+  document.getElementById("refreshBtn").addEventListener("click", load);
+  document.getElementById("nextBtn").addEventListener("click", () => {{ stop(); next(); }});
+  document.getElementById("prevBtn").addEventListener("click", () => {{ stop(); prev(); }});
+  document.getElementById("playBtn").addEventListener("click", toggle);
+
+  // auto-refresh list every 5s (keeps slideshow updated with new submissions)
+  setInterval(async () => {{
+    try {{
+      const r = await fetch(FEED + "?t=" + Date.now(), {{ cache:"no-store" }});
+      if (!r.ok) return;
+      const data = await r.json();
+      const list = Array.isArray(data) ? data : (data.items || []);
+      // if count grew, reload but keep playing state
+      if (list.length !== items.length) {{
+        const wasPlaying = playing;
+        await load();
+        if (wasPlaying) start();
+      }}
+    }} catch(_e) {{}}
+  }}, 5000);
+
+  load();
+</script>
+</body></html>"""
+    return HTMLResponse(html)
+# ---------------- Admin (unchanged) ----------------
 @app.get("/admin/", response_class=HTMLResponse)
 def admin_view():
     html = ["<html><head><title>Submissions</title></head><body><h1>Recent Drawings</h1><ul>"]
@@ -244,11 +431,3 @@ def admin_view():
         html.append("</ul></li>")
     html.append("</ul></body></html>")
     return "\n".join(html)
-
-
-@app.get("/submission/{participant_id}/{filename}")
-def serve_submission(participant_id: str, filename: str):
-    path = os.path.join(SAVE_ROOT, participant_id, filename)
-    if os.path.exists(path):
-        return FileResponse(path)
-    return {"error": "Not found"}
