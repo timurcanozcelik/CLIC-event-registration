@@ -248,33 +248,34 @@ def api_submissions_csv():
         ])
     return buf.getvalue()
 
-# ---------------- Slideshow page (self-contained) ----------------
+from fastapi.responses import HTMLResponse
+
 @app.get("/slideshow", response_class=HTMLResponse)
 def slideshow():
-    # Uses same-origin /api/submissions, so images load without CORS issues.
-    html = f"""<!doctype html>
+    # NOTE: no f-prefix here! Just a normal triple-quoted string so { } braces are not parsed by Python.
+    html = """<!doctype html>
 <html lang="en"><head>
 <meta charset="utf-8"/>
 <meta name="viewport" content="width=device-width,initial-scale=1"/>
 <title>CLIC Submissions – Slideshow</title>
 <style>
-  :root {{ --bg:#0b0b0e; --fg:#f5f7fa; --muted:#aab4c6; --panel:#111622; --btn:#1d2332; --btn2:#222a3d; --border:#2a3245; --accent:#4ea1ff; --err:#ff7d7d; }}
-  html,body{{margin:0;height:100%;background:var(--bg);color:var(--fg);font:14px/1.45 system-ui,-apple-system,"Segoe UI",Roboto,Helvetica,Arial,sans-serif}}
-  .bar{{position:fixed;inset:0 0 auto 0;display:flex;gap:12px;align-items:center;padding:10px 14px;background:var(--panel);box-shadow:0 2px 8px rgba(0,0,0,.35);z-index:10}}
-  .bar h1{{margin:0;font-size:16px;font-weight:600;opacity:.95}}
-  .spacer{{flex:1}}
-  .bar a,.bar button{{color:var(--fg);background:var(--btn);border:1px solid var(--border);padding:8px 12px;border-radius:8px;cursor:pointer;text-decoration:none}}
-  .bar a:hover,.bar button:hover{{background:var(--btn2)}}
-  .wrap{{position:fixed;inset:56px 0 64px 0;display:flex;align-items:center;justify-content:center}}
-  .stage{{text-align:center;max-width:92vw;max-height:100%;display:flex;flex-direction:column;align-items:center;justify-content:center}}
-  /* Key bit: invert the uploaded (white-on-black) images so they show black-on-white */
-  .stage img{{max-width:92vw;max-height:72vh;object-fit:contain;background:#fff;border-radius:10px;box-shadow:0 10px 30px rgba(0,0,0,.45);filter: invert(1);}}
-  .caption{{margin-top:10px;font-size:20px;color:#fff;font-weight:600}}
-  .controls{{position:fixed;inset:auto 0 12px 0;display:flex;justify-content:center;gap:10px}}
-  .controls button{{background:var(--btn);color:var(--fg);border:1px solid var(--border);padding:10px 14px;border-radius:10px;font-size:15px;cursor:pointer}}
-  .controls button:hover{{background:var(--btn2)}}
-  .error{{color:var(--err)}}
-  .debug{{position:fixed;left:12px;bottom:12px;color:#9aa3b7;font-size:12px;opacity:.8}}
+  :root { --bg:#0b0b0e; --fg:#f5f7fa; --muted:#aab4c6; --panel:#111622; --btn:#1d2332; --btn2:#222a3d; --border:#2a3245; --accent:#4ea1ff; --err:#ff7d7d; }
+  html,body{margin:0;height:100%;background:var(--bg);color:var(--fg);font:14px/1.45 system-ui,-apple-system,"Segoe UI",Roboto,Helvetica,Arial,sans-serif}
+  .bar{position:fixed;inset:0 0 auto 0;display:flex;gap:12px;align-items:center;padding:10px 14px;background:var(--panel);box-shadow:0 2px 8px rgba(0,0,0,.35);z-index:10}
+  .bar h1{margin:0;font-size:16px;font-weight:600;opacity:.95}
+  .spacer{flex:1}
+  .bar a,.bar button{color:var(--fg);background:var(--btn);border:1px solid var(--border);padding:8px 12px;border-radius:8px;cursor:pointer;text-decoration:none}
+  .bar a:hover,.bar button:hover{background:var(--btn2)}
+  .wrap{position:fixed;inset:56px 0 64px 0;display:flex;align-items:center;justify-content:center}
+  .stage{text-align:center;max-width:92vw;max-height:100%;display:flex;flex-direction:column;align-items:center;justify-content:center}
+  /* Invert uploaded white-on-black images so they show black-on-white for presentation */
+  .stage img{max-width:92vw;max-height:72vh;object-fit:contain;background:#fff;border-radius:10px;box-shadow:0 10px 30px rgba(0,0,0,.45);filter: invert(1);}
+  .caption{margin-top:10px;font-size:20px;color:#fff;font-weight:600}
+  .controls{position:fixed;inset:auto 0 12px 0;display:flex;justify-content:center;gap:10px}
+  .controls button{background:var(--btn);color:var(--fg);border:1px solid var(--border);padding:10px 14px;border-radius:10px;font-size:15px;cursor:pointer}
+  .controls button:hover{background:var(--btn2)}
+  .error{color:var(--err)}
+  .debug{position:fixed;left:12px;bottom:12px;color:#9aa3b7;font-size:12px;opacity:.8}
 </style>
 </head>
 <body>
@@ -289,7 +290,7 @@ def slideshow():
   <div class="wrap">
     <div class="stage">
       <img id="slide" alt="submission">
-      <!-- Caption now shows ONLY participant + score -->
+      <!-- Caption shows ONLY participant + score -->
       <div id="caption" class="caption">Loading…</div>
     </div>
   </div>
@@ -319,7 +320,7 @@ def slideshow():
 
   function dbg(m){ console.log("[slideshow]", m); dbgEl.textContent = String(m); }
 
-  // --- Fullscreen helpers (must be called from a user gesture) ---
+  // --- Fullscreen ---
   async function goFullscreen(){
     try {
       if (!document.fullscreenElement) {
@@ -328,8 +329,6 @@ def slideshow():
     } catch(e){ console.warn(e); }
   }
   fsBtn.addEventListener("click", goFullscreen);
-  // also try when Play is pressed
-  function tryFullscreenOnPlay(){ if (!document.fullscreenElement) goFullscreen(); }
   document.addEventListener("keydown",(e)=>{
     if (e.key.toLowerCase()==='f') goFullscreen();
   });
@@ -358,7 +357,6 @@ def slideshow():
         imgEl.removeAttribute("src");
         return;
       }
-      // newest first
       items = list.slice().sort((a,b)=> String(b.uploaded_at||b.filename).localeCompare(String(a.uploaded_at||a.filename)));
       idx = 0;
       show(idx);
@@ -376,20 +374,18 @@ def slideshow():
     idx = (i + items.length) % items.length;
     const it = items[idx];
     imgEl.dataset.tried = "0";
-    // cache-buster so we always get the latest file
     imgEl.src = it.image_url + (it.image_url.includes('?') ? '&' : '?') + 't=' + Date.now();
 
     const score = (it.creativity_score == null || isNaN(it.creativity_score)) ? "–" : Number(it.creativity_score).toFixed(4);
-    // Caption: ONLY participant + score (no filename or links)
     capEl.textContent = `Participant: ${it.participant_id ?? "—"}   •   Creativity score: ${score}`;
-    // prefetch next
+
     const pre = new Image();
     pre.src = items[(idx+1)%items.length].image_url;
   }
 
   function next() { show(idx+1); }
   function prev() { show(idx-1); }
-  function start() { stop(); playing = true; playBtn.textContent = "⏸ Pause"; timer = setInterval(next, STEP_MS); tryFullscreenOnPlay(); }
+  function start() { stop(); playing = true; playBtn.textContent = "⏸ Pause"; timer = setInterval(next, STEP_MS); if (!document.fullscreenElement) goFullscreen(); }
   function stop()  { playing = false; playBtn.textContent = "▶︎ Play"; clearInterval(timer); timer = null; }
   function toggle(){ playing ? stop() : start(); }
 
@@ -398,7 +394,7 @@ def slideshow():
   document.getElementById("prevBtn").addEventListener("click", () => { stop(); prev(); });
   playBtn.addEventListener("click", toggle);
 
-  // auto-refresh list every 5s (adds new submissions while presenting)
+  // auto-refresh list every 5s to pick up new submissions
   setInterval(async () => {
     try {
       const r = await fetch(FEED + "?t=" + Date.now(), { cache:"no-store" });
