@@ -9,6 +9,10 @@ import subprocess
 import json
 from datetime import datetime
 from typing import List, Dict, Any, Optional
+import io
+from fastapi import Query
+from fastapi.responses import Response
+
 
 from fastapi import FastAPI, File, UploadFile, Form
 from fastapi.responses import HTMLResponse, FileResponse, StreamingResponse, PlainTextResponse, JSONResponse
@@ -451,3 +455,70 @@ def slideshow():
 </body>
 </html>"""
     return HTMLResponse(html)
+
+@app.get("/admin/csv")
+def admin_csv(dl: bool = Query(False, description="Set ?dl=1 to force download")):
+    """
+    Build a CSV of all submissions by reading the per-submission .txt metadata
+    we already write alongside the PNGs.
+    """
+    header = [
+        "participant_id",
+        "uploaded_at",
+        "creativity_score",
+        "used_fallback",
+        "ink_density",
+        "filename",
+        "image_url",
+    ]
+    rows = []
+
+    for participant in sorted(os.listdir(SAVE_ROOT)):
+        part_dir = os.path.join(SAVE_ROOT, participant)
+        if not os.path.isdir(part_dir):
+            continue
+
+        for fname in sorted(os.listdir(part_dir)):
+            if not fname.endswith(".txt"):
+                continue
+
+            meta = {}
+            meta_path = os.path.join(part_dir, fname)
+            try:
+                with open(meta_path, "r") as f:
+                    for line in f:
+                        line = line.strip()
+                        if not line or ":" not in line:
+                            continue
+                        k, v = line.split(":", 1)
+                        meta[k.strip()] = v.strip()
+            except Exception:
+                continue
+
+            # filename defaults if not in meta (older runs)
+            img_name = meta.get("raw_filename", fname.replace(".txt", ".png"))
+            image_url = f"/submission/{participant}/{img_name}"
+
+            rows.append([
+                participant,
+                meta.get("uploaded_at", ""),
+                meta.get("creativity_score", ""),
+                meta.get("used_fallback", ""),
+                meta.get("ink_density", ""),
+                img_name,
+                image_url,
+            ])
+
+    # Build CSV into memory
+    buf = io.StringIO()
+    writer = csv.writer(buf)
+    writer.writerow(header)
+    for r in rows:
+        writer.writerow(r)
+    csv_text = buf.getvalue()
+
+    headers = {}
+    if dl:
+        headers["Content-Disposition"] = 'attachment; filename="submissions.csv"'
+
+    return Response(content=csv_text, media_type="text/csv", headers=headers)
