@@ -252,91 +252,128 @@ from fastapi.responses import HTMLResponse
 
 @app.get("/slideshow", response_class=HTMLResponse)
 def slideshow():
-    # NOTE: no f-prefix here! Just a normal triple-quoted string so { } braces are not parsed by Python.
+    # Plain triple-quoted string (not an f-string) because of JS/CSS braces.
     html = """<!doctype html>
-<html lang="en"><head>
+<html lang="en">
+<head>
 <meta charset="utf-8"/>
 <meta name="viewport" content="width=device-width,initial-scale=1"/>
 <title>CLIC Submissions – Slideshow</title>
 <style>
-  :root { --bg:#0b0b0e; --fg:#f5f7fa; --muted:#aab4c6; --panel:#111622; --btn:#1d2332; --btn2:#222a3d; --border:#2a3245; --accent:#4ea1ff; --err:#ff7d7d; }
-  html,body{margin:0;height:100%;background:var(--bg);color:var(--fg);font:14px/1.45 system-ui,-apple-system,"Segoe UI",Roboto,Helvetica,Arial,sans-serif}
-  .bar{position:fixed;inset:0 0 auto 0;display:flex;gap:12px;align-items:center;padding:10px 14px;background:var(--panel);box-shadow:0 2px 8px rgba(0,0,0,.35);z-index:10}
-  .bar h1{margin:0;font-size:16px;font-weight:600;opacity:.95}
-  .spacer{flex:1}
-  .bar a,.bar button{color:var(--fg);background:var(--btn);border:1px solid var(--border);padding:8px 12px;border-radius:8px;cursor:pointer;text-decoration:none}
-  .bar a:hover,.bar button:hover{background:var(--btn2)}
-  .wrap{position:fixed;inset:56px 0 64px 0;display:flex;align-items:center;justify-content:center}
-  .stage{text-align:center;max-width:92vw;max-height:100%;display:flex;flex-direction:column;align-items:center;justify-content:center}
-  /* Invert uploaded white-on-black images so they show black-on-white for presentation */
-  .stage img{max-width:92vw;max-height:72vh;object-fit:contain;background:#fff;border-radius:10px;box-shadow:0 10px 30px rgba(0,0,0,.45);filter: invert(1);}
-  .caption{margin-top:10px;font-size:20px;color:#fff;font-weight:600}
-  .controls{position:fixed;inset:auto 0 12px 0;display:flex;justify-content:center;gap:10px}
-  .controls button{background:var(--btn);color:var(--fg);border:1px solid var(--border);padding:10px 14px;border-radius:10px;font-size:15px;cursor:pointer}
-  .controls button:hover{background:var(--btn2)}
-  .error{color:var(--err)}
-  .debug{position:fixed;left:12px;bottom:12px;color:#9aa3b7;font-size:12px;opacity:.8}
+  :root{
+    --bg:#0b0b0e; --fg:#f5f7fa; --muted:#aab4c6;
+    --panel:#111622; --border:#2a3245; --accent:#4ea1ff;
+  }
+  html,body{margin:0;height:100%;background:var(--bg);color:var(--fg);
+    font:14px/1.45 system-ui,-apple-system,"Segoe UI",Roboto,Helvetica,Arial,sans-serif}
+
+  /* Top chrome (auto-hides) */
+  .bar{
+    position:fixed; inset:0 0 auto 0; height:48px;
+    display:flex; align-items:center; gap:12px;
+    padding:8px 14px; background:var(--panel);
+    border-bottom:1px solid var(--border);
+    transition:opacity .3s ease; z-index:10;
+  }
+  .bar h1{margin:0; font-size:15px; font-weight:600; opacity:.95}
+  body.hide-chrome .bar{opacity:0; pointer-events:none}
+
+  /* Stage */
+  .wrap{position:fixed; inset:48px 0 0 0; display:flex; align-items:center; justify-content:center}
+  body.hide-chrome .wrap{inset:0} /* when chrome hidden, fill full-viewport */
+
+  .stage{max-width:96vw; max-height:96vh; display:flex; flex-direction:column; align-items:center; justify-content:center; gap:12px}
+
+  /* Invert uploaded white-on-black to black-on-white for presentation */
+  .stage img{
+    max-width:96vw; max-height:80vh; object-fit:contain;
+    background:#fff; border-radius:10px;
+    box-shadow:0 10px 30px rgba(0,0,0,.45);
+    filter: invert(1);
+  }
+
+  /* Caption shows ONLY participant + score */
+  .caption{
+    font-size:20px; color:#fff; font-weight:600;
+    text-shadow:0 1px 3px rgba(0,0,0,.6);
+  }
+
+  .error{color:#ff7d7d; font-weight:600}
+  .debug{position:fixed; left:10px; bottom:10px; color:#9aa3b7; font-size:12px; opacity:.7}
 </style>
 </head>
 <body>
   <div class="bar">
     <h1>CLIC Submissions – Slideshow</h1>
-    <div class="spacer"></div>
-    <button id="fsBtn" title="Fullscreen (F)">Fullscreen</button>
-    <button id="refreshBtn">Refresh</button>
-    <a href="/api/submissions.csv" target="_blank" rel="noopener">Download CSV</a>
   </div>
 
-  <div class="wrap">
+  <div class="wrap" id="wrap">
     <div class="stage">
       <img id="slide" alt="submission">
-      <!-- Caption shows ONLY participant + score -->
       <div id="caption" class="caption">Loading…</div>
     </div>
-  </div>
-
-  <div class="controls">
-    <button id="prevBtn">◀︎ Previous</button>
-    <button id="playBtn">⏸ Pause</button>
-    <button id="nextBtn">Next ▶︎</button>
   </div>
 
   <div id="debug" class="debug"></div>
 
 <script>
   const FEED = "/api/submissions";
-  const STEP_MS = 5000;
+  const STEP_MS = 6000;     // slide duration
+  const REFRESH_MS = 8000;  // check for new uploads
 
   let items = [];
   let idx = 0;
-  let playing = true;
   let timer = null;
+  let playing = true;
 
   const imgEl  = document.getElementById("slide");
   const capEl  = document.getElementById("caption");
   const dbgEl  = document.getElementById("debug");
-  const fsBtn  = document.getElementById("fsBtn");
-  const playBtn= document.getElementById("playBtn");
+  const wrapEl = document.getElementById("wrap");
 
-  function dbg(m){ console.log("[slideshow]", m); dbgEl.textContent = String(m); }
+  // ---- Helpers ----
+  function dbg(m){ try{ dbgEl.textContent = String(m); }catch{}; }
 
-  // --- Fullscreen ---
   async function goFullscreen(){
-    try {
-      if (!document.fullscreenElement) {
+    try{
+      if(!document.fullscreenElement){
         await document.documentElement.requestFullscreen();
       }
-    } catch(e){ console.warn(e); }
+    }catch(e){/* ignore */}
   }
-  fsBtn.addEventListener("click", goFullscreen);
-  document.addEventListener("keydown",(e)=>{
-    if (e.key.toLowerCase()==='f') goFullscreen();
+
+  // Auto-hide top chrome after inactivity
+  let chromeTimer = null;
+  function showChrome(){
+    document.body.classList.remove("hide-chrome");
+    clearTimeout(chromeTimer);
+    chromeTimer = setTimeout(()=>document.body.classList.add("hide-chrome"), 2000);
+  }
+  ["mousemove","keydown","touchstart"].forEach(evt =>
+    document.addEventListener(evt, showChrome, {passive:true})
+  );
+  showChrome(); // start the timer immediately
+
+  // Fullscreen on first tap/click / or press 'f'
+  let didFS = false;
+  function ensureFS(){ if(!didFS){ didFS = true; goFullscreen(); } }
+  document.addEventListener("click", ensureFS, {once:true});
+  document.addEventListener("keydown", (e)=>{
+    if(e.key.toLowerCase()==="f") goFullscreen();
+  });
+
+  // Basic keyboard nav (hidden; no visible buttons)
+  document.addEventListener("keydown", (e)=>{
+    if(e.key==="ArrowRight") { stop(); next(); }
+    if(e.key==="ArrowLeft")  { stop(); prev(); }
+    if(e.key===" ")          { e.preventDefault(); toggle(); }
+    if(e.key.toLowerCase()==="r") load();
   });
 
   imgEl.addEventListener("error", () => {
     const it = items[idx];
-    if (!it) return;
-    if (imgEl.dataset.tried === "1") {
+    if(!it) return;
+    if(imgEl.dataset.tried === "1"){
       capEl.innerHTML += ' <span class="error">(image not found)</span>';
       return;
     }
@@ -344,72 +381,73 @@ def slideshow():
     imgEl.src = it.image_url + (it.image_url.includes('?') ? '&' : '?') + 't=' + Date.now();
   });
 
-  async function load() {
+  async function load(){
     stop();
     capEl.textContent = "Loading…";
-    try {
-      const r = await fetch(FEED + "?t=" + Date.now(), { cache: "no-store" });
-      if (!r.ok) throw new Error("HTTP " + r.status);
+    try{
+      const r = await fetch(FEED + "?t=" + Date.now(), {cache:"no-store"});
+      if(!r.ok) throw new Error("HTTP " + r.status);
       const data = await r.json();
       const list = Array.isArray(data) ? data : (data.items || []);
-      if (!list.length) {
+      if(!list.length){
         capEl.textContent = "No submissions yet.";
         imgEl.removeAttribute("src");
         return;
       }
-      items = list.slice().sort((a,b)=> String(b.uploaded_at||b.filename).localeCompare(String(a.uploaded_at||a.filename)));
+      // newest first by uploaded_at or filename
+      items = list.slice().sort((a,b) => String(b.uploaded_at||b.filename).localeCompare(String(a.uploaded_at||a.filename)));
       idx = 0;
       show(idx);
-      playing ? start() : stop();
+      if(playing) start();
       dbg("Loaded " + items.length + " submissions.");
-    } catch (e) {
+    }catch(e){
       console.error(e);
       capEl.innerHTML = '<span class="error">Failed to load submissions.</span>';
-      dbg(e.message);
+      dbg(e.message || e);
     }
   }
 
-  function show(i) {
-    if (!items.length) return;
+  function show(i){
+    if(!items.length) return;
     idx = (i + items.length) % items.length;
     const it = items[idx];
+
     imgEl.dataset.tried = "0";
     imgEl.src = it.image_url + (it.image_url.includes('?') ? '&' : '?') + 't=' + Date.now();
 
-    const score = (it.creativity_score == null || isNaN(it.creativity_score)) ? "–" : Number(it.creativity_score).toFixed(4);
+    const score = (it.creativity_score == null || isNaN(it.creativity_score))
+      ? "–"
+      : Number(it.creativity_score).toFixed(4);
     capEl.textContent = `Participant: ${it.participant_id ?? "—"}   •   Creativity score: ${score}`;
 
+    // preload next
     const pre = new Image();
     pre.src = items[(idx+1)%items.length].image_url;
   }
 
-  function next() { show(idx+1); }
-  function prev() { show(idx-1); }
-  function start() { stop(); playing = true; playBtn.textContent = "⏸ Pause"; timer = setInterval(next, STEP_MS); if (!document.fullscreenElement) goFullscreen(); }
-  function stop()  { playing = false; playBtn.textContent = "▶︎ Play"; clearInterval(timer); timer = null; }
+  function next(){ show(idx+1); }
+  function prev(){ show(idx-1); }
+  function start(){ stop(); playing = true; timer = setInterval(next, STEP_MS); }
+  function stop(){ playing = false; clearInterval(timer); timer = null; }
   function toggle(){ playing ? stop() : start(); }
 
-  document.getElementById("refreshBtn").addEventListener("click", load);
-  document.getElementById("nextBtn").addEventListener("click", () => { stop(); next(); });
-  document.getElementById("prevBtn").addEventListener("click", () => { stop(); prev(); });
-  playBtn.addEventListener("click", toggle);
-
-  // auto-refresh list every 5s to pick up new submissions
-  setInterval(async () => {
-    try {
-      const r = await fetch(FEED + "?t=" + Date.now(), { cache:"no-store" });
-      if (!r.ok) return;
+  // Auto-refresh feed (adds new items while running)
+  setInterval(async ()=>{
+    try{
+      const r = await fetch(FEED + "?t=" + Date.now(), {cache:"no-store"});
+      if(!r.ok) return;
       const data = await r.json();
       const list = Array.isArray(data) ? data : (data.items || []);
-      if (list.length !== items.length) {
+      if(list.length !== items.length){
         const wasPlaying = playing;
         await load();
-        if (wasPlaying) start();
+        if(wasPlaying) start();
       }
-    } catch(_e) {}
-  }, 5000);
+    }catch(_e){}
+  }, REFRESH_MS);
 
   load();
 </script>
-</body></html>"""
+</body>
+</html>"""
     return HTMLResponse(html)
