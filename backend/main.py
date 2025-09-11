@@ -267,10 +267,9 @@ def slideshow():
   .bar a:hover,.bar button:hover{{background:var(--btn2)}}
   .wrap{{position:fixed;inset:56px 0 64px 0;display:flex;align-items:center;justify-content:center}}
   .stage{{text-align:center;max-width:92vw;max-height:100%;display:flex;flex-direction:column;align-items:center;justify-content:center}}
-  .stage img{{max-width:92vw;max-height:72vh;object-fit:contain;background:#fff;border-radius:10px;box-shadow:0 10px 30px rgba(0,0,0,.45)}}
-  .caption{{margin-top:10px;font-size:16px;color:var(--muted)}}
-  .caption strong{{color:#fff}}
-  .caption a{{color:var(--accent);text-decoration:none;margin-left:8px;font-size:13px}}
+  /* Key bit: invert the uploaded (white-on-black) images so they show black-on-white */
+  .stage img{{max-width:92vw;max-height:72vh;object-fit:contain;background:#fff;border-radius:10px;box-shadow:0 10px 30px rgba(0,0,0,.45);filter: invert(1);}}
+  .caption{{margin-top:10px;font-size:20px;color:#fff;font-weight:600}}
   .controls{{position:fixed;inset:auto 0 12px 0;display:flex;justify-content:center;gap:10px}}
   .controls button{{background:var(--btn);color:var(--fg);border:1px solid var(--border);padding:10px 14px;border-radius:10px;font-size:15px;cursor:pointer}}
   .controls button:hover{{background:var(--btn2)}}
@@ -282,6 +281,7 @@ def slideshow():
   <div class="bar">
     <h1>CLIC Submissions – Slideshow</h1>
     <div class="spacer"></div>
+    <button id="fsBtn" title="Fullscreen (F)">Fullscreen</button>
     <button id="refreshBtn">Refresh</button>
     <a href="/api/submissions.csv" target="_blank" rel="noopener">Download CSV</a>
   </div>
@@ -289,6 +289,7 @@ def slideshow():
   <div class="wrap">
     <div class="stage">
       <img id="slide" alt="submission">
+      <!-- Caption now shows ONLY participant + score -->
       <div id="caption" class="caption">Loading…</div>
     </div>
   </div>
@@ -310,124 +311,109 @@ def slideshow():
   let playing = true;
   let timer = null;
 
-  const imgEl = document.getElementById("slide");
-  const capEl = document.getElementById("caption");
-  const dbgEl = document.getElementById("debug");
+  const imgEl  = document.getElementById("slide");
+  const capEl  = document.getElementById("caption");
+  const dbgEl  = document.getElementById("debug");
+  const fsBtn  = document.getElementById("fsBtn");
+  const playBtn= document.getElementById("playBtn");
 
-  function dbg(m){{ console.log("[slideshow]", m); dbgEl.textContent = String(m); }}
+  function dbg(m){ console.log("[slideshow]", m); dbgEl.textContent = String(m); }
 
-  imgEl.addEventListener("error", () => {{
+  // --- Fullscreen helpers (must be called from a user gesture) ---
+  async function goFullscreen(){
+    try {
+      if (!document.fullscreenElement) {
+        await document.documentElement.requestFullscreen();
+      }
+    } catch(e){ console.warn(e); }
+  }
+  fsBtn.addEventListener("click", goFullscreen);
+  // also try when Play is pressed
+  function tryFullscreenOnPlay(){ if (!document.fullscreenElement) goFullscreen(); }
+  document.addEventListener("keydown",(e)=>{
+    if (e.key.toLowerCase()==='f') goFullscreen();
+  });
+
+  imgEl.addEventListener("error", () => {
     const it = items[idx];
     if (!it) return;
-    if (imgEl.dataset.tried === "1") {{
+    if (imgEl.dataset.tried === "1") {
       capEl.innerHTML += ' <span class="error">(image not found)</span>';
       return;
-    }}
+    }
     imgEl.dataset.tried = "1";
-    // try again with cache-buster
     imgEl.src = it.image_url + (it.image_url.includes('?') ? '&' : '?') + 't=' + Date.now();
-  }});
+  });
 
-  async function load() {{
+  async function load() {
     stop();
     capEl.textContent = "Loading…";
-    try {{
-      const r = await fetch(FEED + "?t=" + Date.now(), {{ cache: "no-store" }});
+    try {
+      const r = await fetch(FEED + "?t=" + Date.now(), { cache: "no-store" });
       if (!r.ok) throw new Error("HTTP " + r.status);
       const data = await r.json();
       const list = Array.isArray(data) ? data : (data.items || []);
-      if (!list.length) {{
+      if (!list.length) {
         capEl.textContent = "No submissions yet.";
         imgEl.removeAttribute("src");
         return;
-      }}
-      // normalize + newest first
+      }
+      // newest first
       items = list.slice().sort((a,b)=> String(b.uploaded_at||b.filename).localeCompare(String(a.uploaded_at||a.filename)));
       idx = 0;
       show(idx);
       playing ? start() : stop();
       dbg("Loaded " + items.length + " submissions.");
-    }} catch (e) {{
+    } catch (e) {
       console.error(e);
       capEl.innerHTML = '<span class="error">Failed to load submissions.</span>';
       dbg(e.message);
-    }}
-  }}
+    }
+  }
 
-  function show(i) {{
+  function show(i) {
     if (!items.length) return;
     idx = (i + items.length) % items.length;
     const it = items[idx];
     imgEl.dataset.tried = "0";
+    // cache-buster so we always get the latest file
     imgEl.src = it.image_url + (it.image_url.includes('?') ? '&' : '?') + 't=' + Date.now();
 
     const score = (it.creativity_score == null || isNaN(it.creativity_score)) ? "–" : Number(it.creativity_score).toFixed(4);
-    const fb = it.used_fallback ? " (fallback)" : "";
-    const when = it.uploaded_at ? " • " + it.uploaded_at : "";
-    capEl.innerHTML = '<strong>'+ (it.participant_id||"–") +'</strong> — score: <strong>'+ score +'</strong>'+ fb + when +
-                      ' <a href="'+ it.image_url +'" target="_blank" rel="noopener">open image</a>';
+    // Caption: ONLY participant + score (no filename or links)
+    capEl.textContent = `Participant: ${it.participant_id ?? "—"}   •   Creativity score: ${score}`;
     // prefetch next
     const pre = new Image();
     pre.src = items[(idx+1)%items.length].image_url;
-  }}
+  }
 
-  function next() {{ show(idx+1); }}
-  function prev() {{ show(idx-1); }}
-  function start() {{ stop(); playing = true; document.getElementById("playBtn").textContent = "⏸ Pause"; timer = setInterval(next, STEP_MS); }}
-  function stop() {{ playing = false; document.getElementById("playBtn").textContent = "▶︎ Play"; clearInterval(timer); timer = null; }}
-  function toggle() {{ playing ? stop() : start(); }}
+  function next() { show(idx+1); }
+  function prev() { show(idx-1); }
+  function start() { stop(); playing = true; playBtn.textContent = "⏸ Pause"; timer = setInterval(next, STEP_MS); tryFullscreenOnPlay(); }
+  function stop()  { playing = false; playBtn.textContent = "▶︎ Play"; clearInterval(timer); timer = null; }
+  function toggle(){ playing ? stop() : start(); }
 
   document.getElementById("refreshBtn").addEventListener("click", load);
-  document.getElementById("nextBtn").addEventListener("click", () => {{ stop(); next(); }});
-  document.getElementById("prevBtn").addEventListener("click", () => {{ stop(); prev(); }});
-  document.getElementById("playBtn").addEventListener("click", toggle);
+  document.getElementById("nextBtn").addEventListener("click", () => { stop(); next(); });
+  document.getElementById("prevBtn").addEventListener("click", () => { stop(); prev(); });
+  playBtn.addEventListener("click", toggle);
 
-  // auto-refresh list every 5s (keeps slideshow updated with new submissions)
-  setInterval(async () => {{
-    try {{
-      const r = await fetch(FEED + "?t=" + Date.now(), {{ cache:"no-store" }});
+  // auto-refresh list every 5s (adds new submissions while presenting)
+  setInterval(async () => {
+    try {
+      const r = await fetch(FEED + "?t=" + Date.now(), { cache:"no-store" });
       if (!r.ok) return;
       const data = await r.json();
       const list = Array.isArray(data) ? data : (data.items || []);
-      // if count grew, reload but keep playing state
-      if (list.length !== items.length) {{
+      if (list.length !== items.length) {
         const wasPlaying = playing;
         await load();
         if (wasPlaying) start();
-      }}
-    }} catch(_e) {{}}
-  }}, 5000);
+      }
+    } catch(_e) {}
+  }, 5000);
 
   load();
 </script>
 </body></html>"""
     return HTMLResponse(html)
-# ---------------- Admin (unchanged) ----------------
-@app.get("/admin/", response_class=HTMLResponse)
-def admin_view():
-    html = ["<html><head><title>Submissions</title></head><body><h1>Recent Drawings</h1><ul>"]
-    for participant in sorted(os.listdir(SAVE_ROOT)):
-        part_dir = os.path.join(SAVE_ROOT, participant)
-        if not os.path.isdir(part_dir):
-            continue
-        html.append(f"<li><strong>{participant}</strong><ul>")
-        for fname in sorted(os.listdir(part_dir), reverse=True):
-            if fname.endswith(".png"):
-                thumb_url = f"/submission/{participant}/{fname}"
-                meta_file = fname.replace(".png", ".txt")
-                meta_text = ""
-                meta_path = os.path.join(part_dir, meta_file)
-                if os.path.exists(meta_path):
-                    with open(meta_path, "r") as m:
-                        meta_text = "<br/>".join(m.read().splitlines())
-                html.append(
-                    f"<li>"
-                    f"<div style='margin-bottom:4px;'>"
-                    f"<a href='{thumb_url}' target='_blank'>{fname}</a>"
-                    f"</div>"
-                    f"<div style='font-size:0.8em; background:#f0f0f0; padding:4px; border-radius:4px;'>{meta_text}</div>"
-                    f"</li>"
-                )
-        html.append("</ul></li>")
-    html.append("</ul></body></html>")
-    return "\n".join(html)
